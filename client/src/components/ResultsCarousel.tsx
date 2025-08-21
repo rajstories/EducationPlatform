@@ -90,7 +90,7 @@ const ResultsCarousel = () => {
                         <img 
                           src={raniPhoto}
                           alt="Rani - JEE Main Success Story"
-                          className="w-full h-full object-cover rounded-full"
+                          className="w-full h-full object-cover object-center scale-150 rounded-full"
                         />
                       </div>
                     </div>
