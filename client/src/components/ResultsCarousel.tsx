@@ -82,11 +82,11 @@ const ResultsCarousel = () => {
               </div>
 
               {slide.type === "student" && (
-                <div className="relative z-10 h-full grid grid-cols-5 gap-4 py-4 md:py-6">
-                  {/* Left Side - Large Photo (takes 2/5 of width) */}
-                  <div className="col-span-2 flex items-center justify-center">
-                    <div className="w-full max-w-[200px] aspect-square">
-                      <div className="w-full h-full rounded-full overflow-hidden shadow-2xl bg-white border-4 border-yellow-400 p-1">
+                <div className="relative z-10 h-full grid grid-cols-7 gap-2 py-2">
+                  {/* Left Side - Huge Photo (takes 4/7 of width) */}
+                  <div className="col-span-4 flex items-center justify-center p-2">
+                    <div className="w-full h-full max-h-[300px] aspect-square">
+                      <div className="w-full h-full rounded-full overflow-hidden shadow-2xl bg-white border-6 border-yellow-400 p-1">
                         <img 
                           src={raniPhoto}
                           alt="Rani - JEE Main Success Story"
@@ -96,8 +96,8 @@ const ResultsCarousel = () => {
                     </div>
                   </div>
 
-                  {/* Right Side - Achievement Details (takes 3/5 of width) */}
-                  <div className="col-span-3 flex flex-col justify-center space-y-4 pr-4">
+                  {/* Right Side - Achievement Details (takes 3/7 of width) */}
+                  <div className="col-span-3 flex flex-col justify-center space-y-3 pr-2">
                     {/* Pooja Academy Label */}
                     <div className="flex items-center gap-2">
                       <Award className="w-4 h-4 text-yellow-300" />
