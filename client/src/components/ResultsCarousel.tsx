@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { ChevronLeft, ChevronRight, Star, Award, Trophy, Phone } from "lucide-react";
 import raniPhoto from "@assets/Digital Marketing Social Media and Instagram Post_1755784714677.png";
+import ramSirPhoto from "@assets/image_1755784859503.png";
 
 const ResultsCarousel = () => {
   const options: EmblaOptionsType = { loop: true };
@@ -128,9 +129,12 @@ const ResultsCarousel = () => {
                 <div className="relative z-10 flex flex-col items-center text-center h-full py-2 md:py-3">
                   {/* Ram Sir Image at Top */}
                   <div className="mb-2 md:mb-3">
-                    <div className="w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br from-blue-200 to-blue-400 rounded-full flex items-center justify-center overflow-hidden shadow-lg mx-auto">
-                      {/* Placeholder for Ram Sir image */}
-                      <div className="text-xl md:text-2xl font-bold text-blue-800">RS</div>
+                    <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden shadow-lg mx-auto bg-white border-2 border-blue-200">
+                      <img 
+                        src={ramSirPhoto}
+                        alt="Ram Sir - Lead Faculty"
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                   </div>
 
