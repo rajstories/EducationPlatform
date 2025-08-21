@@ -137,7 +137,7 @@ const Home = () => {
             </div>
             
             {/* Achievement Badge Strip */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-full px-4 sm:px-6 py-3 border border-white/20 max-w-xs sm:max-w-none mx-auto mt-12 sm:mt-16 animate-slide-up" style={{ animationDelay: '1.2s' }}>
+            <div className="bg-white/10 backdrop-blur-sm rounded-full px-3 sm:px-4 py-3 border border-white/20 w-fit mx-auto mt-12 sm:mt-16 animate-slide-up" style={{ animationDelay: '1.2s' }}>
               <div className="flex items-center justify-center space-x-3 sm:space-x-6 text-xs sm:text-sm text-white">
                 <span className="flex items-center">
                   <Star className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400 mr-1" />
