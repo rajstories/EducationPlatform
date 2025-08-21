@@ -79,10 +79,10 @@ const Home = () => {
       <section 
         className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: 'url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080")'
+          backgroundImage: 'url("https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080")'
         }}
       >
-        {/* Overlay */}
+        {/* Enhanced Gradient Overlay for Better Text Readability */}
         <div className="absolute inset-0 hero-overlay"></div>
         
         {/* Content */}
