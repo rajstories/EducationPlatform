@@ -81,8 +81,7 @@ export class MemStorage implements IStorage {
       { id: "chemistry-9", name: "Chemistry", classId: "class-9", stream: "both", price: 999, icon: "fas fa-flask", chapterCount: 14, isAvailable: false },
       { id: "mathematics-9", name: "Mathematics", classId: "class-9", stream: "both", price: 899, icon: "fas fa-calculator", chapterCount: 12, isAvailable: true },
       
-      { id: "physics-10", name: "Physics", classId: "class-10", stream: "both", price: 999, icon: "fas fa-atom", chapterCount: 15, isAvailable: true },
-      { id: "chemistry-10", name: "Chemistry", classId: "class-10", stream: "both", price: 999, icon: "fas fa-flask", chapterCount: 14, isAvailable: false },
+      { id: "science-10", name: "Science", classId: "class-10", stream: "both", price: 1299, icon: "fas fa-atom", chapterCount: 25, isAvailable: true },
       { id: "mathematics-10", name: "Mathematics", classId: "class-10", stream: "both", price: 899, icon: "fas fa-calculator", chapterCount: 12, isAvailable: true },
       
       // Class 11 Science
