@@ -7,25 +7,25 @@ const About = () => {
       icon: Target,
       title: "Result-Oriented",
       description: "Proven track record with 95% success rate in board examinations.",
-      color: "bg-skyblue"
+      color: "bg-gradient-to-br from-blue-100 to-blue-200"
     },
     {
       icon: Users,
       title: "Expert Faculty",
       description: "Experienced teachers with years of academic excellence and subject expertise.",
-      color: "bg-sagegreen"
+      color: "bg-gradient-to-br from-green-100 to-green-200"
     },
     {
       icon: Lightbulb,
       title: "Concept Clarity",
       description: "Focus on fundamental understanding rather than rote learning methods.",
-      color: "bg-yellow-100"
+      color: "bg-gradient-to-br from-yellow-100 to-yellow-200"
     },
     {
       icon: HelpCircle,
       title: "Doubt Resolution",
       description: "24/7 doubt clearing sessions and personalized attention to every student.",
-      color: "bg-purple-100"
+      color: "bg-gradient-to-br from-purple-100 to-purple-200"
     }
   ];
 
@@ -112,12 +112,12 @@ const About = () => {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-12 sm:py-16 bg-softgray">
+      <section className="py-16 sm:py-20 bg-gradient-to-br from-gray-50 to-blue-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-8 sm:mb-12 animate-slide-up">
-            <h2 className="text-2xl sm:text-3xl font-bold text-navy mb-3 sm:mb-4">Why Choose Pooja Academy?</h2>
-            <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto px-4">
-              Our commitment to excellence and student success sets us apart from other institutions.
+          <div className="text-center mb-12 sm:mb-16 animate-slide-up">
+            <h2 className="text-3xl sm:text-4xl font-bold text-navy mb-4 sm:mb-6">Why Choose Pooja Academy?</h2>
+            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto px-4 leading-relaxed">
+              We are committed to providing quality education with proven results and personalized attention.
             </p>
           </div>
 
@@ -125,17 +125,19 @@ const About = () => {
             {features.map((feature, index) => {
               const IconComponent = feature.icon;
               return (
-                <div 
+                <Card 
                   key={feature.title} 
-                  className="text-center group animate-slide-up px-2"
+                  className="text-center group animate-slide-up bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 p-6 sm:p-8"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <div className={`${feature.color} w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:scale-110 transition-transform`}>
-                    <IconComponent className="text-navy text-xl sm:text-2xl h-6 w-6 sm:h-8 sm:w-8" />
-                  </div>
-                  <h3 className="text-base sm:text-lg font-semibold text-navy mb-2">{feature.title}</h3>
-                  <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">{feature.description}</p>
-                </div>
+                  <CardContent className="p-0">
+                    <div className={`${feature.color} w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-all duration-300 shadow-lg`}>
+                      <IconComponent className="text-navy h-7 w-7 sm:h-9 sm:w-9" />
+                    </div>
+                    <h3 className="text-lg sm:text-xl font-bold text-navy mb-3 sm:mb-4">{feature.title}</h3>
+                    <p className="text-gray-600 text-sm sm:text-base leading-relaxed">{feature.description}</p>
+                  </CardContent>
+                </Card>
               );
             })}
           </div>
