@@ -77,7 +77,7 @@ const Home = () => {
   return (
     <div className="animate-fade-in pt-20">
       {/* Hero Results Slider */}
-      <section className="relative min-h-screen flex items-center justify-center hero-gradient overflow-hidden">
+      <section className="relative h-screen flex items-center justify-center hero-gradient overflow-hidden">
         {/* Background Elements */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-16 text-6xl floating text-blue-200" style={{ animationDelay: '0s' }}>🏆</div>
@@ -87,7 +87,7 @@ const Home = () => {
         </div>
 
         {/* Results Carousel */}
-        <div className="relative z-10 w-full max-w-6xl mx-auto px-4">
+        <div className="relative z-10 w-full max-w-5xl mx-auto px-4 md:px-8">
           <ResultsCarousel />
         </div>
       </section>
