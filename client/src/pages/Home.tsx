@@ -111,9 +111,8 @@ const Home = () => {
             </p>
             
             {/* Description */}
-            <p className="text-sm sm:text-base md:text-lg mb-8 leading-relaxed animate-slide-up max-w-3xl mx-auto text-gray-200 px-4 font-normal" style={{ animationDelay: '0.6s' }}>
-              Kirari's most trusted institute for Science and Commerce coaching! Led by Ram Sir with 10+ years 
-              of experience, join over 1000+ successful students who achieved their dreams with our expert guidance.
+            <p className="text-sm sm:text-base md:text-lg mb-8 leading-relaxed animate-slide-up max-w-2xl mx-auto text-gray-200 px-4 font-normal" style={{ animationDelay: '0.6s' }}>
+              Expert coaching for Classes 9-12 in Science & Commerce. Join 1000+ successful students under Ram Sir's guidance.
             </p>
             
             {/* CTA Buttons */}
