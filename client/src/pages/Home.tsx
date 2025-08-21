@@ -137,18 +137,18 @@ const Home = () => {
             </div>
             
             {/* Achievement Badge Strip */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 border border-white/20 max-w-xs sm:max-w-none mx-auto mt-8 sm:mt-10 animate-slide-up" style={{ animationDelay: '1.2s' }}>
-              <div className="flex items-center space-x-2 sm:space-x-4 text-xs sm:text-sm text-white">
+            <div className="bg-white/10 backdrop-blur-sm rounded-full px-4 sm:px-6 py-3 border border-white/20 max-w-xs sm:max-w-none mx-auto mt-12 sm:mt-16 animate-slide-up" style={{ animationDelay: '1.2s' }}>
+              <div className="flex items-center justify-center space-x-3 sm:space-x-6 text-xs sm:text-sm text-white">
                 <span className="flex items-center">
                   <Star className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400 mr-1" />
                   <span className="hidden sm:inline">Trusted by</span> 1000+ <span className="hidden sm:inline">Students</span>
                 </span>
-                <span className="w-px h-3 sm:h-4 bg-white/30"></span>
+                <span className="w-px h-4 sm:h-5 bg-white/30"></span>
                 <span className="flex items-center">
                   <Target className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400 mr-1" />
                   95% <span className="hidden sm:inline">Success</span>
                 </span>
-                <span className="w-px h-3 sm:h-4 bg-white/30"></span>
+                <span className="w-px h-4 sm:h-5 bg-white/30"></span>
                 <span className="flex items-center">
                   <Users className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400 mr-1" />
                   10+ <span className="hidden sm:inline">Years</span>
