@@ -100,8 +100,8 @@ const Home = () => {
             
             {/* Description */}
             <p className="text-lg md:text-xl mb-12 leading-relaxed animate-slide-up max-w-3xl mx-auto text-gray-200" style={{ animationDelay: '0.6s' }}>
-              Nurturing academic excellence for Classes 9-12 in Science and Commerce streams. 
-              Join thousands of successful students who achieved their dreams with our expert guidance.
+              Kirari's most trusted institute for Science and Commerce coaching! Led by Ram Sir with 10+ years 
+              of experience, join over 1000+ successful students who achieved their dreams with our expert guidance.
             </p>
             
             {/* CTA Buttons */}
@@ -130,11 +130,11 @@ const Home = () => {
             {/* Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 animate-slide-up" style={{ animationDelay: '1.2s' }}>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-orange-400 mb-2" data-testid="text-students-count">10,000+</div>
-                <div className="text-sm text-gray-300">Students Enrolled</div>
+                <div className="text-3xl md:text-4xl font-bold text-orange-400 mb-2" data-testid="text-students-count">1,000+</div>
+                <div className="text-sm text-gray-300">Students Taught</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-orange-400 mb-2" data-testid="text-experience-years">15+</div>
+                <div className="text-3xl md:text-4xl font-bold text-orange-400 mb-2" data-testid="text-experience-years">10+</div>
                 <div className="text-sm text-gray-300">Years Experience</div>
               </div>
               <div className="text-center">
@@ -142,8 +142,8 @@ const Home = () => {
                 <div className="text-sm text-gray-300">Success Rate</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-orange-400 mb-2" data-testid="text-faculty-count">50+</div>
-                <div className="text-sm text-gray-300">Expert Faculty</div>
+                <div className="text-3xl md:text-4xl font-bold text-orange-400 mb-2" data-testid="text-faculty-count">1</div>
+                <div className="text-sm text-gray-300">Lead Faculty</div>
               </div>
             </div>
           </div>
@@ -243,22 +243,22 @@ const Home = () => {
             <div className="animate-slide-up">
               <h2 className="text-3xl font-bold text-navy mb-6">About Pooja Academy</h2>
               <p className="text-gray-600 mb-6 leading-relaxed">
-                Since our establishment, Pooja Academy has been dedicated to providing quality education 
-                for students in Classes 9-12. We believe in nurturing not just academic excellence, 
-                but also character development and critical thinking skills.
+                Located in Kirari, Delhi, Pooja Academy has been dedicated to providing quality education 
+                for students in Classes 9-12. Led by Ram Sir with 10+ years of experience, we believe in 
+                nurturing academic excellence and helping students achieve success in competitive exams.
               </p>
               <div className="grid grid-cols-3 gap-4 mb-6">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-navy" data-testid="text-experience-years">15+</div>
+                  <div className="text-2xl font-bold text-navy" data-testid="text-experience-years">10+</div>
                   <div className="text-sm text-gray-600">Years Experience</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-navy" data-testid="text-success-rate">95%</div>
-                  <div className="text-sm text-gray-600">Success Rate</div>
+                  <div className="text-2xl font-bold text-navy" data-testid="text-success-rate">1000+</div>
+                  <div className="text-sm text-gray-600">Students Taught</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-navy" data-testid="text-faculty-count">50+</div>
-                  <div className="text-sm text-gray-600">Expert Faculty</div>
+                  <div className="text-2xl font-bold text-navy" data-testid="text-faculty-count">1</div>
+                  <div className="text-sm text-gray-600">Lead Faculty</div>
                 </div>
               </div>
               <Link href="/about">

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Pooja Academy is a modern web application for an educational institute that provides Science and Commerce coaching for students from Classes 9-12. The platform offers structured course content, downloadable notes, previous year questions (PYQs), and enrollment functionality. It features a clean, professional design with a focus on academic excellence and student engagement.
+Pooja Academy is a modern web application for an educational institute located in Kirari, Delhi (near Haridas Vatika) that provides Science and Commerce coaching for students from Classes 9-12. Led by Ram Sir with 10+ years of experience in Physics & Chemistry, the platform offers structured course content, downloadable notes, previous year questions (PYQs), and enrollment functionality. The institute has successfully taught over 1000+ students with a focus on JEE and NEET preparation.
 
 ## User Preferences
 
@@ -67,5 +67,7 @@ Preferred communication style: Simple, everyday language.
 - **UPI**: Alternative payment method support
 
 ### Communication
+- **Contact Number**: +91 7011505239 (Ram Sir)
 - **Email Service**: Planned integration for notifications and course access
 - **Contact Forms**: Structured contact submission system with database storage
+- **Location**: Kirari, Delhi - Near Haridas Vatika

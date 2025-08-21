@@ -96,11 +96,11 @@ const Footer = () => {
             <div className="space-y-2 text-sm text-gray-300">
               <p className="flex items-start">
                 <span className="mr-2">📍</span>
-                New Delhi, India
+                Kirari, Delhi - Near Haridas Vatika
               </p>
               <p className="flex items-center">
                 <span className="mr-2">📞</span>
-                +91 98765 43210
+                +91 7011505239 (Ram Sir)
               </p>
               <p className="flex items-center">
                 <span className="mr-2">✉️</span>

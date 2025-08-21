@@ -31,32 +31,12 @@ const About = () => {
 
   const faculty = [
     {
-      name: "Dr. Rajesh Sharma",
-      subjects: "Physics & Mathematics",
-      experience: "15+ years experience in JEE coaching",
+      name: "Ram Sir",
+      subjects: "Physics & Chemistry",
+      experience: "10+ years experience in JEE & NEET coaching",
       avatar: "RS",
-      color: "from-blue-400 to-blue-600"
-    },
-    {
-      name: "Prof. Priya Mehta",
-      subjects: "Chemistry & Biology",
-      experience: "12+ years experience in NEET preparation", 
-      avatar: "PM",
-      color: "from-green-400 to-green-600"
-    },
-    {
-      name: "Mr. Amit Kumar",
-      subjects: "Commerce & Economics",
-      experience: "10+ years experience in Commerce stream",
-      avatar: "AK",
-      color: "from-purple-400 to-purple-600"
-    },
-    {
-      name: "Ms. Sunita Gupta",
-      subjects: "English & Hindi",
-      experience: "8+ years experience in language teaching",
-      avatar: "SG",
-      color: "from-pink-400 to-pink-600"
+      color: "from-blue-400 to-blue-600",
+      description: "Lead Faculty with proven track record of 1000+ students"
     }
   ];
 
@@ -70,9 +50,9 @@ const About = () => {
               About Pooja Academy
             </h1>
             <p className="text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
-              Since our establishment, we have been dedicated to providing quality education 
-              for students in Classes 9-12, nurturing not just academic excellence but also 
-              character development and critical thinking skills.
+              Located in the heart of Kirari, Delhi, near Haridas Vatika, Pooja Academy is 
+              dedicated to nurturing academic excellence from Class 9 to 12, along with 
+              preparation for competitive exams like JEE and NEET.
             </p>
           </div>
         </div>
@@ -85,20 +65,19 @@ const About = () => {
             <div className="animate-slide-up">
               <h2 className="text-3xl font-bold text-navy mb-6">Our Story</h2>
               <p className="text-gray-600 mb-6 leading-relaxed">
-                Founded with a vision to transform education, Pooja Academy has grown into 
-                one of the most trusted names in academic coaching. Our journey began with 
-                a simple belief: every student has the potential to excel when provided with 
-                the right guidance and environment.
+                Welcome to Pooja Academy – Kirari's most trusted institute for Science and Commerce coaching! 
+                At the core of Pooja Academy is our lead faculty, Ram Sir – a passionate educator with 10+ 
+                years of experience in teaching Physics and Chemistry.
               </p>
               <p className="text-gray-600 mb-6 leading-relaxed">
-                Our experienced faculty and result-oriented teaching methodology have helped 
-                thousands of students achieve their academic goals and secure admissions in 
-                top universities and colleges across the country.
+                With a proven track record of teaching over 1000+ students, Ram Sir has played a key role 
+                in shaping the futures of learners across Delhi. Many students have scored 90+ marks in 
+                CBSE boards and secured top ranks in JEE/NEET under Ram Sir's mentorship.
               </p>
               <p className="text-gray-600 leading-relaxed">
-                We believe in creating a supportive learning ecosystem where students can 
-                explore their potential, ask questions freely, and develop the confidence 
-                needed to succeed in their academic pursuits.
+                Our structured curriculum is well-organized, chapter-wise, and designed to be easy to 
+                navigate — whether you are a school student or aiming for national-level exams. We offer 
+                comprehensive resources including detailed notes, previous year questions (PYQs), and more.
               </p>
             </div>
             <div className="animate-slide-up">
@@ -113,7 +92,7 @@ const About = () => {
           {/* Statistics */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 animate-slide-up">
             <div className="text-center">
-              <div className="text-4xl font-bold text-navy mb-2" data-testid="text-years-experience">15+</div>
+              <div className="text-4xl font-bold text-navy mb-2" data-testid="text-years-experience">10+</div>
               <div className="text-gray-600">Years of Excellence</div>
             </div>
             <div className="text-center">
@@ -121,12 +100,12 @@ const About = () => {
               <div className="text-gray-600">Success Rate</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-navy mb-2" data-testid="text-students-taught">10,000+</div>
+              <div className="text-4xl font-bold text-navy mb-2" data-testid="text-students-taught">1,000+</div>
               <div className="text-gray-600">Students Taught</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-navy mb-2" data-testid="text-faculty-members">50+</div>
-              <div className="text-gray-600">Expert Faculty</div>
+              <div className="text-4xl font-bold text-navy mb-2" data-testid="text-faculty-members">1</div>
+              <div className="text-gray-600">Lead Faculty</div>
             </div>
           </div>
         </div>
@@ -173,7 +152,7 @@ const About = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="flex justify-center">
             {faculty.map((member, index) => (
               <Card 
                 key={member.name} 
@@ -188,7 +167,8 @@ const About = () => {
                     {member.name}
                   </h4>
                   <p className="text-sm text-gray-600 mb-2">{member.subjects}</p>
-                  <p className="text-xs text-gray-500">{member.experience}</p>
+                  <p className="text-xs text-gray-500 mb-2">{member.experience}</p>
+                  <p className="text-xs text-blue-600 font-semibold">{member.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -236,7 +216,7 @@ const About = () => {
                   <span className="text-2xl mr-3">📍</span>
                   <div>
                     <h4 className="font-semibold text-navy">Address</h4>
-                    <p className="text-gray-600">123 Education Street, Connaught Place, New Delhi - 110001</p>
+                    <p className="text-gray-600">Kirari, Delhi - Near Haridas Vatika</p>
                   </div>
                 </div>
                 <div className="flex items-center justify-center">

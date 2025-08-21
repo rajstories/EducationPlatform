@@ -216,7 +216,7 @@ const Contact = () => {
                     <div>
                       <h4 className="font-semibold text-navy mb-1">Address</h4>
                       <p className="text-gray-600 text-sm" data-testid="text-address">
-                        123 Education Street, Connaught Place, New Delhi - 110001
+                        Kirari, Delhi - Near Haridas Vatika
                       </p>
                     </div>
                   </div>
@@ -227,8 +227,8 @@ const Contact = () => {
                     </div>
                     <div>
                       <h4 className="font-semibold text-navy mb-1">Phone</h4>
-                      <p className="text-gray-600 text-sm" data-testid="text-phone-1">+91 98765 43210</p>
-                      <p className="text-gray-600 text-sm" data-testid="text-phone-2">+91 98765 43211</p>
+                      <p className="text-gray-600 text-sm" data-testid="text-phone-1">+91 7011505239</p>
+                      <p className="text-gray-600 text-sm font-semibold text-blue-600" data-testid="text-phone-2">(Ram Sir)</p>
                     </div>
                   </div>
 
@@ -258,7 +258,7 @@ const Contact = () => {
 
               {/* WhatsApp Button */}
               <a
-                href="https://wa.me/919876543210"
+                href="https://wa.me/917011505239"
                 className="inline-flex items-center bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition-colors"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -275,7 +275,7 @@ const Contact = () => {
                     <div className="text-center text-gray-600">
                       <MapPin className="h-12 w-12 mx-auto mb-2 text-gray-400" />
                       <p className="font-semibold" data-testid="text-map-title">Google Maps Location</p>
-                      <p className="text-sm" data-testid="text-map-location">Connaught Place, New Delhi</p>
+                      <p className="text-sm" data-testid="text-map-location">Kirari, Delhi - Near Haridas Vatika</p>
                     </div>
                   </div>
                 </CardContent>
