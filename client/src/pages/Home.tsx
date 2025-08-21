@@ -136,40 +136,28 @@ const Home = () => {
               </Link>
             </div>
             
-            {/* Simple Stats Line */}
-            <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-8 mt-8 sm:mt-10 animate-slide-up px-4" style={{ animationDelay: '1.2s' }}>
-              <div className="text-center">
-                <span className="text-2xl sm:text-3xl font-bold text-orange-400" data-testid="text-experience-years">10+</span>
-                <span className="text-sm sm:text-base text-gray-200 ml-2">Years</span>
-              </div>
-              <div className="hidden sm:block w-px h-8 bg-white/30"></div>
-              <div className="text-center">
-                <span className="text-2xl sm:text-3xl font-bold text-orange-400" data-testid="text-success-rate">95%</span>
-                <span className="text-sm sm:text-base text-gray-200 ml-2">Success</span>
+            {/* Achievement Badge Strip */}
+            <div className="bg-white/10 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 border border-white/20 max-w-xs sm:max-w-none mx-auto mt-8 sm:mt-10 animate-slide-up" style={{ animationDelay: '1.2s' }}>
+              <div className="flex items-center space-x-2 sm:space-x-4 text-xs sm:text-sm text-white">
+                <span className="flex items-center">
+                  <Star className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400 mr-1" />
+                  <span className="hidden sm:inline">Trusted by</span> 1000+ <span className="hidden sm:inline">Students</span>
+                </span>
+                <span className="w-px h-3 sm:h-4 bg-white/30"></span>
+                <span className="flex items-center">
+                  <Target className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400 mr-1" />
+                  95% <span className="hidden sm:inline">Success</span>
+                </span>
+                <span className="w-px h-3 sm:h-4 bg-white/30"></span>
+                <span className="flex items-center">
+                  <Users className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400 mr-1" />
+                  10+ <span className="hidden sm:inline">Years</span>
+                </span>
               </div>
             </div>
           </div>
         </div>
         
-        {/* Achievement Badge Strip */}
-        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 bg-white/10 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 border border-white/20 max-w-xs sm:max-w-none">
-          <div className="flex items-center space-x-2 sm:space-x-4 text-xs sm:text-sm text-white">
-            <span className="flex items-center">
-              <Star className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400 mr-1" />
-              <span className="hidden sm:inline">Trusted by</span> 1000+ <span className="hidden sm:inline">Students</span>
-            </span>
-            <span className="w-px h-3 sm:h-4 bg-white/30"></span>
-            <span className="flex items-center">
-              <Target className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400 mr-1" />
-              95% <span className="hidden sm:inline">Success</span>
-            </span>
-            <span className="w-px h-3 sm:h-4 bg-white/30"></span>
-            <span className="flex items-center">
-              <Users className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400 mr-1" />
-              10+ <span className="hidden sm:inline">Years</span>
-            </span>
-          </div>
-        </div>
 
         {/* Scroll Down Indicator */}
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 animate-bounce">
