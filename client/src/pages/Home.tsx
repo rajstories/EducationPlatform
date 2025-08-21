@@ -77,13 +77,12 @@ const Home = () => {
     <div className="animate-fade-in pt-20">
       {/* Hero Section */}
       <section 
-        className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: 'url("https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080")'
-        }}
+        className="relative min-h-screen flex items-center justify-center hero-gradient"
       >
-        {/* Enhanced Gradient Overlay for Better Text Readability */}
-        <div className="absolute inset-0 hero-overlay"></div>
+        {/* Decorative Elements */}
+        <div className="absolute top-10 left-10 w-20 h-20 bg-white/5 rounded-full blur-xl"></div>
+        <div className="absolute bottom-20 right-16 w-32 h-32 bg-orange-400/10 rounded-full blur-2xl"></div>
+        <div className="absolute top-1/2 right-10 w-16 h-16 bg-blue-300/10 rounded-full blur-lg"></div>
         
         {/* Content */}
         <div className="relative z-10 container mx-auto px-4 text-center text-white">
