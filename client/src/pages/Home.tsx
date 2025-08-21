@@ -77,12 +77,24 @@ const Home = () => {
     <div className="animate-fade-in pt-20">
       {/* Hero Section */}
       <section 
-        className="relative min-h-screen flex items-center justify-center hero-gradient"
+        className="relative min-h-screen flex items-center justify-center hero-gradient overflow-hidden"
       >
-        {/* Decorative Elements */}
-        <div className="absolute top-10 left-10 w-20 h-20 bg-white/5 rounded-full blur-xl"></div>
-        <div className="absolute bottom-20 right-16 w-32 h-32 bg-orange-400/10 rounded-full blur-2xl"></div>
-        <div className="absolute top-1/2 right-10 w-16 h-16 bg-blue-300/10 rounded-full blur-lg"></div>
+        {/* Academic Illustrations */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-16 text-6xl floating" style={{ animationDelay: '0s' }}>📚</div>
+          <div className="absolute top-32 right-20 text-4xl floating" style={{ animationDelay: '1s' }}>🎓</div>
+          <div className="absolute bottom-40 left-32 text-5xl floating" style={{ animationDelay: '2s' }}>📊</div>
+          <div className="absolute top-48 left-1/4 text-3xl floating" style={{ animationDelay: '3s' }}>📐</div>
+          <div className="absolute bottom-32 right-32 text-4xl floating" style={{ animationDelay: '4s' }}>🧮</div>
+          <div className="absolute top-1/3 right-1/4 text-3xl floating" style={{ animationDelay: '5s' }}>⚗️</div>
+          <div className="absolute bottom-48 left-20 text-4xl floating" style={{ animationDelay: '1.5s' }}>🔬</div>
+          <div className="absolute top-56 right-12 text-3xl floating" style={{ animationDelay: '2.5s' }}>📝</div>
+        </div>
+        
+        {/* Floating Decorative Elements */}
+        <div className="absolute top-10 left-10 w-20 h-20 bg-white/5 rounded-full blur-xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-16 w-32 h-32 bg-orange-400/10 rounded-full blur-2xl animate-pulse"></div>
+        <div className="absolute top-1/2 right-10 w-16 h-16 bg-blue-300/10 rounded-full blur-lg animate-pulse"></div>
         
         {/* Content */}
         <div className="relative z-10 container mx-auto px-4 text-center text-white">
@@ -93,12 +105,12 @@ const Home = () => {
             </h1>
             
             {/* Inspiring Quote */}
-            <p className="text-lg sm:text-xl md:text-2xl mb-3 font-medium animate-slide-in-right text-orange-200" style={{ animationDelay: '0.3s' }}>
+            <p className="text-lg sm:text-xl md:text-2xl mb-3 font-light italic animate-slide-in-right text-blue-100" style={{ animationDelay: '0.3s' }}>
               "Empowering Young Minds, Shaping Bright Futures"
             </p>
             
             {/* Description */}
-            <p className="text-sm sm:text-base md:text-lg mb-8 leading-relaxed animate-slide-up max-w-2xl mx-auto text-gray-200 px-4" style={{ animationDelay: '0.6s' }}>
+            <p className="text-sm sm:text-base md:text-lg mb-8 leading-relaxed animate-slide-up max-w-3xl mx-auto text-gray-200 px-4 font-normal" style={{ animationDelay: '0.6s' }}>
               Kirari's most trusted institute for Science and Commerce coaching! Led by Ram Sir with 10+ years 
               of experience, join over 1000+ successful students who achieved their dreams with our expert guidance.
             </p>
@@ -107,7 +119,7 @@ const Home = () => {
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center animate-slide-up px-4" style={{ animationDelay: '0.9s' }}>
               <Link href="/about">
                 <Button 
-                  className="bg-orange-500 hover:bg-orange-600 text-white text-base sm:text-lg px-6 py-3 sm:px-8 sm:py-4 glow-button border-0 w-full sm:w-auto"
+                  className="bg-orange-500 hover:bg-orange-700 text-white text-base sm:text-lg px-8 py-4 sm:px-10 sm:py-5 rounded-full border-0 w-full sm:w-auto font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
                   data-testid="button-learn-more"
                 >
                   Learn More
@@ -115,7 +127,7 @@ const Home = () => {
               </Link>
               <Link href="/contact">
                 <Button 
-                  className="bg-white hover:bg-gray-100 text-navy border-2 border-white text-base sm:text-lg px-6 py-3 sm:px-8 sm:py-4 transition-all duration-300 w-full sm:w-auto font-semibold"
+                  className="bg-white hover:bg-navy hover:text-white text-navy border-2 border-white text-base sm:text-lg px-8 py-4 sm:px-10 sm:py-5 rounded-full w-full sm:w-auto font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
                   data-testid="button-get-started"
                 >
                   Get Started Today
@@ -125,28 +137,52 @@ const Home = () => {
             
             {/* Stats */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-10 sm:mt-12 animate-slide-up px-4" style={{ animationDelay: '1.2s' }}>
-              <div className="text-center">
+              <div className="text-center bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 hover:bg-white/15 transition-all duration-300">
+                <div className="text-3xl mb-2">👨‍🎓</div>
                 <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-orange-400 mb-1" data-testid="text-students-count">1,000+</div>
-                <div className="text-xs sm:text-sm text-gray-300">Students Taught</div>
+                <div className="text-xs sm:text-sm text-gray-200 font-medium">Students Taught</div>
               </div>
-              <div className="text-center">
+              <div className="text-center bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 hover:bg-white/15 transition-all duration-300">
+                <div className="text-3xl mb-2">⏳</div>
                 <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-orange-400 mb-1" data-testid="text-experience-years">10+</div>
-                <div className="text-xs sm:text-sm text-gray-300">Years Experience</div>
+                <div className="text-xs sm:text-sm text-gray-200 font-medium">Years Experience</div>
               </div>
-              <div className="text-center">
+              <div className="text-center bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 hover:bg-white/15 transition-all duration-300">
+                <div className="text-3xl mb-2">🎯</div>
                 <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-orange-400 mb-1" data-testid="text-success-rate">95%</div>
-                <div className="text-xs sm:text-sm text-gray-300">Success Rate</div>
+                <div className="text-xs sm:text-sm text-gray-200 font-medium">Success Rate</div>
               </div>
-              <div className="text-center">
+              <div className="text-center bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 hover:bg-white/15 transition-all duration-300">
+                <div className="text-3xl mb-2">👩‍🏫</div>
                 <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-orange-400 mb-1" data-testid="text-faculty-count">1</div>
-                <div className="text-xs sm:text-sm text-gray-300">Lead Faculty</div>
+                <div className="text-xs sm:text-sm text-gray-200 font-medium">Lead Faculty</div>
               </div>
             </div>
           </div>
         </div>
         
+        {/* Achievement Badge Strip */}
+        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 bg-white/10 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 border border-white/20 max-w-xs sm:max-w-none">
+          <div className="flex items-center space-x-2 sm:space-x-4 text-xs sm:text-sm text-white">
+            <span className="flex items-center">
+              <Star className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400 mr-1" />
+              <span className="hidden sm:inline">Trusted by</span> 1000+ <span className="hidden sm:inline">Students</span>
+            </span>
+            <span className="w-px h-3 sm:h-4 bg-white/30"></span>
+            <span className="flex items-center">
+              <Target className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400 mr-1" />
+              95% <span className="hidden sm:inline">Success</span>
+            </span>
+            <span className="w-px h-3 sm:h-4 bg-white/30"></span>
+            <span className="flex items-center">
+              <Users className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400 mr-1" />
+              10+ <span className="hidden sm:inline">Years</span>
+            </span>
+          </div>
+        </div>
+
         {/* Scroll Down Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 animate-bounce">
           <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center">
             <div className="w-1 h-3 bg-white rounded-full mt-2 animate-pulse"></div>
           </div>

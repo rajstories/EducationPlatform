@@ -22,7 +22,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="bg-navy text-white fixed top-0 w-full z-50 shadow-lg backdrop-blur-sm">
+    <header className="bg-navy/95 backdrop-blur-md text-white fixed top-0 w-full z-50 shadow-lg border-b border-white/10 transition-all duration-300">
       <nav className="container mx-auto px-4 py-3 sm:py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2" data-testid="link-home">
@@ -36,12 +36,13 @@ const Header = () => {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`hover:text-skyblue transition-all duration-300 hover:scale-105 ${
+                className={`hover:text-skyblue transition-all duration-300 hover:scale-105 relative group ${
                   location === link.href ? "text-skyblue" : ""
                 }`}
                 data-testid={`link-${link.name.toLowerCase().replace(" ", "-")}`}
               >
                 {link.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-skyblue transition-all duration-300 group-hover:w-full"></span>
               </Link>
             ))}
 
@@ -51,8 +52,9 @@ const Header = () => {
               onMouseEnter={() => setIsDropdownOpen(true)}
               onMouseLeave={() => setIsDropdownOpen(false)}
             >
-              <button className="hover:text-skyblue transition-all duration-300 hover:scale-105 flex items-center" data-testid="button-classes-dropdown">
+              <button className="hover:text-skyblue transition-all duration-300 hover:scale-105 flex items-center relative group" data-testid="button-classes-dropdown">
                 Classes <ChevronDown className="ml-1 h-4 w-4" />
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-skyblue transition-all duration-300 group-hover:w-full"></span>
               </button>
               {isDropdownOpen && (
                 <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-xl animate-fade-in">
