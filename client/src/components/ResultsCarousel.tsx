@@ -5,6 +5,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { ChevronLeft, ChevronRight, Star, Award, Trophy, Phone } from "lucide-react";
+import raniPhoto from "@assets/Digital Marketing Social Media and Instagram Post_1755784714677.png";
 
 const ResultsCarousel = () => {
   const options: EmblaOptionsType = { loop: true };
@@ -85,7 +86,7 @@ const ResultsCarousel = () => {
                   <div className="mb-2 md:mb-3">
                     <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden shadow-lg mx-auto bg-white border-2 border-orange-200">
                       <img 
-                        src="/attached_assets/Digital Marketing Social Media and Instagram Post_1755784714677.png" 
+                        src={raniPhoto}
                         alt="Rani - JEE Main Success Story"
                         className="w-full h-full object-cover"
                       />
