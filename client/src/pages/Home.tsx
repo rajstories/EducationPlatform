@@ -79,7 +79,7 @@ const Home = () => {
       <section 
         className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: 'url("https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080")'
+          backgroundImage: 'url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080")'
         }}
       >
         {/* Overlay */}
@@ -158,40 +158,43 @@ const Home = () => {
       <section className="py-12 sm:py-16 bg-softgray">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8 sm:mb-12 animate-slide-up">
-            <h2 className="text-2xl sm:text-3xl font-bold text-navy mb-3 sm:mb-4">Choose Your Class</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-navy mb-3 sm:mb-4">Explore Our Classes</h2>
             <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto px-4">
-              Access comprehensive study materials, notes, and previous year questions tailored for your class.
+              Choose your class to access comprehensive study materials and achieve your academic goals.
             </p>
           </div>
           
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {classes?.map((classData, index) => {
-              const icons = [BookOpen, Calculator, Atom, Target];
-              const IconComponent = icons[index] || BookOpen;
-              const colors = ["bg-skyblue", "bg-sagegreen", "bg-yellow-100", "bg-purple-100"];
-              const hoverColors = ["group-hover:bg-blue-200", "group-hover:bg-green-200", "group-hover:bg-yellow-200", "group-hover:bg-purple-200"];
+              const iconColors = ["text-blue-500", "text-green-500", "text-purple-500", "text-red-500"];
+              const descriptions = [
+                "Foundation for future success.",
+                "Prepare for your board exams.", 
+                "Choose your stream and excel.",
+                "Achieve your academic goals."
+              ];
               
               return (
                 <Card 
                   key={classData.id} 
-                  className="shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer animate-slide-up"
+                  className="bg-white border border-gray-200 hover:shadow-lg transition-all duration-300 cursor-pointer animate-slide-up"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <CardContent className="p-4 sm:p-6 text-center">
-                    <div className={`${colors[index]} w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 transition-colors ${hoverColors[index]}`}>
-                      <IconComponent className="text-navy text-xl sm:text-2xl h-6 w-6 sm:h-8 sm:w-8" />
+                  <CardContent className="p-6 text-center">
+                    <div className="mb-4">
+                      <BookOpen className={`${iconColors[index]} h-12 w-12 mx-auto`} />
                     </div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-navy mb-2">{classData.name}</h3>
-                    <p className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4 leading-relaxed">{classData.description}</p>
-                    <p className="text-lg sm:text-2xl font-bold text-blue-600 mb-3 sm:mb-4">₹{classData.price.toLocaleString()}/year</p>
+                    <h3 className="text-xl font-bold text-gray-800 mb-3">{classData.name}</h3>
+                    <p className="text-gray-600 text-sm mb-6 leading-relaxed">
+                      {descriptions[index]}
+                    </p>
                     <Link href={`/class/${classData.id}`}>
                       <Button 
-                        className="w-full bg-navy hover:bg-blue-800 text-white text-sm sm:text-base py-2 sm:py-3"
+                        variant="ghost"
+                        className="text-gray-700 hover:text-navy font-medium text-sm p-0 h-auto"
                         data-testid={`button-view-${classData.name.toLowerCase().replace(" ", "-")}`}
                       >
-                        {Array.isArray(classData.streams) && classData.streams.includes("science") && classData.streams.includes("commerce") 
-                          ? "Choose Stream" 
-                          : "View Subjects"}
+                        View Details →
                       </Button>
                     </Link>
                   </CardContent>
