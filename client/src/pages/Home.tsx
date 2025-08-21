@@ -79,7 +79,7 @@ const Home = () => {
       <section 
         className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: 'url("https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080")'
+          backgroundImage: 'url("https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080")'
         }}
       >
         {/* Overlay */}
@@ -116,8 +116,7 @@ const Home = () => {
               </Link>
               <Link href="/contact">
                 <Button 
-                  variant="outline" 
-                  className="border-2 border-white text-white hover:bg-white hover:text-navy text-base sm:text-lg px-6 py-3 sm:px-8 sm:py-4 transition-all duration-300 w-full sm:w-auto"
+                  className="bg-white hover:bg-gray-100 text-navy border-2 border-white text-base sm:text-lg px-6 py-3 sm:px-8 sm:py-4 transition-all duration-300 w-full sm:w-auto font-semibold"
                   data-testid="button-get-started"
                 >
                   Get Started Today
