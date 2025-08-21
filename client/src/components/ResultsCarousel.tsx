@@ -60,7 +60,7 @@ const ResultsCarousel = () => {
         { label: "Success Rate", value: "95%" },
         { label: "Years Experience", value: "10+" }
       ],
-      bgGradient: "from-green-600 to-emerald-700",
+      bgGradient: "from-purple-600 to-violet-700",
       textColor: "text-white"
     }
   ];
@@ -70,7 +70,7 @@ const ResultsCarousel = () => {
       <div className="embla__container flex">
         {slides.map((slide, index) => (
           <div key={index} className="embla__slide flex-[0_0_100%] min-w-0">
-            <div className={`bg-gradient-to-br ${slide.bgGradient} rounded-3xl p-8 md:p-12 mx-4 shadow-2xl relative overflow-hidden`}>
+            <div className={`bg-gradient-to-br ${slide.bgGradient} rounded-2xl p-4 md:p-8 mx-2 md:mx-4 shadow-xl relative overflow-hidden min-h-[400px] md:min-h-[500px]`}>
               
               {/* Background Pattern */}
               <div className="absolute inset-0 opacity-10">
@@ -80,43 +80,43 @@ const ResultsCarousel = () => {
               </div>
 
               {slide.type === "student" && (
-                <div className="relative z-10 grid md:grid-cols-2 gap-8 items-center">
+                <div className="relative z-10 grid md:grid-cols-2 gap-4 md:gap-6 items-center h-full">
                   {/* Left Side - Content */}
-                  <div className="space-y-6">
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Award className="w-6 h-6 text-yellow-300" />
-                        <span className="text-yellow-300 font-semibold text-lg">POOJA ACADEMY</span>
+                  <div className="space-y-3 md:space-y-4">
+                    <div className="space-y-1 md:space-y-2">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Award className="w-4 h-4 md:w-5 md:h-5 text-yellow-300" />
+                        <span className="text-yellow-300 font-semibold text-sm md:text-base">POOJA ACADEMY</span>
                       </div>
-                      <h2 className="text-4xl md:text-5xl font-bold mb-2">{slide.title}</h2>
-                      <div className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full inline-block font-bold text-lg">
+                      <h2 className="text-2xl md:text-4xl font-bold mb-1">{slide.title}</h2>
+                      <div className="bg-yellow-400 text-gray-900 px-3 py-1 md:px-4 md:py-2 rounded-full inline-block font-bold text-sm md:text-base">
                         {slide.percentile}
                       </div>
-                      <p className="text-xl opacity-90">{slide.exam}</p>
+                      <p className="text-sm md:text-lg opacity-90">{slide.exam}</p>
                     </div>
 
                     {/* Subject Scores */}
-                    <div className="space-y-3">
+                    <div className="space-y-2">
                       {slide.subjects?.map((subject, i) => (
-                        <div key={i} className="bg-white/20 backdrop-blur-sm rounded-full px-6 py-3 flex justify-between items-center">
-                          <span className="font-semibold">{subject.score} in {subject.name}</span>
+                        <div key={i} className="bg-white/20 backdrop-blur-sm rounded-full px-3 py-2 md:px-4 md:py-2">
+                          <span className="font-semibold text-sm md:text-base">{subject.score} in {subject.name}</span>
                         </div>
                       ))}
                     </div>
 
-                    <div className="flex items-center gap-4 pt-4">
-                      <Phone className="w-5 h-5" />
-                      <span className="font-semibold">8800345115</span>
+                    <div className="flex items-center gap-2 pt-2">
+                      <Phone className="w-4 h-4" />
+                      <span className="font-semibold text-sm md:text-base">8800345115</span>
                     </div>
                   </div>
 
                   {/* Right Side - Student Image */}
                   <div className="flex justify-center">
                     <div className="relative">
-                      <div className="w-64 h-64 md:w-80 md:h-80 bg-gradient-to-br from-orange-200 to-orange-400 rounded-full flex items-end justify-center overflow-hidden shadow-2xl">
+                      <div className="w-32 h-32 md:w-48 md:h-48 bg-gradient-to-br from-orange-200 to-orange-400 rounded-full flex items-end justify-center overflow-hidden shadow-xl">
                         {/* Placeholder for student image */}
-                        <div className="w-full h-full bg-gradient-to-t from-orange-600 to-transparent flex items-end justify-center pb-4">
-                          <div className="text-6xl font-bold text-white">{slide.name}</div>
+                        <div className="w-full h-full bg-gradient-to-t from-orange-600 to-transparent flex items-end justify-center pb-2 md:pb-4">
+                          <div className="text-2xl md:text-4xl font-bold text-white">{slide.name}</div>
                         </div>
                       </div>
                     </div>
@@ -125,43 +125,43 @@ const ResultsCarousel = () => {
               )}
 
               {slide.type === "mentor" && (
-                <div className="relative z-10 grid md:grid-cols-2 gap-8 items-center">
+                <div className="relative z-10 grid md:grid-cols-2 gap-4 md:gap-6 items-center h-full">
                   {/* Left Side - Content */}
-                  <div className="space-y-6">
+                  <div className="space-y-3 md:space-y-4">
+                    <div className="space-y-1 md:space-y-2">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Star className="w-4 h-4 md:w-5 md:h-5 text-yellow-300" />
+                        <span className="text-yellow-300 font-semibold text-sm md:text-base">POOJA ACADEMY</span>
+                      </div>
+                      <h2 className="text-3xl md:text-5xl font-bold mb-1">{slide.name}</h2>
+                      <p className="text-lg md:text-xl font-semibold">{slide.title}</p>
+                      <p className="text-sm md:text-base opacity-90">{slide.subtitle}</p>
+                    </div>
+
                     <div className="space-y-2">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Star className="w-6 h-6 text-yellow-300" />
-                        <span className="text-yellow-300 font-semibold text-lg">POOJA ACADEMY</span>
+                      <div className="bg-white/20 backdrop-blur-sm rounded-full px-3 py-2 md:px-4 md:py-2">
+                        <span className="font-semibold text-sm md:text-base">{slide.experience}</span>
                       </div>
-                      <h2 className="text-5xl md:text-6xl font-bold mb-2">{slide.name}</h2>
-                      <p className="text-2xl font-semibold">{slide.title}</p>
-                      <p className="text-xl opacity-90">{slide.subtitle}</p>
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="bg-white/20 backdrop-blur-sm rounded-full px-6 py-3">
-                        <span className="font-semibold">{slide.experience}</span>
+                      <div className="bg-white/20 backdrop-blur-sm rounded-full px-3 py-2 md:px-4 md:py-2">
+                        <span className="font-semibold text-sm md:text-base">{slide.students}</span>
                       </div>
-                      <div className="bg-white/20 backdrop-blur-sm rounded-full px-6 py-3">
-                        <span className="font-semibold">{slide.students}</span>
-                      </div>
-                      <div className="bg-white/20 backdrop-blur-sm rounded-full px-6 py-3">
-                        <span className="font-semibold">{slide.achievement}</span>
+                      <div className="bg-white/20 backdrop-blur-sm rounded-full px-3 py-2 md:px-4 md:py-2">
+                        <span className="font-semibold text-sm md:text-base">{slide.achievement}</span>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-4 pt-4">
-                      <Phone className="w-5 h-5" />
-                      <span className="font-semibold">+91 7011505239</span>
+                    <div className="flex items-center gap-2 pt-2">
+                      <Phone className="w-4 h-4" />
+                      <span className="font-semibold text-sm md:text-base">+91 7011505239</span>
                     </div>
                   </div>
 
                   {/* Right Side - Ram Sir Image */}
                   <div className="flex justify-center">
                     <div className="relative">
-                      <div className="w-64 h-64 md:w-80 md:h-80 bg-gradient-to-br from-blue-200 to-blue-400 rounded-full flex items-center justify-center overflow-hidden shadow-2xl">
+                      <div className="w-32 h-32 md:w-48 md:h-48 bg-gradient-to-br from-blue-200 to-blue-400 rounded-full flex items-center justify-center overflow-hidden shadow-xl">
                         {/* Placeholder for Ram Sir image */}
-                        <div className="text-8xl font-bold text-blue-800">RS</div>
+                        <div className="text-3xl md:text-5xl font-bold text-blue-800">RS</div>
                       </div>
                     </div>
                   </div>
@@ -169,28 +169,28 @@ const ResultsCarousel = () => {
               )}
 
               {slide.type === "academy" && (
-                <div className="relative z-10 text-center space-y-8">
-                  <div className="space-y-4">
-                    <h2 className="text-6xl md:text-7xl font-bold">{slide.title}</h2>
-                    <p className="text-3xl font-semibold">OF</p>
-                    <h3 className="text-4xl md:text-5xl font-bold">{slide.subtitle}</h3>
-                    <div className="bg-yellow-400 text-gray-900 px-8 py-4 rounded-full inline-block font-bold text-2xl">
+                <div className="relative z-10 text-center space-y-4 md:space-y-6 h-full flex flex-col justify-center">
+                  <div className="space-y-2 md:space-y-3">
+                    <h2 className="text-3xl md:text-5xl font-bold">{slide.title}</h2>
+                    <p className="text-lg md:text-2xl font-semibold">OF</p>
+                    <h3 className="text-2xl md:text-3xl font-bold">{slide.subtitle}</h3>
+                    <div className="bg-yellow-400 text-gray-900 px-4 py-2 md:px-6 md:py-3 rounded-full inline-block font-bold text-sm md:text-lg">
                       {slide.tagline}
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-6 max-w-4xl mx-auto">
+                  <div className="grid grid-cols-3 gap-3 md:gap-4 max-w-sm md:max-w-lg mx-auto">
                     {slide.stats?.map((stat, i) => (
-                      <div key={i} className="bg-white/20 backdrop-blur-sm rounded-xl p-6 text-center">
-                        <div className="text-3xl font-bold mb-2">{stat.value}</div>
-                        <div className="text-sm opacity-90">{stat.label}</div>
+                      <div key={i} className="bg-white/20 backdrop-blur-sm rounded-lg p-3 md:p-4 text-center">
+                        <div className="text-lg md:text-2xl font-bold mb-1">{stat.value}</div>
+                        <div className="text-xs md:text-sm opacity-90">{stat.label}</div>
                       </div>
                     ))}
                   </div>
 
-                  <div className="flex justify-center gap-4 pt-6">
+                  <div className="flex justify-center pt-3 md:pt-4">
                     <Link href="/contact">
-                      <Button className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-8 py-4 rounded-full text-lg">
+                      <Button className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-6 py-3 md:px-8 md:py-4 rounded-full text-sm md:text-base">
                         Enroll Now
                       </Button>
                     </Link>
@@ -204,24 +204,24 @@ const ResultsCarousel = () => {
 
       {/* Navigation Buttons */}
       <button
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full p-3 transition-all duration-300 z-20"
+        className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full p-2 md:p-3 transition-all duration-300 z-20"
         onClick={scrollPrev}
       >
-        <ChevronLeft className="w-6 h-6 text-white" />
+        <ChevronLeft className="w-4 h-4 md:w-5 md:h-5 text-white" />
       </button>
       <button
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full p-3 transition-all duration-300 z-20"
+        className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full p-2 md:p-3 transition-all duration-300 z-20"
         onClick={scrollNext}
       >
-        <ChevronRight className="w-6 h-6 text-white" />
+        <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-white" />
       </button>
 
       {/* Dots Indicator */}
-      <div className="flex justify-center gap-2 mt-6">
+      <div className="flex justify-center gap-2 mt-4 md:mt-6">
         {slides.map((_, index) => (
           <button
             key={index}
-            className="w-3 h-3 rounded-full bg-white/40 hover:bg-white/60 transition-all duration-300"
+            className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-white/40 hover:bg-white/60 transition-all duration-300"
             onClick={() => emblaApi?.scrollTo(index)}
           />
         ))}
