@@ -139,11 +139,6 @@ const Home = () => {
             {/* Simple Stats Line */}
             <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-8 mt-8 sm:mt-10 animate-slide-up px-4" style={{ animationDelay: '1.2s' }}>
               <div className="text-center">
-                <span className="text-2xl sm:text-3xl font-bold text-orange-400" data-testid="text-students-count">1,000+</span>
-                <span className="text-sm sm:text-base text-gray-200 ml-2">Students</span>
-              </div>
-              <div className="hidden sm:block w-px h-8 bg-white/30"></div>
-              <div className="text-center">
                 <span className="text-2xl sm:text-3xl font-bold text-orange-400" data-testid="text-experience-years">10+</span>
                 <span className="text-sm sm:text-base text-gray-200 ml-2">Years</span>
               </div>
