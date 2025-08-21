@@ -22,7 +22,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="bg-navy text-white sticky top-0 z-50 shadow-lg">
+    <header className="bg-navy text-white fixed top-0 w-full z-50 shadow-lg backdrop-blur-sm">
       <nav className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2" data-testid="link-home">
@@ -36,7 +36,7 @@ const Header = () => {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`hover:text-skyblue transition-colors ${
+                className={`hover:text-skyblue transition-all duration-300 hover:scale-105 ${
                   location === link.href ? "text-skyblue" : ""
                 }`}
                 data-testid={`link-${link.name.toLowerCase().replace(" ", "-")}`}
@@ -51,7 +51,7 @@ const Header = () => {
               onMouseEnter={() => setIsDropdownOpen(true)}
               onMouseLeave={() => setIsDropdownOpen(false)}
             >
-              <button className="hover:text-skyblue transition-colors flex items-center" data-testid="button-classes-dropdown">
+              <button className="hover:text-skyblue transition-all duration-300 hover:scale-105 flex items-center" data-testid="button-classes-dropdown">
                 Classes <ChevronDown className="ml-1 h-4 w-4" />
               </button>
               {isDropdownOpen && (
@@ -61,7 +61,7 @@ const Header = () => {
                       <Link
                         key={classLink.href}
                         href={classLink.href}
-                        className="block px-4 py-2 text-navy hover:bg-skyblue transition-colors"
+                        className="block px-4 py-2 text-navy hover:bg-skyblue transition-all duration-300 hover:pl-6"
                         data-testid={`link-${classLink.name.toLowerCase().replace(" ", "-")}`}
                       >
                         {classLink.name}

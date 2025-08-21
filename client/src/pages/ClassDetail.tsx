@@ -73,7 +73,7 @@ const ClassDetail = () => {
     );
   }
 
-  const hasMultipleStreams = classData.streams.length > 1 && !classData.streams.includes("both");
+  const hasMultipleStreams = Array.isArray(classData.streams) && classData.streams.length > 1 && !classData.streams.includes("both");
   const filteredSubjects = selectedStream 
     ? subjects?.filter(s => s.stream === selectedStream || s.stream === "both")
     : subjects?.filter(s => s.stream === "both") || subjects;

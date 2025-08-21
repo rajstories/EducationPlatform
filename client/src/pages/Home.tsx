@@ -74,48 +74,85 @@ const Home = () => {
   }
 
   return (
-    <div className="animate-fade-in">
+    <div className="animate-fade-in pt-20">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-skyblue to-white py-20">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="animate-slide-up">
-              <h1 className="text-4xl md:text-5xl font-bold text-navy mb-6 leading-tight">
-                Welcome to <span className="text-blue-600">Pooja Academy</span>
-              </h1>
-              <p className="text-lg text-gray-700 mb-8 leading-relaxed">
-                Nurturing academic excellence for Classes 9-12 in Science and Commerce streams. 
-                Join thousands of successful students who achieved their dreams with our expert guidance.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+      <section 
+        className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: 'url("https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080")'
+        }}
+      >
+        {/* Overlay */}
+        <div className="absolute inset-0 hero-overlay"></div>
+        
+        {/* Content */}
+        <div className="relative z-10 container mx-auto px-4 text-center text-white">
+          <div className="max-w-4xl mx-auto">
+            {/* Main Heading */}
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-slide-in-left">
+              Welcome to <span className="text-orange-400">Pooja Academy</span>
+            </h1>
+            
+            {/* Inspiring Quote */}
+            <p className="text-xl md:text-2xl mb-4 font-medium animate-slide-in-right text-orange-200" style={{ animationDelay: '0.3s' }}>
+              "Empowering Young Minds, Shaping Bright Futures"
+            </p>
+            
+            {/* Description */}
+            <p className="text-lg md:text-xl mb-12 leading-relaxed animate-slide-up max-w-3xl mx-auto text-gray-200" style={{ animationDelay: '0.6s' }}>
+              Nurturing academic excellence for Classes 9-12 in Science and Commerce streams. 
+              Join thousands of successful students who achieved their dreams with our expert guidance.
+            </p>
+            
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-6 justify-center animate-slide-up" style={{ animationDelay: '0.9s' }}>
+              <Link href="/about">
                 <Button 
                   size="lg"
-                  className="bg-navy hover:bg-blue-800 text-white"
-                  data-testid="button-explore-courses"
+                  className="bg-orange-500 hover:bg-orange-600 text-white text-lg px-8 py-4 glow-button border-0"
+                  data-testid="button-learn-more"
                 >
-                  Explore Courses
+                  Learn More
                 </Button>
+              </Link>
+              <Link href="/contact">
                 <Button 
                   variant="outline" 
                   size="lg"
-                  className="border-navy text-navy hover:bg-navy hover:text-white"
-                  data-testid="button-download-brochure"
+                  className="border-2 border-white text-white hover:bg-white hover:text-navy text-lg px-8 py-4 transition-all duration-300"
+                  data-testid="button-get-started"
                 >
-                  Download Brochure
+                  Get Started Today
                 </Button>
+              </Link>
+            </div>
+            
+            {/* Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 animate-slide-up" style={{ animationDelay: '1.2s' }}>
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-orange-400 mb-2" data-testid="text-students-count">10,000+</div>
+                <div className="text-sm text-gray-300">Students Enrolled</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-orange-400 mb-2" data-testid="text-experience-years">15+</div>
+                <div className="text-sm text-gray-300">Years Experience</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-orange-400 mb-2" data-testid="text-success-rate">95%</div>
+                <div className="text-sm text-gray-300">Success Rate</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-orange-400 mb-2" data-testid="text-faculty-count">50+</div>
+                <div className="text-sm text-gray-300">Expert Faculty</div>
               </div>
             </div>
-            <div className="relative animate-slide-up">
-              <img
-                src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
-                alt="Students studying in classroom"
-                className="rounded-2xl shadow-2xl w-full h-auto"
-              />
-              <div className="absolute -bottom-6 -left-6 bg-sagegreen p-6 rounded-xl shadow-lg">
-                <div className="text-2xl font-bold text-navy" data-testid="text-students-count">10,000+</div>
-                <div className="text-sm text-gray-600">Students Enrolled</div>
-              </div>
-            </div>
+          </div>
+        </div>
+        
+        {/* Scroll Down Indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center">
+            <div className="w-1 h-3 bg-white rounded-full mt-2 animate-pulse"></div>
           </div>
         </div>
       </section>
@@ -155,7 +192,7 @@ const Home = () => {
                         className="w-full bg-navy hover:bg-blue-800 text-white"
                         data-testid={`button-view-${classData.name.toLowerCase().replace(" ", "-")}`}
                       >
-                        {classData.streams.includes("science") && classData.streams.includes("commerce") 
+                        {Array.isArray(classData.streams) && classData.streams.includes("science") && classData.streams.includes("commerce") 
                           ? "Choose Stream" 
                           : "View Subjects"}
                       </Button>

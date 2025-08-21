@@ -176,6 +176,7 @@ export class MemStorage implements IStorage {
     const contact: ContactSubmission = { 
       ...insertContact, 
       id, 
+      selectedClass: insertContact.selectedClass || null,
       createdAt: new Date().toISOString() 
     };
     this.contactSubmissions.set(id, contact);

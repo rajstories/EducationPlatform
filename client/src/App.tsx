@@ -29,7 +29,7 @@ function App() {
       <TooltipProvider>
         <div className="min-h-screen bg-white font-poppins">
           <Header />
-          <main>
+          <main className="relative">
             <Router />
           </main>
           <Footer />

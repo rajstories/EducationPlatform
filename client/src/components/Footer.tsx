@@ -6,7 +6,7 @@ const Footer = () => {
     { name: "Home", href: "/" },
     { name: "About Us", href: "/about" },
     { name: "Contact", href: "/contact" },
-    { name: "Admissions", href: "/contact" },
+    { name: "Admissions", href: "/admissions" },
   ];
 
   const classLinks = [
