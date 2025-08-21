@@ -112,7 +112,7 @@ const Footer = () => {
 
         <div className="border-t border-gray-600 pt-8 text-center">
           <p className="text-gray-300 text-sm">
-            &copy; 2024 Pooja Academy. All rights reserved. |{" "}
+            &copy; 2025 Pooja Academy. All rights reserved. |{" "}
             <Link href="#" className="hover:text-skyblue transition-colors">
               Privacy Policy
             </Link>{" "}

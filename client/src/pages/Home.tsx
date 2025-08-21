@@ -357,7 +357,7 @@ const Home = () => {
               <Button 
                 variant="outline" 
                 size="lg"
-                className="border-white text-white hover:bg-white hover:text-navy"
+                className="border-2 border-white text-white hover:bg-white hover:text-navy font-semibold"
                 data-testid="button-contact-us"
               >
                 Contact Us
