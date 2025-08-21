@@ -90,153 +90,111 @@ const ClassDetail = () => {
           <h1 className="text-3xl font-bold text-navy mb-2" data-testid={`text-${classData?.name?.toLowerCase().replace(" ", "-") || 'class'}`}>
             {classData?.name || 'Loading...'}
           </h1>
-          <p className="text-gray-600">{classData?.description || 'Loading description...'} with comprehensive study materials</p>
+          <p className="text-gray-600">Explore subjects and chapters for your class.</p>
         </div>
 
         {/* Stream Selection for Classes 11 & 12 */}
         {hasMultipleStreams && !selectedStream && (
           <div className="mb-8 animate-slide-up">
-            <h2 className="text-xl font-semibold text-navy mb-4">Choose Your Stream</h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              <Card 
-                className="cursor-pointer hover:shadow-xl transition-shadow"
-                onClick={() => setSelectedStream("science")}
-                data-testid="card-science-stream"
-              >
-                <CardContent className="p-6">
-                  <h3 className="text-lg font-semibold text-navy mb-2">Science Stream</h3>
-                  <p className="text-gray-600 text-sm mb-4">
-                    Physics, Chemistry, Mathematics, Biology
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <Badge variant="secondary" className="bg-blue-100 text-blue-800">Physics</Badge>
-                    <Badge variant="secondary" className="bg-green-100 text-green-800">Chemistry</Badge>
-                    <Badge variant="secondary" className="bg-purple-100 text-purple-800">Mathematics</Badge>
-                    <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">Biology</Badge>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card 
-                className="cursor-pointer hover:shadow-xl transition-shadow"
-                onClick={() => setSelectedStream("commerce")}
-                data-testid="card-commerce-stream"
-              >
-                <CardContent className="p-6">
-                  <h3 className="text-lg font-semibold text-navy mb-2">Commerce Stream</h3>
-                  <p className="text-gray-600 text-sm mb-4">
-                    Economics, Accounts, Business Studies, Mathematics
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <Badge variant="secondary" className="bg-indigo-100 text-indigo-800">Economics</Badge>
-                    <Badge variant="secondary" className="bg-pink-100 text-pink-800">Accounts</Badge>
-                    <Badge variant="secondary" className="bg-teal-100 text-teal-800">Business Studies</Badge>
-                    <Badge variant="secondary" className="bg-orange-100 text-orange-800">Mathematics</Badge>
-                  </div>
-                </CardContent>
-              </Card>
+            <div className="text-center mb-6">
+              <h2 className="text-xl font-semibold text-gray-600 mb-4">Choose Your Stream:</h2>
+              <div className="flex justify-center gap-4">
+                <Button 
+                  variant="outline"
+                  className="px-8 py-2"
+                  onClick={() => setSelectedStream("science")}
+                  data-testid="button-science-stream"
+                >
+                  Science
+                </Button>
+                <Button 
+                  variant="outline"
+                  className="px-8 py-2"
+                  onClick={() => setSelectedStream("commerce")}
+                  data-testid="button-commerce-stream"
+                >
+                  Commerce
+                </Button>
+              </div>
             </div>
           </div>
         )}
 
-        {/* Subject Cards */}
+        {/* Subject Accordion */}
         {(!hasMultipleStreams || selectedStream) && (
           <div className="animate-slide-up">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-semibold text-navy">Available Subjects</h2>
-              {selectedStream && (
+            {selectedStream && (
+              <div className="text-center mb-6">
+                <p className="text-gray-600">Showing subjects for {selectedStream} stream.</p>
                 <Button
-                  variant="outline"
+                  variant="ghost"
                   onClick={() => setSelectedStream(null)}
+                  className="text-navy hover:text-blue-800 mt-2"
                   data-testid="button-change-stream"
                 >
-                  Change Stream
+                  ← Go Back
                 </Button>
-              )}
-            </div>
+              </div>
+            )}
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredSubjects?.map((subject, index) => (
-                <Card 
-                  key={subject.id} 
-                  className="shadow-lg animate-slide-up"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <CardContent className="p-6">
-                    <div className="flex items-center mb-4">
-                      <div className="text-3xl mr-4">
-                        {getSubjectIcon(subject.icon)}
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-navy" data-testid={`text-subject-${subject.name.toLowerCase()}`}>
-                          {subject.name}
-                        </h3>
-                        <p className="text-sm text-gray-600">
-                          {subject.chapterCount} Chapters
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Sample Chapters Preview */}
-                    {subject.isAvailable && (
-                      <div className="mb-6">
-                        <h4 className="text-sm font-medium text-navy mb-2">Sample Chapters:</h4>
-                        <div className="space-y-2">
-                          <div className="text-xs text-gray-600 p-2 bg-gray-50 rounded">
-                            Chapter 1: Introduction to {subject.name}
+            <div className="max-w-4xl mx-auto">
+              <Accordion type="single" collapsible className="space-y-4">
+                {filteredSubjects?.map((subject, index) => (
+                  <AccordionItem 
+                    key={subject.id} 
+                    value={subject.id}
+                    className="bg-white border border-gray-200 rounded-lg px-6 py-2 shadow-sm animate-slide-up"
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
+                    <AccordionTrigger 
+                      className="text-lg font-semibold text-gray-800 hover:no-underline py-6"
+                      data-testid={`accordion-${subject.name.toLowerCase()}`}
+                    >
+                      {subject.name}
+                    </AccordionTrigger>
+                    <AccordionContent className="pb-6">
+                      <div className="space-y-4">
+                        <div className="grid md:grid-cols-2 gap-6">
+                          <div>
+                            <h4 className="font-semibold text-navy mb-2">Course Details</h4>
+                            <ul className="text-sm text-gray-600 space-y-1">
+                              <li>• {subject.chapterCount} comprehensive chapters</li>
+                              <li>• Expert-curated study materials</li>
+                              <li>• Previous year questions</li>
+                              <li>• Practice exercises</li>
+                            </ul>
                           </div>
-                          <div className="text-xs text-gray-600 p-2 bg-gray-50 rounded">
-                            Chapter 2: Basic Concepts
+                          <div className="text-center md:text-right">
+                            <div className="mb-4">
+                              <span className="text-2xl font-bold text-blue-600">
+                                ₹{subject.price}
+                              </span>
+                              <span className="text-gray-500 text-sm">/subject</span>
+                            </div>
+                            {subject.isAvailable ? (
+                              <Button
+                                className="bg-navy hover:bg-blue-800 text-white px-8"
+                                onClick={() => handleEnroll(subject)}
+                                data-testid={`button-enroll-${subject.name.toLowerCase()}`}
+                              >
+                                Enroll Now
+                              </Button>
+                            ) : (
+                              <Button
+                                disabled
+                                className="bg-gray-300 text-gray-500 cursor-not-allowed px-8"
+                                data-testid={`button-coming-soon-${subject.name.toLowerCase()}`}
+                              >
+                                Coming Soon
+                              </Button>
+                            )}
                           </div>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="text-blue-600 hover:text-blue-800 p-0 h-auto"
-                            data-testid={`button-view-all-chapters-${subject.name.toLowerCase()}`}
-                          >
-                            + View all {subject.chapterCount} chapters
-                          </Button>
                         </div>
                       </div>
-                    )}
-
-                    <div className="space-y-3">
-                      {subject.isAvailable ? (
-                        <>
-                          <div className="text-center">
-                            <span className="text-2xl font-bold text-blue-600">
-                              ₹{subject.price}
-                            </span>
-                            <span className="text-gray-500 text-sm">/subject</span>
-                          </div>
-                          <Button
-                            className="w-full bg-navy hover:bg-blue-800 text-white"
-                            onClick={() => handleEnroll(subject)}
-                            data-testid={`button-enroll-${subject.name.toLowerCase()}`}
-                          >
-                            Enroll in {subject.name}
-                          </Button>
-                        </>
-                      ) : (
-                        <>
-                          <div className="text-center mb-4">
-                            <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">
-                              Coming Soon
-                            </Badge>
-                          </div>
-                          <Button
-                            disabled
-                            className="w-full bg-gray-300 text-gray-500 cursor-not-allowed"
-                            data-testid={`button-coming-soon-${subject.name.toLowerCase()}`}
-                          >
-                            Enroll in {subject.name}
-                          </Button>
-                        </>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
             </div>
           </div>
         )}
