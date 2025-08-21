@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(207, 19%, 9%);
+  --card: hsl(180, 7%, 97%);
+  --card-foreground: hsl(207, 19%, 9%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(207, 19%, 9%);
+  --primary: hsl(207, 73%, 29%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(180, 20%, 96%);
+  --secondary-foreground: hsl(207, 19%, 9%);
+  --muted: hsl(180, 5%, 96%);
+  --muted-foreground: hsl(207, 6%, 46%);
+  --accent: hsl(179, 100%, 94%);
+  --accent-foreground: hsl(207, 73%, 29%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --border: hsl(180, 6%, 90%);
+  --input: hsl(180, 6%, 90%);
+  --ring: hsl(207, 73%, 29%);
+  --chart-1: hsl(207, 73%, 29%);
+  --chart-2: hsl(120, 100%, 25%);
+  --chart-3: hsl(45, 100%, 50%);
+  --chart-4: hsl(120, 60%, 40%);
+  --chart-5: hsl(330, 80%, 50%);
+  
+  /* Custom Pooja Academy Colors */
+  --navy: hsl(207, 73%, 29%);
+  --skyblue: hsl(179, 100%, 94%);
+  --sagegreen: hsl(120, 50%, 94%);
+  --softgray: hsl(0, 0%, 96%);
+  
+  --font-poppins: 'Poppins', sans-serif;
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: hsl(207, 19%, 9%);
+  --foreground: hsl(180, 7%, 97%);
+  --card: hsl(207, 19%, 9%);
+  --card-foreground: hsl(180, 7%, 97%);
+  --popover: hsl(207, 19%, 9%);
+  --popover-foreground: hsl(180, 7%, 97%);
+  --primary: hsl(179, 100%, 94%);
+  --primary-foreground: hsl(207, 19%, 9%);
+  --secondary: hsl(207, 19%, 15%);
+  --secondary-foreground: hsl(180, 7%, 97%);
+  --muted: hsl(207, 19%, 15%);
+  --muted-foreground: hsl(207, 6%, 65%);
+  --accent: hsl(207, 73%, 29%);
+  --accent-foreground: hsl(179, 100%, 94%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --border: hsl(207, 19%, 20%);
+  --input: hsl(207, 19%, 20%);
+  --ring: hsl(179, 100%, 94%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-poppins);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .text-navy {
+    color: var(--navy);
+  }
+  
+  .bg-navy {
+    background-color: var(--navy);
+  }
+  
+  .text-skyblue {
+    color: var(--skyblue);
+  }
+  
+  .bg-skyblue {
+    background-color: var(--skyblue);
+  }
+  
+  .text-sagegreen {
+    color: var(--sagegreen);
+  }
+  
+  .bg-sagegreen {
+    background-color: var(--sagegreen);
+  }
+  
+  .text-softgray {
+    color: var(--softgray);
+  }
+  
+  .bg-softgray {
+    background-color: var(--softgray);
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-in-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+}
