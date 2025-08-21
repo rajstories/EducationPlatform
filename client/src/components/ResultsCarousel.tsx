@@ -82,46 +82,54 @@ const ResultsCarousel = () => {
               </div>
 
               {slide.type === "student" && (
-                <div className="relative z-10 flex flex-col items-center text-center h-full py-2 md:py-3">
-                  {/* Student Image at Top */}
-                  <div className="mb-2 md:mb-3">
-                    <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden shadow-lg mx-auto bg-white border-2 border-orange-200">
-                      <img 
-                        src={raniPhoto}
-                        alt="Rani - JEE Main Success Story"
-                        className="w-full h-full object-cover"
-                      />
+                <div className="relative z-10 h-full py-4 md:py-6">
+                  {/* Header */}
+                  <div className="text-center mb-6 md:mb-8">
+                    <div className="flex items-center justify-center gap-2 mb-2">
+                      <Award className="w-5 h-5 text-yellow-300" />
+                      <span className="text-yellow-300 font-bold text-sm md:text-base">POOJA ACADEMY</span>
+                    </div>
+                    <h1 className="text-2xl md:text-4xl font-bold mb-2">Highest Personal Attention</h1>
+                    <h2 className="text-xl md:text-2xl font-bold mb-4">Delivering Historic Results</h2>
+                    <div className="bg-red-600 text-white px-4 py-2 rounded-lg inline-block font-bold text-sm md:text-base">
+                      JEE MAIN 2025
                     </div>
                   </div>
 
-                  {/* Content Below */}
-                  <div className="space-y-2 flex-1">
-                    <div className="space-y-1">
-                      <div className="flex items-center justify-center gap-1 mb-1">
-                        <Award className="w-3 h-3 md:w-4 md:h-4 text-yellow-300" />
-                        <span className="text-yellow-300 font-semibold text-xs">POOJA ACADEMY</span>
-                      </div>
-                      <h2 className="text-lg md:text-xl font-bold">{slide.name}</h2>
-                      <h3 className="text-base md:text-lg font-semibold">{slide.title}</h3>
-                      <div className="bg-yellow-400 text-gray-900 px-3 py-1 rounded-full inline-block font-bold text-sm">
-                        {slide.percentile}
-                      </div>
-                      <p className="text-xs opacity-90">{slide.exam}</p>
-                    </div>
-
-                    {/* Subject Scores - More Compact */}
-                    <div className="space-y-1 max-w-xs mx-auto">
-                      {slide.subjects?.map((subject, i) => (
-                        <div key={i} className="bg-white/25 backdrop-blur-sm rounded-full px-2 py-1">
-                          <span className="font-bold text-xs">{subject.score} in {subject.name}</span>
+                  {/* Student Achievement Showcase */}
+                  <div className="flex justify-center items-center">
+                    <div className="text-center">
+                      {/* Student Photo */}
+                      <div className="mb-3">
+                        <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden shadow-xl mx-auto bg-white border-3 border-red-500">
+                          <img 
+                            src={raniPhoto}
+                            alt="Rani - JEE Main Success Story"
+                            className="w-full h-full object-cover"
+                          />
                         </div>
-                      ))}
+                      </div>
+                      
+                      {/* Achievement Badge */}
+                      <div className="bg-red-500 text-white px-4 py-2 rounded-lg font-bold text-lg md:text-xl mb-2">
+                        99.3%ile
+                      </div>
+                      
+                      {/* Student Name */}
+                      <div className="text-white font-bold text-base md:text-lg">
+                        {slide.name}
+                      </div>
                     </div>
+                  </div>
 
-                    <div className="flex items-center justify-center gap-1 pt-1">
-                      <Phone className="w-3 h-3" />
-                      <span className="font-semibold text-xs">8800345115</span>
-                    </div>
+                  {/* Bottom CTA */}
+                  <div className="text-center mt-6 md:mt-8">
+                    <p className="text-white font-semibold text-sm md:text-base mb-3">Be the Next Topper</p>
+                    <Link href="/contact">
+                      <Button className="bg-gray-900 hover:bg-black text-white font-bold px-6 py-3 rounded-lg">
+                        Enrol Now
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               )}
