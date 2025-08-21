@@ -136,27 +136,21 @@ const Home = () => {
               </Link>
             </div>
             
-            {/* Stats */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-10 sm:mt-12 animate-slide-up px-4" style={{ animationDelay: '1.2s' }}>
-              <div className="text-center bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 hover:bg-white/15 transition-all duration-300">
-                <div className="text-3xl mb-2">👨‍🎓</div>
-                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-orange-400 mb-1" data-testid="text-students-count">1,000+</div>
-                <div className="text-xs sm:text-sm text-gray-200 font-medium">Students Taught</div>
+            {/* Simple Stats Line */}
+            <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-8 mt-8 sm:mt-10 animate-slide-up px-4" style={{ animationDelay: '1.2s' }}>
+              <div className="text-center">
+                <span className="text-2xl sm:text-3xl font-bold text-orange-400" data-testid="text-students-count">1,000+</span>
+                <span className="text-sm sm:text-base text-gray-200 ml-2">Students</span>
               </div>
-              <div className="text-center bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 hover:bg-white/15 transition-all duration-300">
-                <div className="text-3xl mb-2">⏳</div>
-                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-orange-400 mb-1" data-testid="text-experience-years">10+</div>
-                <div className="text-xs sm:text-sm text-gray-200 font-medium">Years Experience</div>
+              <div className="hidden sm:block w-px h-8 bg-white/30"></div>
+              <div className="text-center">
+                <span className="text-2xl sm:text-3xl font-bold text-orange-400" data-testid="text-experience-years">10+</span>
+                <span className="text-sm sm:text-base text-gray-200 ml-2">Years</span>
               </div>
-              <div className="text-center bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 hover:bg-white/15 transition-all duration-300">
-                <div className="text-3xl mb-2">🎯</div>
-                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-orange-400 mb-1" data-testid="text-success-rate">95%</div>
-                <div className="text-xs sm:text-sm text-gray-200 font-medium">Success Rate</div>
-              </div>
-              <div className="text-center bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 hover:bg-white/15 transition-all duration-300">
-                <div className="text-3xl mb-2">👩‍🏫</div>
-                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-orange-400 mb-1" data-testid="text-faculty-count">1</div>
-                <div className="text-xs sm:text-sm text-gray-200 font-medium">Lead Faculty</div>
+              <div className="hidden sm:block w-px h-8 bg-white/30"></div>
+              <div className="text-center">
+                <span className="text-2xl sm:text-3xl font-bold text-orange-400" data-testid="text-success-rate">95%</span>
+                <span className="text-sm sm:text-base text-gray-200 ml-2">Success</span>
               </div>
             </div>
           </div>
