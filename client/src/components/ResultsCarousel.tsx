@@ -82,18 +82,11 @@ const ResultsCarousel = () => {
               </div>
 
               {slide.type === "student" && (
-                <div className="relative z-10 h-full flex flex-col items-center justify-center py-4">
-                  {/* Pooja Academy Label */}
-                  <div className="flex items-center gap-2 mb-4">
-                    <Award className="w-4 h-4 text-yellow-300" />
-                    <span className="text-yellow-300 font-bold text-sm">POOJA ACADEMY</span>
-                  </div>
-
-                  {/* Main Focus: Large Photo and Achievement */}
-                  <div className="text-center flex-1 flex flex-col justify-center">
-                    {/* Large Student Photo */}
-                    <div className="mb-6">
-                      <div className="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden shadow-2xl mx-auto bg-white border-4 border-yellow-400 p-1">
+                <div className="relative z-10 h-full grid grid-cols-5 gap-4 py-4 md:py-6">
+                  {/* Left Side - Large Photo (takes 2/5 of width) */}
+                  <div className="col-span-2 flex items-center justify-center">
+                    <div className="w-full max-w-[200px] aspect-square">
+                      <div className="w-full h-full rounded-full overflow-hidden shadow-2xl bg-white border-4 border-yellow-400 p-1">
                         <img 
                           src={raniPhoto}
                           alt="Rani - JEE Main Success Story"
@@ -101,23 +94,41 @@ const ResultsCarousel = () => {
                         />
                       </div>
                     </div>
-                    
-                    {/* Huge Achievement Display */}
-                    <div className="mb-4">
-                      <div className="bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 px-8 py-4 rounded-2xl inline-block shadow-2xl">
-                        <div className="text-3xl md:text-5xl font-black">99.3%</div>
-                        <div className="text-lg md:text-xl font-bold">JEE MAIN</div>
+                  </div>
+
+                  {/* Right Side - Achievement Details (takes 3/5 of width) */}
+                  <div className="col-span-3 flex flex-col justify-center space-y-4 pr-4">
+                    {/* Pooja Academy Label */}
+                    <div className="flex items-center gap-2">
+                      <Award className="w-4 h-4 text-yellow-300" />
+                      <span className="text-yellow-300 font-bold text-xs md:text-sm">POOJA ACADEMY</span>
+                    </div>
+
+                    {/* Achievement Badge */}
+                    <div>
+                      <div className="bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 px-6 py-3 rounded-xl inline-block shadow-xl">
+                        <div className="text-2xl md:text-4xl font-black">99.3%</div>
+                        <div className="text-sm md:text-base font-bold">JEE MAIN</div>
                       </div>
                     </div>
                     
                     {/* Student Name */}
-                    <div className="text-white font-bold text-2xl md:text-3xl mb-2">
+                    <div className="text-white font-bold text-xl md:text-2xl">
                       {slide.name}
+                    </div>
+
+                    {/* Subject Scores */}
+                    <div className="space-y-1">
+                      {slide.subjects?.slice(0, 2).map((subject, i) => (
+                        <div key={i} className="bg-white/20 backdrop-blur-sm rounded-lg px-3 py-1">
+                          <span className="font-bold text-xs md:text-sm text-white">{subject.score} in {subject.name}</span>
+                        </div>
+                      ))}
                     </div>
 
                     {/* CTA */}
                     <Link href="/contact">
-                      <Button className="bg-white hover:bg-gray-100 text-gray-900 font-bold px-6 py-3 rounded-lg text-lg">
+                      <Button className="bg-white hover:bg-gray-100 text-gray-900 font-bold px-4 py-2 rounded-lg text-sm md:text-base self-start">
                         Join Now
                       </Button>
                     </Link>
