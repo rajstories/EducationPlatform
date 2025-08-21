@@ -146,7 +146,7 @@ const ResultsCarousel = () => {
                         <img 
                           src={ramSirPhoto}
                           alt="Ram Sir - Lead Faculty"
-                          className="w-full h-full object-cover object-top scale-110 rounded-full"
+                          className="w-full h-full object-cover object-center scale-90 rounded-full"
                         />
                       </div>
                     </div>
