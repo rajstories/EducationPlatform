@@ -73,7 +73,7 @@ const ClassDetail = () => {
     );
   }
 
-  const hasMultipleStreams = Array.isArray(classData.streams) && classData.streams.length > 1 && !classData.streams.includes("both");
+  const hasMultipleStreams = classData && Array.isArray(classData.streams) && classData.streams.length > 1 && !classData.streams.includes("both");
   const filteredSubjects = selectedStream 
     ? subjects?.filter(s => s.stream === selectedStream || s.stream === "both")
     : subjects?.filter(s => s.stream === "both") || subjects;
@@ -87,10 +87,10 @@ const ClassDetail = () => {
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Classes
           </Link>
-          <h1 className="text-3xl font-bold text-navy mb-2" data-testid={`text-${classData.name.toLowerCase().replace(" ", "-")}`}>
-            {classData.name}
+          <h1 className="text-3xl font-bold text-navy mb-2" data-testid={`text-${classData?.name?.toLowerCase().replace(" ", "-") || 'class'}`}>
+            {classData?.name || 'Loading...'}
           </h1>
-          <p className="text-gray-600">{classData.description} with comprehensive study materials</p>
+          <p className="text-gray-600">{classData?.description || 'Loading description...'} with comprehensive study materials</p>
         </div>
 
         {/* Stream Selection for Classes 11 & 12 */}
