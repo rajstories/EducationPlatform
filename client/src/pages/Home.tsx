@@ -80,21 +80,22 @@ const Home = () => {
         className="relative min-h-screen flex items-center justify-center hero-gradient overflow-hidden"
       >
         {/* Academic Illustrations */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-16 text-6xl floating" style={{ animationDelay: '0s' }}>📚</div>
-          <div className="absolute top-32 right-20 text-4xl floating" style={{ animationDelay: '1s' }}>🎓</div>
-          <div className="absolute bottom-40 left-32 text-5xl floating" style={{ animationDelay: '2s' }}>📊</div>
-          <div className="absolute top-48 left-1/4 text-3xl floating" style={{ animationDelay: '3s' }}>📐</div>
-          <div className="absolute bottom-32 right-32 text-4xl floating" style={{ animationDelay: '4s' }}>🧮</div>
-          <div className="absolute top-1/3 right-1/4 text-3xl floating" style={{ animationDelay: '5s' }}>⚗️</div>
-          <div className="absolute bottom-48 left-20 text-4xl floating" style={{ animationDelay: '1.5s' }}>🔬</div>
-          <div className="absolute top-56 right-12 text-3xl floating" style={{ animationDelay: '2.5s' }}>📝</div>
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-20 left-16 text-6xl floating text-blue-200" style={{ animationDelay: '0s' }}>📚</div>
+          <div className="absolute top-32 right-20 text-4xl floating text-green-200" style={{ animationDelay: '1s' }}>🎓</div>
+          <div className="absolute bottom-40 left-32 text-5xl floating text-purple-200" style={{ animationDelay: '2s' }}>📊</div>
+          <div className="absolute top-48 left-1/4 text-3xl floating text-yellow-200" style={{ animationDelay: '3s' }}>📐</div>
+          <div className="absolute bottom-32 right-32 text-4xl floating text-pink-200" style={{ animationDelay: '4s' }}>🧮</div>
+          <div className="absolute top-1/3 right-1/4 text-3xl floating text-cyan-200" style={{ animationDelay: '5s' }}>⚗️</div>
+          <div className="absolute bottom-48 left-20 text-4xl floating text-orange-200" style={{ animationDelay: '1.5s' }}>🔬</div>
+          <div className="absolute top-56 right-12 text-3xl floating text-emerald-200" style={{ animationDelay: '2.5s' }}>📝</div>
         </div>
         
         {/* Floating Decorative Elements */}
-        <div className="absolute top-10 left-10 w-20 h-20 bg-white/5 rounded-full blur-xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-16 w-32 h-32 bg-orange-400/10 rounded-full blur-2xl animate-pulse"></div>
-        <div className="absolute top-1/2 right-10 w-16 h-16 bg-blue-300/10 rounded-full blur-lg animate-pulse"></div>
+        <div className="absolute top-10 left-10 w-20 h-20 bg-blue-400/20 rounded-full blur-xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-16 w-32 h-32 bg-purple-400/20 rounded-full blur-2xl animate-pulse"></div>
+        <div className="absolute top-1/2 right-10 w-16 h-16 bg-green-400/20 rounded-full blur-lg animate-pulse"></div>
+        <div className="absolute top-1/4 left-1/3 w-24 h-24 bg-orange-400/15 rounded-full blur-xl animate-pulse"></div>
         
         {/* Content */}
         <div className="relative z-10 container mx-auto px-4 text-center text-white">

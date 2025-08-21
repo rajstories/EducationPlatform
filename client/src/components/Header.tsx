@@ -22,7 +22,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="bg-navy/95 backdrop-blur-md text-white fixed top-0 w-full z-50 shadow-lg border-b border-white/10 transition-all duration-300">
+    <header className="bg-slate-900/98 backdrop-blur-md text-white fixed top-0 w-full z-50 shadow-xl border-b border-white/20 transition-all duration-300">
       <nav className="container mx-auto px-4 py-3 sm:py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2" data-testid="link-home">
