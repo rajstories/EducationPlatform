@@ -354,9 +354,8 @@ const Home = () => {
             </Link>
             <Link href="/contact">
               <Button 
-                variant="outline" 
                 size="lg"
-                className="border-2 border-white text-white hover:bg-white hover:text-navy font-semibold"
+                className="bg-white text-navy hover:bg-gray-100 border-2 border-white font-semibold shadow-lg"
                 data-testid="button-contact-us"
               >
                 Contact Us
