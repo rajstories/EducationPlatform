@@ -141,17 +141,17 @@ const Home = () => {
               <div className="flex items-center justify-center space-x-3 sm:space-x-6 text-xs sm:text-sm text-white">
                 <span className="flex items-center">
                   <Star className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400 mr-1" />
-                  <span className="hidden sm:inline">Trusted by</span> 1000+ <span className="hidden sm:inline">Students</span>
+                  Trusted by 1000+ Students
                 </span>
                 <span className="w-px h-4 sm:h-5 bg-white/30"></span>
                 <span className="flex items-center">
                   <Target className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400 mr-1" />
-                  95% <span className="hidden sm:inline">Success</span>
+                  95% Success
                 </span>
                 <span className="w-px h-4 sm:h-5 bg-white/30"></span>
                 <span className="flex items-center">
                   <Users className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400 mr-1" />
-                  10+ <span className="hidden sm:inline">Years</span>
+                  10+ Years
                 </span>
               </div>
             </div>
