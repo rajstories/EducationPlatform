@@ -77,8 +77,7 @@ export class MemStorage implements IStorage {
     // Initialize subjects
     const subjects = [
       // Class 9 & 10 subjects
-      { id: "physics-9", name: "Physics", classId: "class-9", stream: "both", price: 999, icon: "fas fa-atom", chapterCount: 15, isAvailable: true },
-      { id: "chemistry-9", name: "Chemistry", classId: "class-9", stream: "both", price: 999, icon: "fas fa-flask", chapterCount: 14, isAvailable: false },
+      { id: "science-9", name: "Science", classId: "class-9", stream: "both", price: 1199, icon: "fas fa-atom", chapterCount: 22, isAvailable: true },
       { id: "mathematics-9", name: "Mathematics", classId: "class-9", stream: "both", price: 899, icon: "fas fa-calculator", chapterCount: 12, isAvailable: true },
       
       { id: "science-10", name: "Science", classId: "class-10", stream: "both", price: 1299, icon: "fas fa-atom", chapterCount: 25, isAvailable: true },
