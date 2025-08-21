@@ -24,9 +24,11 @@ const ClassDetail = () => {
     enabled: !!params?.id
   });
 
+  const [expandedSubject, setExpandedSubject] = useState<string | null>(null);
+
   const { data: chapters } = useQuery<Chapter[]>({
-    queryKey: ['/api/subjects', selectedSubject?.id, 'chapters'],
-    enabled: !!selectedSubject?.id
+    queryKey: ['/api/subjects', expandedSubject, 'chapters'],
+    enabled: !!expandedSubject
   });
 
   const handleEnroll = (subject: Subject) => {
@@ -138,7 +140,12 @@ const ClassDetail = () => {
             )}
 
             <div className="max-w-4xl mx-auto">
-              <Accordion type="single" collapsible className="space-y-4">
+              <Accordion 
+                type="single" 
+                collapsible 
+                className="space-y-4"
+                onValueChange={(value) => setExpandedSubject(value || null)}
+              >
                 {filteredSubjects?.map((subject, index) => (
                   <AccordionItem 
                     key={subject.id} 
@@ -154,42 +161,61 @@ const ClassDetail = () => {
                     </AccordionTrigger>
                     <AccordionContent className="pb-6">
                       <div className="space-y-4">
-                        <div className="grid md:grid-cols-2 gap-6">
-                          <div>
-                            <h4 className="font-semibold text-navy mb-2">Course Details</h4>
-                            <ul className="text-sm text-gray-600 space-y-1">
-                              <li>• {subject.chapterCount} comprehensive chapters</li>
-                              <li>• Expert-curated study materials</li>
-                              <li>• Previous year questions</li>
-                              <li>• Practice exercises</li>
-                            </ul>
+                        {chapters && expandedSubject === subject.id ? (
+                          <div className="grid sm:grid-cols-2 gap-4">
+                            {chapters.map((chapter) => (
+                              <div key={chapter.id} className="p-4 bg-gray-50 rounded-lg border">
+                                <h4 className="font-medium text-gray-800 mb-3">{chapter.name}</h4>
+                                <div className="flex flex-wrap gap-2 mb-3">
+                                  <Button
+                                    size="sm"
+                                    variant={chapter.hasNotes ? "default" : "secondary"}
+                                    className={`text-xs px-3 py-1 ${chapter.hasNotes ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-gray-200 text-gray-500 cursor-not-allowed'}`}
+                                    disabled={!chapter.hasNotes}
+                                  >
+                                    📄 Notes
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant={chapter.hasPyqs ? "default" : "secondary"}
+                                    className={`text-xs px-3 py-1 ${chapter.hasPyqs ? 'bg-green-600 hover:bg-green-700 text-white' : 'bg-gray-200 text-gray-500 cursor-not-allowed'}`}
+                                    disabled={!chapter.hasPyqs}
+                                  >
+                                    📝 PYQs
+                                  </Button>
+                                  {chapter.hasVideos ? (
+                                    <Button
+                                      size="sm"
+                                      className="text-xs px-3 py-1 bg-purple-600 hover:bg-purple-700 text-white"
+                                    >
+                                      🧠 Take Quiz
+                                    </Button>
+                                  ) : (
+                                    <Button
+                                      size="sm"
+                                      variant="secondary"
+                                      className="text-xs px-3 py-1 bg-yellow-100 text-yellow-600 cursor-not-allowed"
+                                      disabled
+                                    >
+                                      📋 Quiz Coming Soon
+                                    </Button>
+                                  )}
+                                </div>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="w-full text-xs border-gray-300 text-gray-600 hover:bg-gray-100"
+                                >
+                                  📚 Enroll in this Subject
+                                </Button>
+                              </div>
+                            ))}
                           </div>
-                          <div className="text-center md:text-right">
-                            <div className="mb-4">
-                              <span className="text-2xl font-bold text-blue-600">
-                                ₹{subject.price}
-                              </span>
-                              <span className="text-gray-500 text-sm">/subject</span>
-                            </div>
-                            {subject.isAvailable ? (
-                              <Button
-                                className="bg-navy hover:bg-blue-800 text-white px-8"
-                                onClick={() => handleEnroll(subject)}
-                                data-testid={`button-enroll-${subject.name.toLowerCase()}`}
-                              >
-                                Enroll Now
-                              </Button>
-                            ) : (
-                              <Button
-                                disabled
-                                className="bg-gray-300 text-gray-500 cursor-not-allowed px-8"
-                                data-testid={`button-coming-soon-${subject.name.toLowerCase()}`}
-                              >
-                                Coming Soon
-                              </Button>
-                            )}
+                        ) : (
+                          <div className="text-center py-4">
+                            <p className="text-gray-500">Loading chapters...</p>
                           </div>
-                        </div>
+                        )}
                       </div>
                     </AccordionContent>
                   </AccordionItem>

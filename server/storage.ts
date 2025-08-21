@@ -108,11 +108,33 @@ export class MemStorage implements IStorage {
     
     subjects.forEach(subj => this.subjects.set(subj.id, subj));
 
-    // Initialize sample chapters for Physics-10
+    // Initialize chapters for Science subjects
     const chapters = [
-      { id: "ch-1", name: "Motion in a Straight Line", subjectId: "physics-10", order: 1, hasNotes: true, hasPyqs: true, hasVideos: true },
-      { id: "ch-2", name: "Motion in a Plane", subjectId: "physics-10", order: 2, hasNotes: true, hasPyqs: true, hasVideos: false },
-      { id: "ch-3", name: "Laws of Motion", subjectId: "physics-10", order: 3, hasNotes: false, hasPyqs: true, hasVideos: false },
+      // Class 9 Science chapters
+      { id: "ch-9-1", name: "Matter in Our Surroundings", subjectId: "science-9", order: 1, hasNotes: true, hasPyqs: true, hasVideos: true },
+      { id: "ch-9-2", name: "Is Matter Around Us Pure", subjectId: "science-9", order: 2, hasNotes: true, hasPyqs: true, hasVideos: false },
+      { id: "ch-9-3", name: "Atoms and Molecules", subjectId: "science-9", order: 3, hasNotes: true, hasPyqs: false, hasVideos: true },
+      { id: "ch-9-4", name: "Structure of Atom", subjectId: "science-9", order: 4, hasNotes: false, hasPyqs: true, hasVideos: false },
+      { id: "ch-9-5", name: "The Fundamental Unit of Life", subjectId: "science-9", order: 5, hasNotes: true, hasPyqs: true, hasVideos: true },
+      { id: "ch-9-6", name: "Tissues", subjectId: "science-9", order: 6, hasNotes: true, hasPyqs: false, hasVideos: false },
+      
+      // Class 9 Mathematics chapters
+      { id: "ch-9m-1", name: "Number Systems", subjectId: "mathematics-9", order: 1, hasNotes: true, hasPyqs: true, hasVideos: true },
+      { id: "ch-9m-2", name: "Polynomials", subjectId: "mathematics-9", order: 2, hasNotes: true, hasPyqs: true, hasVideos: false },
+      { id: "ch-9m-3", name: "Coordinate Geometry", subjectId: "mathematics-9", order: 3, hasNotes: false, hasPyqs: true, hasVideos: true },
+      
+      // Class 10 Science chapters
+      { id: "ch-10-1", name: "Chemical Reactions and Equations", subjectId: "science-10", order: 1, hasNotes: true, hasPyqs: true, hasVideos: true },
+      { id: "ch-10-2", name: "Acids, Bases and Salts", subjectId: "science-10", order: 2, hasNotes: true, hasPyqs: true, hasVideos: false },
+      { id: "ch-10-3", name: "Metals and Non-metals", subjectId: "science-10", order: 3, hasNotes: true, hasPyqs: false, hasVideos: true },
+      { id: "ch-10-4", name: "Carbon and its Compounds", subjectId: "science-10", order: 4, hasNotes: false, hasPyqs: true, hasVideos: false },
+      { id: "ch-10-5", name: "Life Processes", subjectId: "science-10", order: 5, hasNotes: true, hasPyqs: true, hasVideos: true },
+      { id: "ch-10-6", name: "Control and Coordination", subjectId: "science-10", order: 6, hasNotes: true, hasPyqs: false, hasVideos: false },
+      
+      // Class 10 Mathematics chapters
+      { id: "ch-10m-1", name: "Real Numbers", subjectId: "mathematics-10", order: 1, hasNotes: true, hasPyqs: true, hasVideos: true },
+      { id: "ch-10m-2", name: "Polynomials", subjectId: "mathematics-10", order: 2, hasNotes: true, hasPyqs: true, hasVideos: false },
+      { id: "ch-10m-3", name: "Pair of Linear Equations", subjectId: "mathematics-10", order: 3, hasNotes: false, hasPyqs: true, hasVideos: true },
     ];
     
     chapters.forEach(ch => this.chapters.set(ch.id, ch));
