@@ -77,15 +77,7 @@ const Home = () => {
   return (
     <div className="animate-fade-in pt-20">
       {/* Hero Results Slider */}
-      <section className="relative py-8 md:py-16 hero-gradient overflow-hidden">
-        {/* Background Elements - Hidden on mobile */}
-        <div className="absolute inset-0 opacity-10 hidden md:block">
-          <div className="absolute top-20 left-16 text-6xl floating text-blue-200" style={{ animationDelay: '0s' }}>🏆</div>
-          <div className="absolute top-32 right-20 text-4xl floating text-green-200" style={{ animationDelay: '1s' }}>🎓</div>
-          <div className="absolute bottom-40 left-32 text-5xl floating text-purple-200" style={{ animationDelay: '2s' }}>📊</div>
-          <div className="absolute top-1/3 right-1/4 text-3xl floating text-cyan-200" style={{ animationDelay: '5s' }}>⭐</div>
-        </div>
-
+      <section className="relative py-8 md:py-16 bg-white overflow-hidden">
         {/* Results Carousel */}
         <div className="relative z-10">
           <ResultsCarousel />
