@@ -62,13 +62,13 @@ const Contact = () => {
   return (
     <div className="min-h-screen bg-white animate-fade-in">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-skyblue to-white py-20">
+      <section className="bg-gradient-to-br from-skyblue to-white py-16 sm:py-20">
         <div className="container mx-auto px-4">
           <div className="text-center animate-slide-up">
-            <h1 className="text-4xl md:text-5xl font-bold text-navy mb-6">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-navy mb-4 sm:mb-6 leading-tight">
               Get In Touch
             </h1>
-            <p className="text-lg text-gray-700 max-w-2xl mx-auto">
+            <p className="text-sm sm:text-base lg:text-lg text-gray-700 max-w-2xl mx-auto px-4">
               Have questions about our courses? Want to schedule a visit? We're here to help!
             </p>
           </div>
@@ -76,9 +76,9 @@ const Contact = () => {
       </section>
 
       {/* Main Content */}
-      <section className="py-16">
+      <section className="py-12 sm:py-16">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12">
+          <div className="grid md:grid-cols-2 gap-8 sm:gap-12">
             {/* Contact Form */}
             <div className="animate-slide-up">
               <Card>

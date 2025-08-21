@@ -43,13 +43,13 @@ const About = () => {
   return (
     <div className="min-h-screen animate-fade-in">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-skyblue to-white py-20">
+      <section className="bg-gradient-to-br from-skyblue to-white py-16 sm:py-20">
         <div className="container mx-auto px-4">
           <div className="text-center animate-slide-up">
-            <h1 className="text-4xl md:text-5xl font-bold text-navy mb-6">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-navy mb-4 sm:mb-6 leading-tight">
               About Pooja Academy
             </h1>
-            <p className="text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-sm sm:text-base lg:text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed px-4">
               Located in the heart of Kirari, Delhi, near Haridas Vatika, Pooja Academy is 
               dedicated to nurturing academic excellence from Class 9 to 12, along with 
               preparation for competitive exams like JEE and NEET.
@@ -59,22 +59,22 @@ const About = () => {
       </section>
 
       {/* Main Content */}
-      <section className="py-16 bg-white">
+      <section className="py-12 sm:py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+          <div className="grid md:grid-cols-2 gap-8 sm:gap-12 items-center mb-12 sm:mb-16">
             <div className="animate-slide-up">
-              <h2 className="text-3xl font-bold text-navy mb-6">Our Story</h2>
-              <p className="text-gray-600 mb-6 leading-relaxed">
+              <h2 className="text-2xl sm:text-3xl font-bold text-navy mb-4 sm:mb-6">Our Story</h2>
+              <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 leading-relaxed">
                 Welcome to Pooja Academy – Kirari's most trusted institute for Science and Commerce coaching! 
                 At the core of Pooja Academy is our lead faculty, Ram Sir – a passionate educator with 10+ 
                 years of experience in teaching Physics and Chemistry.
               </p>
-              <p className="text-gray-600 mb-6 leading-relaxed">
+              <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 leading-relaxed">
                 With a proven track record of teaching over 1000+ students, Ram Sir has played a key role 
                 in shaping the futures of learners across Delhi. Many students have scored 90+ marks in 
                 CBSE boards and secured top ranks in JEE/NEET under Ram Sir's mentorship.
               </p>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
                 Our structured curriculum is well-organized, chapter-wise, and designed to be easy to 
                 navigate — whether you are a school student or aiming for national-level exams. We offer 
                 comprehensive resources including detailed notes, previous year questions (PYQs), and more.
@@ -90,51 +90,51 @@ const About = () => {
           </div>
 
           {/* Statistics */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 animate-slide-up">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 mb-12 sm:mb-16 animate-slide-up">
             <div className="text-center">
-              <div className="text-4xl font-bold text-navy mb-2" data-testid="text-years-experience">10+</div>
-              <div className="text-gray-600">Years of Excellence</div>
+              <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-navy mb-1 sm:mb-2" data-testid="text-years-experience">10+</div>
+              <div className="text-xs sm:text-sm md:text-base text-gray-600">Years of Excellence</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-navy mb-2" data-testid="text-success-rate">95%</div>
-              <div className="text-gray-600">Success Rate</div>
+              <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-navy mb-1 sm:mb-2" data-testid="text-success-rate">1000+</div>
+              <div className="text-xs sm:text-sm md:text-base text-gray-600">Students Taught</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-navy mb-2" data-testid="text-students-taught">1,000+</div>
-              <div className="text-gray-600">Students Taught</div>
+              <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-navy mb-1 sm:mb-2" data-testid="text-subjects-offered">8+</div>
+              <div className="text-xs sm:text-sm md:text-base text-gray-600">Subjects Offered</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-navy mb-2" data-testid="text-faculty-members">1</div>
-              <div className="text-gray-600">Lead Faculty</div>
+              <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-navy mb-1 sm:mb-2" data-testid="text-success-rate">95%</div>
+              <div className="text-xs sm:text-sm md:text-base text-gray-600">Success Rate</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-16 bg-softgray">
+      <section className="py-12 sm:py-16 bg-softgray">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12 animate-slide-up">
-            <h2 className="text-3xl font-bold text-navy mb-4">Why Choose Pooja Academy?</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+          <div className="text-center mb-8 sm:mb-12 animate-slide-up">
+            <h2 className="text-2xl sm:text-3xl font-bold text-navy mb-3 sm:mb-4">Why Choose Pooja Academy?</h2>
+            <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto px-4">
               Our commitment to excellence and student success sets us apart from other institutions.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {features.map((feature, index) => {
               const IconComponent = feature.icon;
               return (
                 <div 
                   key={feature.title} 
-                  className="text-center group animate-slide-up"
+                  className="text-center group animate-slide-up px-2"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <div className={`${feature.color} w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform`}>
-                    <IconComponent className="text-navy text-2xl h-8 w-8" />
+                  <div className={`${feature.color} w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:scale-110 transition-transform`}>
+                    <IconComponent className="text-navy text-xl sm:text-2xl h-6 w-6 sm:h-8 sm:w-8" />
                   </div>
-                  <h3 className="text-lg font-semibold text-navy mb-2">{feature.title}</h3>
-                  <p className="text-gray-600 text-sm">{feature.description}</p>
+                  <h3 className="text-base sm:text-lg font-semibold text-navy mb-2">{feature.title}</h3>
+                  <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">{feature.description}</p>
                 </div>
               );
             })}
@@ -143,11 +143,11 @@ const About = () => {
       </section>
 
       {/* Faculty Section */}
-      <section className="py-16 bg-white">
+      <section className="py-12 sm:py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12 animate-slide-up">
-            <h2 className="text-3xl font-bold text-navy mb-4">Meet Our Expert Faculty</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+          <div className="text-center mb-8 sm:mb-12 animate-slide-up">
+            <h2 className="text-2xl sm:text-3xl font-bold text-navy mb-3 sm:mb-4">Meet Our Expert Faculty</h2>
+            <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto px-4">
               Our dedicated team of experienced educators is committed to your academic success.
             </p>
           </div>
@@ -177,20 +177,20 @@ const About = () => {
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-16 bg-navy text-white">
+      <section className="py-12 sm:py-16 bg-navy text-white">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12">
+          <div className="grid md:grid-cols-2 gap-8 sm:gap-12">
             <div className="animate-slide-up">
-              <h3 className="text-2xl font-bold mb-6">Our Mission</h3>
-              <p className="text-gray-300 leading-relaxed">
+              <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Our Mission</h3>
+              <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
                 To provide world-class education that empowers students to achieve their 
                 academic goals while developing critical thinking, problem-solving skills, 
                 and moral values that will serve them throughout their lives.
               </p>
             </div>
             <div className="animate-slide-up">
-              <h3 className="text-2xl font-bold mb-6">Our Vision</h3>
-              <p className="text-gray-300 leading-relaxed">
+              <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Our Vision</h3>
+              <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
                 To be the leading educational institution that transforms lives by making 
                 quality education accessible, affordable, and effective for students from 
                 all backgrounds, fostering a culture of excellence and innovation.

@@ -89,27 +89,26 @@ const Home = () => {
         <div className="relative z-10 container mx-auto px-4 text-center text-white">
           <div className="max-w-4xl mx-auto">
             {/* Main Heading */}
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-slide-in-left">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 animate-slide-in-left leading-tight">
               Welcome to <span className="text-orange-400">Pooja Academy</span>
             </h1>
             
             {/* Inspiring Quote */}
-            <p className="text-xl md:text-2xl mb-4 font-medium animate-slide-in-right text-orange-200" style={{ animationDelay: '0.3s' }}>
+            <p className="text-lg sm:text-xl md:text-2xl mb-3 font-medium animate-slide-in-right text-orange-200" style={{ animationDelay: '0.3s' }}>
               "Empowering Young Minds, Shaping Bright Futures"
             </p>
             
             {/* Description */}
-            <p className="text-lg md:text-xl mb-12 leading-relaxed animate-slide-up max-w-3xl mx-auto text-gray-200" style={{ animationDelay: '0.6s' }}>
+            <p className="text-sm sm:text-base md:text-lg mb-8 leading-relaxed animate-slide-up max-w-2xl mx-auto text-gray-200 px-4" style={{ animationDelay: '0.6s' }}>
               Kirari's most trusted institute for Science and Commerce coaching! Led by Ram Sir with 10+ years 
               of experience, join over 1000+ successful students who achieved their dreams with our expert guidance.
             </p>
             
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-center animate-slide-up" style={{ animationDelay: '0.9s' }}>
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center animate-slide-up px-4" style={{ animationDelay: '0.9s' }}>
               <Link href="/about">
                 <Button 
-                  size="lg"
-                  className="bg-orange-500 hover:bg-orange-600 text-white text-lg px-8 py-4 glow-button border-0"
+                  className="bg-orange-500 hover:bg-orange-600 text-white text-base sm:text-lg px-6 py-3 sm:px-8 sm:py-4 glow-button border-0 w-full sm:w-auto"
                   data-testid="button-learn-more"
                 >
                   Learn More
@@ -118,8 +117,7 @@ const Home = () => {
               <Link href="/contact">
                 <Button 
                   variant="outline" 
-                  size="lg"
-                  className="border-2 border-white text-white hover:bg-white hover:text-navy text-lg px-8 py-4 transition-all duration-300"
+                  className="border-2 border-white text-white hover:bg-white hover:text-navy text-base sm:text-lg px-6 py-3 sm:px-8 sm:py-4 transition-all duration-300 w-full sm:w-auto"
                   data-testid="button-get-started"
                 >
                   Get Started Today
@@ -128,22 +126,22 @@ const Home = () => {
             </div>
             
             {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 animate-slide-up" style={{ animationDelay: '1.2s' }}>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-10 sm:mt-12 animate-slide-up px-4" style={{ animationDelay: '1.2s' }}>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-orange-400 mb-2" data-testid="text-students-count">1,000+</div>
-                <div className="text-sm text-gray-300">Students Taught</div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-orange-400 mb-1" data-testid="text-students-count">1,000+</div>
+                <div className="text-xs sm:text-sm text-gray-300">Students Taught</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-orange-400 mb-2" data-testid="text-experience-years">10+</div>
-                <div className="text-sm text-gray-300">Years Experience</div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-orange-400 mb-1" data-testid="text-experience-years">10+</div>
+                <div className="text-xs sm:text-sm text-gray-300">Years Experience</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-orange-400 mb-2" data-testid="text-success-rate">95%</div>
-                <div className="text-sm text-gray-300">Success Rate</div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-orange-400 mb-1" data-testid="text-success-rate">95%</div>
+                <div className="text-xs sm:text-sm text-gray-300">Success Rate</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-orange-400 mb-2" data-testid="text-faculty-count">1</div>
-                <div className="text-sm text-gray-300">Lead Faculty</div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-orange-400 mb-1" data-testid="text-faculty-count">1</div>
+                <div className="text-xs sm:text-sm text-gray-300">Lead Faculty</div>
               </div>
             </div>
           </div>
@@ -158,16 +156,16 @@ const Home = () => {
       </section>
 
       {/* Quick Access Section */}
-      <section className="py-16 bg-softgray">
+      <section className="py-12 sm:py-16 bg-softgray">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12 animate-slide-up">
-            <h2 className="text-3xl font-bold text-navy mb-4">Choose Your Class</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+          <div className="text-center mb-8 sm:mb-12 animate-slide-up">
+            <h2 className="text-2xl sm:text-3xl font-bold text-navy mb-3 sm:mb-4">Choose Your Class</h2>
+            <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto px-4">
               Access comprehensive study materials, notes, and previous year questions tailored for your class.
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {classes?.map((classData, index) => {
               const icons = [BookOpen, Calculator, Atom, Target];
               const IconComponent = icons[index] || BookOpen;
@@ -180,16 +178,16 @@ const Home = () => {
                   className="shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer animate-slide-up"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <CardContent className="p-6 text-center">
-                    <div className={`${colors[index]} w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors ${hoverColors[index]}`}>
-                      <IconComponent className="text-navy text-2xl h-8 w-8" />
+                  <CardContent className="p-4 sm:p-6 text-center">
+                    <div className={`${colors[index]} w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 transition-colors ${hoverColors[index]}`}>
+                      <IconComponent className="text-navy text-xl sm:text-2xl h-6 w-6 sm:h-8 sm:w-8" />
                     </div>
-                    <h3 className="text-xl font-semibold text-navy mb-2">{classData.name}</h3>
-                    <p className="text-gray-600 text-sm mb-4">{classData.description}</p>
-                    <p className="text-2xl font-bold text-blue-600 mb-4">₹{classData.price.toLocaleString()}/year</p>
+                    <h3 className="text-lg sm:text-xl font-semibold text-navy mb-2">{classData.name}</h3>
+                    <p className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4 leading-relaxed">{classData.description}</p>
+                    <p className="text-lg sm:text-2xl font-bold text-blue-600 mb-3 sm:mb-4">₹{classData.price.toLocaleString()}/year</p>
                     <Link href={`/class/${classData.id}`}>
                       <Button 
-                        className="w-full bg-navy hover:bg-blue-800 text-white"
+                        className="w-full bg-navy hover:bg-blue-800 text-white text-sm sm:text-base py-2 sm:py-3"
                         data-testid={`button-view-${classData.name.toLowerCase().replace(" ", "-")}`}
                       >
                         {Array.isArray(classData.streams) && classData.streams.includes("science") && classData.streams.includes("commerce") 
@@ -206,29 +204,29 @@ const Home = () => {
       </section>
 
       {/* Why Choose Us Section */}
-      <section className="py-16 bg-white">
+      <section className="py-12 sm:py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12 animate-slide-up">
-            <h2 className="text-3xl font-bold text-navy mb-4">Why Choose Pooja Academy?</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+          <div className="text-center mb-8 sm:mb-12 animate-slide-up">
+            <h2 className="text-2xl sm:text-3xl font-bold text-navy mb-3 sm:mb-4">Why Choose Pooja Academy?</h2>
+            <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto px-4">
               We are committed to providing quality education with proven results and personalized attention.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {features.map((feature, index) => {
               const IconComponent = feature.icon;
               return (
                 <div 
                   key={feature.title} 
-                  className="text-center group animate-slide-up"
+                  className="text-center group animate-slide-up px-2"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <div className={`${feature.color} w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform`}>
-                    <IconComponent className="text-navy text-2xl h-8 w-8" />
+                  <div className={`${feature.color} w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:scale-110 transition-transform`}>
+                    <IconComponent className="text-navy text-xl sm:text-2xl h-6 w-6 sm:h-8 sm:w-8" />
                   </div>
-                  <h3 className="text-lg font-semibold text-navy mb-2">{feature.title}</h3>
-                  <p className="text-gray-600 text-sm">{feature.description}</p>
+                  <h3 className="text-base sm:text-lg font-semibold text-navy mb-2">{feature.title}</h3>
+                  <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">{feature.description}</p>
                 </div>
               );
             })}
@@ -237,32 +235,32 @@ const Home = () => {
       </section>
 
       {/* About Preview Section */}
-      <section className="py-16 bg-softgray">
+      <section className="py-12 sm:py-16 bg-softgray">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
             <div className="animate-slide-up">
-              <h2 className="text-3xl font-bold text-navy mb-6">About Pooja Academy</h2>
-              <p className="text-gray-600 mb-6 leading-relaxed">
+              <h2 className="text-2xl sm:text-3xl font-bold text-navy mb-4 sm:mb-6">About Pooja Academy</h2>
+              <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 leading-relaxed">
                 Located in Kirari, Delhi, Pooja Academy has been dedicated to providing quality education 
                 for students in Classes 9-12. Led by Ram Sir with 10+ years of experience, we believe in 
                 nurturing academic excellence and helping students achieve success in competitive exams.
               </p>
-              <div className="grid grid-cols-3 gap-4 mb-6">
+              <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-4 sm:mb-6">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-navy" data-testid="text-experience-years">10+</div>
-                  <div className="text-sm text-gray-600">Years Experience</div>
+                  <div className="text-xl sm:text-2xl font-bold text-navy" data-testid="text-experience-years">10+</div>
+                  <div className="text-xs sm:text-sm text-gray-600">Years Experience</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-navy" data-testid="text-success-rate">1000+</div>
-                  <div className="text-sm text-gray-600">Students Taught</div>
+                  <div className="text-xl sm:text-2xl font-bold text-navy" data-testid="text-success-rate">1000+</div>
+                  <div className="text-xs sm:text-sm text-gray-600">Students Taught</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-navy" data-testid="text-faculty-count">1</div>
-                  <div className="text-sm text-gray-600">Lead Faculty</div>
+                  <div className="text-xl sm:text-2xl font-bold text-navy" data-testid="text-faculty-count">1</div>
+                  <div className="text-xs sm:text-sm text-gray-600">Lead Faculty</div>
                 </div>
               </div>
               <Link href="/about">
-                <Button className="bg-navy hover:bg-blue-800 text-white" data-testid="button-learn-more">
+                <Button className="bg-navy hover:bg-blue-800 text-white text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-3" data-testid="button-learn-more">
                   Learn More About Us
                 </Button>
               </Link>

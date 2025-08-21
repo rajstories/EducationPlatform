@@ -23,11 +23,11 @@ const Header = () => {
 
   return (
     <header className="bg-navy text-white fixed top-0 w-full z-50 shadow-lg backdrop-blur-sm">
-      <nav className="container mx-auto px-4 py-4">
+      <nav className="container mx-auto px-4 py-3 sm:py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2" data-testid="link-home">
-            <GraduationCap className="h-8 w-8 text-skyblue" />
-            <h1 className="text-xl font-bold">Pooja Academy</h1>
+            <GraduationCap className="h-6 w-6 sm:h-8 sm:w-8 text-skyblue" />
+            <h1 className="text-lg sm:text-xl font-bold">Pooja Academy</h1>
           </Link>
 
           {/* Desktop Navigation */}
