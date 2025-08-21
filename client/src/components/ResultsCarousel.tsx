@@ -101,7 +101,8 @@ const ResultsCarousel = () => {
                         <Award className="w-3 h-3 md:w-4 md:h-4 text-yellow-300" />
                         <span className="text-yellow-300 font-semibold text-xs">POOJA ACADEMY</span>
                       </div>
-                      <h2 className="text-lg md:text-xl font-bold">{slide.title}</h2>
+                      <h2 className="text-lg md:text-xl font-bold">{slide.name}</h2>
+                      <h3 className="text-base md:text-lg font-semibold">{slide.title}</h3>
                       <div className="bg-yellow-400 text-gray-900 px-3 py-1 rounded-full inline-block font-bold text-sm">
                         {slide.percentile}
                       </div>
