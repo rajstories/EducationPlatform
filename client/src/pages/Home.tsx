@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen, Calculator, Atom, Target, Users, Lightbulb, HelpCircle, Star } from "lucide-react";
 import type { Class } from "@shared/schema";
+import ResultsCarousel from "@/components/ResultsCarousel";
 
 const Home = () => {
   const { data: classes, isLoading } = useQuery<Class[]>({
@@ -75,94 +76,19 @@ const Home = () => {
 
   return (
     <div className="animate-fade-in pt-20">
-      {/* Hero Section */}
-      <section 
-        className="relative min-h-screen flex items-center justify-center hero-gradient overflow-hidden"
-      >
-        {/* Academic Illustrations */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-20 left-16 text-6xl floating text-blue-200" style={{ animationDelay: '0s' }}>📚</div>
+      {/* Hero Results Slider */}
+      <section className="relative min-h-screen flex items-center justify-center hero-gradient overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-16 text-6xl floating text-blue-200" style={{ animationDelay: '0s' }}>🏆</div>
           <div className="absolute top-32 right-20 text-4xl floating text-green-200" style={{ animationDelay: '1s' }}>🎓</div>
           <div className="absolute bottom-40 left-32 text-5xl floating text-purple-200" style={{ animationDelay: '2s' }}>📊</div>
-          <div className="absolute top-48 left-1/4 text-3xl floating text-yellow-200" style={{ animationDelay: '3s' }}>📐</div>
-          <div className="absolute bottom-32 right-32 text-4xl floating text-pink-200" style={{ animationDelay: '4s' }}>🧮</div>
-          <div className="absolute top-1/3 right-1/4 text-3xl floating text-cyan-200" style={{ animationDelay: '5s' }}>⚗️</div>
-          <div className="absolute bottom-48 left-20 text-4xl floating text-orange-200" style={{ animationDelay: '1.5s' }}>🔬</div>
-          <div className="absolute top-56 right-12 text-3xl floating text-emerald-200" style={{ animationDelay: '2.5s' }}>📝</div>
+          <div className="absolute top-1/3 right-1/4 text-3xl floating text-cyan-200" style={{ animationDelay: '5s' }}>⭐</div>
         </div>
-        
-        {/* Floating Decorative Elements */}
-        <div className="absolute top-10 left-10 w-20 h-20 bg-blue-400/20 rounded-full blur-xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-16 w-32 h-32 bg-purple-400/20 rounded-full blur-2xl animate-pulse"></div>
-        <div className="absolute top-1/2 right-10 w-16 h-16 bg-green-400/20 rounded-full blur-lg animate-pulse"></div>
-        <div className="absolute top-1/4 left-1/3 w-24 h-24 bg-orange-400/15 rounded-full blur-xl animate-pulse"></div>
-        
-        {/* Content */}
-        <div className="relative z-10 container mx-auto px-4 text-center text-white">
-          <div className="max-w-4xl mx-auto">
-            {/* Main Heading */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 animate-slide-in-left leading-tight">
-              Welcome to <span className="text-orange-400">Pooja Academy</span>
-            </h1>
-            
-            {/* Inspiring Quote */}
-            <p className="text-lg sm:text-xl md:text-2xl mb-3 font-light italic animate-slide-in-right text-blue-100" style={{ animationDelay: '0.3s' }}>
-              "Empowering Young Minds, Shaping Bright Futures"
-            </p>
-            
-            {/* Description */}
-            <p className="text-sm sm:text-base md:text-lg mb-8 leading-relaxed animate-slide-up max-w-2xl mx-auto text-gray-200 px-4 font-normal" style={{ animationDelay: '0.6s' }}>
-              Expert coaching for Classes 9-12 in Science & Commerce. Join 1000+ successful students under Ram Sir's guidance.
-            </p>
-            
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center animate-slide-up px-4" style={{ animationDelay: '0.9s' }}>
-              <Link href="/about">
-                <Button 
-                  className="bg-orange-500 hover:bg-orange-700 text-white text-base sm:text-lg px-8 py-4 sm:px-10 sm:py-5 rounded-full border-0 w-full sm:w-auto font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-                  data-testid="button-learn-more"
-                >
-                  Learn More
-                </Button>
-              </Link>
-              <Link href="/contact">
-                <Button 
-                  className="bg-white hover:bg-navy hover:text-white text-navy border-2 border-white text-base sm:text-lg px-8 py-4 sm:px-10 sm:py-5 rounded-full w-full sm:w-auto font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-                  data-testid="button-get-started"
-                >
-                  Get Started Today
-                </Button>
-              </Link>
-            </div>
-            
-            {/* Achievement Badge Strip */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-full px-3 sm:px-4 py-3 border border-white/20 w-fit mx-auto mt-12 sm:mt-16 animate-slide-up" style={{ animationDelay: '1.2s' }}>
-              <div className="flex items-center justify-center space-x-3 sm:space-x-6 text-xs sm:text-sm text-white">
-                <span className="flex items-center">
-                  <Star className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400 mr-1" />
-                  Trusted by 1000+ Students
-                </span>
-                <span className="w-px h-4 sm:h-5 bg-white/30"></span>
-                <span className="flex items-center">
-                  <Target className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400 mr-1" />
-                  95% Success
-                </span>
-                <span className="w-px h-4 sm:h-5 bg-white/30"></span>
-                <span className="flex items-center">
-                  <Users className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400 mr-1" />
-                  10+ Years
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        
 
-        {/* Scroll Down Indicator */}
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-white rounded-full mt-2 animate-pulse"></div>
-          </div>
+        {/* Results Carousel */}
+        <div className="relative z-10 w-full max-w-6xl mx-auto px-4">
+          <ResultsCarousel />
         </div>
       </section>
 

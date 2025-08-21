@@ -178,6 +178,20 @@
     animation: float 6s ease-in-out infinite;
   }
 
+  /* Embla Carousel Styles */
+  .embla {
+    overflow: hidden;
+  }
+  
+  .embla__container {
+    display: flex;
+  }
+  
+  .embla__slide {
+    flex: 0 0 100%;
+    min-width: 0;
+  }
+
   @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
