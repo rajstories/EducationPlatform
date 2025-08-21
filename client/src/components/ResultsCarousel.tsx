@@ -133,7 +133,7 @@ const ResultsCarousel = () => {
                       <img 
                         src={ramSirPhoto}
                         alt="Ram Sir - Lead Faculty"
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover object-top scale-110"
                       />
                     </div>
                   </div>
