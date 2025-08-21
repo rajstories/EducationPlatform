@@ -83,11 +83,12 @@ const ResultsCarousel = () => {
                 <div className="relative z-10 flex flex-col items-center text-center h-full py-2 md:py-3">
                   {/* Student Image at Top */}
                   <div className="mb-2 md:mb-3">
-                    <div className="w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br from-orange-200 to-orange-400 rounded-full flex items-end justify-center overflow-hidden shadow-lg mx-auto">
-                      {/* Placeholder for student image */}
-                      <div className="w-full h-full bg-gradient-to-t from-orange-600 to-transparent flex items-end justify-center pb-1 md:pb-2">
-                        <div className="text-lg md:text-xl font-bold text-white">{slide.name}</div>
-                      </div>
+                    <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden shadow-lg mx-auto bg-white border-2 border-orange-200">
+                      <img 
+                        src="/attached_assets/Digital Marketing Social Media and Instagram Post_1755784714677.png" 
+                        alt="Rani - JEE Main Success Story"
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                   </div>
 
