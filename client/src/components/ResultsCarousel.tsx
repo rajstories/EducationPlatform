@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { ChevronLeft, ChevronRight, Star, Award, Trophy, Phone } from "lucide-react";
 import raniPhoto from "@assets/Digital Marketing Social Media and Instagram Post_1755784714677.png";
+import raniFacePhoto from "@assets/image_1755785587177.png";
 import ramSirPhoto from "@assets/image_1755784859503.png";
 
 const ResultsCarousel = () => {
@@ -88,9 +89,9 @@ const ResultsCarousel = () => {
                     <div className="w-full h-full max-h-[300px] aspect-square">
                       <div className="w-full h-full rounded-full overflow-hidden shadow-2xl bg-white border-6 border-yellow-400 p-1">
                         <img 
-                          src={raniPhoto}
+                          src={raniFacePhoto}
                           alt="Rani - JEE Main Success Story"
-                          className="w-full h-full object-cover object-center scale-150 rounded-full"
+                          className="w-full h-full object-cover rounded-full"
                         />
                       </div>
                     </div>
