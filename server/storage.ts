@@ -5,7 +5,9 @@ import {
   type Enrollment, type InsertEnrollment,
   type AdminUser, type InsertAdminUser,
   type Content, type InsertContent,
-  type ContentFile, type InsertContentFile
+  type ContentFile, type InsertContentFile,
+  type StudentUser, type InsertStudentUser,
+  type Otp, type InsertOtp
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 
@@ -45,6 +47,19 @@ export interface IStorage {
   getContentFiles(contentId: string): Promise<ContentFile[]>;
   deleteContentFile(id: string): Promise<boolean>;
   incrementDownloadCount(fileId: string): Promise<void>;
+  
+  // Student user methods
+  getStudentUser(id: string): Promise<StudentUser | undefined>;
+  getStudentUserByEmail(email: string): Promise<StudentUser | undefined>;
+  getStudentUserByPhone(phone: string): Promise<StudentUser | undefined>;
+  createStudentUser(studentUser: InsertStudentUser): Promise<StudentUser>;
+  updateStudentLastLogin(id: string): Promise<void>;
+  
+  // OTP methods
+  createOtp(otp: InsertOtp): Promise<Otp>;
+  getValidOtp(identifier: string, otpCode: string, type: string): Promise<Otp | undefined>;
+  markOtpAsUsed(id: string): Promise<void>;
+  cleanupExpiredOtps(): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
@@ -57,6 +72,8 @@ export class MemStorage implements IStorage {
   private adminUsers: Map<string, AdminUser>;
   private content: Map<string, Content>;
   private contentFiles: Map<string, ContentFile>;
+  private studentUsers: Map<string, StudentUser>;
+  private otps: Map<string, Otp>;
 
   constructor() {
     this.users = new Map();
@@ -68,6 +85,8 @@ export class MemStorage implements IStorage {
     this.adminUsers = new Map();
     this.content = new Map();
     this.contentFiles = new Map();
+    this.studentUsers = new Map();
+    this.otps = new Map();
     
     this.initializeData();
   }
@@ -76,8 +95,8 @@ export class MemStorage implements IStorage {
     // Initialize default admin user (Ram Sir)
     const defaultAdmin: AdminUser = {
       id: "admin-1",
-      username: "ramsir",
-      password: "pooja@123", // You should change this password!
+      username: "rajshrivastav283815@gmail.com",
+      password: "Rambhaiya@9958",
       fullName: "Ram Sir",
       role: "super_admin",
       isActive: true,
@@ -368,6 +387,84 @@ export class MemStorage implements IStorage {
     if (file) {
       file.downloadCount += 1;
       this.contentFiles.set(fileId, file);
+    }
+  }
+
+  // Student user methods
+  async getStudentUser(id: string): Promise<StudentUser | undefined> {
+    return this.studentUsers.get(id);
+  }
+
+  async getStudentUserByEmail(email: string): Promise<StudentUser | undefined> {
+    return Array.from(this.studentUsers.values()).find(user => user.email === email);
+  }
+
+  async getStudentUserByPhone(phone: string): Promise<StudentUser | undefined> {
+    return Array.from(this.studentUsers.values()).find(user => user.phone === phone);
+  }
+
+  async createStudentUser(insertStudentUser: InsertStudentUser): Promise<StudentUser> {
+    const id = randomUUID();
+    const studentUser: StudentUser = {
+      ...insertStudentUser,
+      id,
+      email: insertStudentUser.email || null,
+      phone: insertStudentUser.phone || null,
+      classId: insertStudentUser.classId || null,
+      isActive: true,
+      lastLogin: null,
+      createdAt: new Date().toISOString()
+    };
+    this.studentUsers.set(id, studentUser);
+    return studentUser;
+  }
+
+  async updateStudentLastLogin(id: string): Promise<void> {
+    const user = this.studentUsers.get(id);
+    if (user) {
+      user.lastLogin = new Date().toISOString();
+      this.studentUsers.set(id, user);
+    }
+  }
+
+  // OTP methods
+  async createOtp(insertOtp: InsertOtp): Promise<Otp> {
+    const id = randomUUID();
+    const otp: Otp = {
+      ...insertOtp,
+      id,
+      isUsed: false,
+      createdAt: new Date().toISOString()
+    };
+    this.otps.set(id, otp);
+    return otp;
+  }
+
+  async getValidOtp(identifier: string, otpCode: string, type: string): Promise<Otp | undefined> {
+    const now = new Date();
+    return Array.from(this.otps.values()).find(otp => 
+      otp.identifier === identifier &&
+      otp.otp === otpCode &&
+      otp.type === type &&
+      !otp.isUsed &&
+      new Date(otp.expiresAt) > now
+    );
+  }
+
+  async markOtpAsUsed(id: string): Promise<void> {
+    const otp = this.otps.get(id);
+    if (otp) {
+      otp.isUsed = true;
+      this.otps.set(id, otp);
+    }
+  }
+
+  async cleanupExpiredOtps(): Promise<void> {
+    const now = new Date();
+    for (const [id, otp] of this.otps.entries()) {
+      if (new Date(otp.expiresAt) <= now) {
+        this.otps.delete(id);
+      }
     }
   }
 }

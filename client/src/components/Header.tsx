@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Menu, X, GraduationCap, ChevronDown } from "lucide-react";
+import { Menu, X, GraduationCap, ChevronDown, User } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const Header = () => {
@@ -12,6 +12,7 @@ const Header = () => {
     { name: "Home", href: "/" },
     { name: "About Us", href: "/about" },
     { name: "Contact", href: "/contact" },
+    { name: "Student Portal", href: "/portal" },
   ];
 
   const classLinks = [
@@ -74,12 +75,15 @@ const Header = () => {
               )}
             </div>
 
-            <Button
-              className="bg-skyblue text-navy hover:bg-blue-200 font-medium"
-              data-testid="button-login"
-            >
-              Login
-            </Button>
+            <Link href="/login">
+              <Button
+                className="bg-skyblue text-navy hover:bg-blue-200 font-medium flex items-center gap-2"
+                data-testid="button-login"
+              >
+                <User className="w-4 h-4" />
+                Login
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Navigation */}
@@ -123,12 +127,15 @@ const Header = () => {
                   ))}
                 </div>
 
-                <Button
-                  className="bg-skyblue text-navy hover:bg-blue-200 font-medium mt-4"
-                  data-testid="mobile-button-login"
-                >
-                  Login
-                </Button>
+                <Link href="/login">
+                  <Button
+                    className="bg-skyblue text-navy hover:bg-blue-200 font-medium mt-4 flex items-center gap-2 w-full"
+                    data-testid="mobile-button-login"
+                  >
+                    <User className="w-4 h-4" />
+                    Login
+                  </Button>
+                </Link>
               </div>
             </SheetContent>
           </Sheet>

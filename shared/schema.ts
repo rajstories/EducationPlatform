@@ -100,6 +100,29 @@ export const contentFiles = pgTable("content_files", {
   uploadedAt: text("uploaded_at").default(sql`CURRENT_TIMESTAMP`),
 });
 
+// Student users table for student portal access
+export const studentUsers = pgTable("student_users", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  email: text("email").unique(),
+  phone: text("phone").unique(),
+  name: text("name").notNull(),
+  classId: varchar("class_id"), // optional class association
+  isActive: boolean("is_active").notNull().default(true),
+  lastLogin: text("last_login"),
+  createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
+});
+
+// OTP table for phone/email verification
+export const otps = pgTable("otps", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  identifier: text("identifier").notNull(), // email or phone
+  otp: text("otp").notNull(),
+  type: text("type").notNull(), // "email" or "phone"
+  expiresAt: text("expires_at").notNull(),
+  isUsed: boolean("is_used").notNull().default(false),
+  createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -149,6 +172,20 @@ export const insertContentFileSchema = createInsertSchema(contentFiles).pick({
   filePath: true,
 });
 
+export const insertStudentUserSchema = createInsertSchema(studentUsers).pick({
+  email: true,
+  phone: true,
+  name: true,
+  classId: true,
+});
+
+export const insertOtpSchema = createInsertSchema(otps).pick({
+  identifier: true,
+  otp: true,
+  type: true,
+  expiresAt: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type Class = typeof classes.$inferSelect;
@@ -165,3 +202,7 @@ export type Content = typeof content.$inferSelect;
 export type InsertContent = z.infer<typeof insertContentSchema>;
 export type ContentFile = typeof contentFiles.$inferSelect;
 export type InsertContentFile = z.infer<typeof insertContentFileSchema>;
+export type StudentUser = typeof studentUsers.$inferSelect;
+export type InsertStudentUser = z.infer<typeof insertStudentUserSchema>;
+export type Otp = typeof otps.$inferSelect;
+export type InsertOtp = z.infer<typeof insertOtpSchema>;

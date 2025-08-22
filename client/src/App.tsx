@@ -10,6 +10,7 @@ import ClassDetail from "@/pages/ClassDetail";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
 import StudentPortal from "@/pages/StudentPortal";
+import Login from "@/pages/Login";
 import AdminLogin from "@/pages/AdminLogin";
 import AdminDashboard from "@/pages/AdminDashboard";
 import NotFound from "@/pages/not-found";
@@ -37,7 +38,8 @@ function App() {
       <TooltipProvider>
         <div className="min-h-screen bg-white font-poppins">
           <Switch>
-            {/* Admin pages without header/footer */}
+            {/* Login pages without header/footer */}
+            <Route path="/login" component={Login} />
             <Route path="/admin/login" component={AdminLogin} />
             <Route path="/admin">
               <AdminDashboard />

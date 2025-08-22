@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertContactSchema, insertEnrollmentSchema, insertContentSchema, insertContentFileSchema } from "@shared/schema";
+import { insertContactSchema, insertEnrollmentSchema, insertContentSchema, insertContentFileSchema, insertStudentUserSchema, insertOtpSchema } from "@shared/schema";
 import { ObjectStorageService } from "./objectStorage";
 import { z } from "zod";
 import session from "express-session";
@@ -328,6 +328,144 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(content);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch content" });
+    }
+  });
+
+  // ========== STUDENT LOGIN ROUTES ==========
+  
+  // Student OTP request
+  app.post("/api/student/request-otp", async (req, res) => {
+    try {
+      const { identifier, name, type } = req.body;
+      
+      if (!identifier || !name || !type) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+      
+      if (!["email", "phone"].includes(type)) {
+        return res.status(400).json({ message: "Invalid type. Must be email or phone" });
+      }
+      
+      // Generate 6-digit OTP
+      const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+      const expiresAt = new Date(Date.now() + 5 * 60 * 1000).toISOString(); // 5 minutes
+      
+      // Store the name in the session for later use
+      if (!req.session.otpData) {
+        req.session.otpData = {};
+      }
+      req.session.otpData[identifier] = { name, type };
+      
+      // Create OTP record
+      await storage.createOtp({
+        identifier,
+        otp: otpCode,
+        type,
+        expiresAt
+      });
+      
+      // In a real implementation, you would send the OTP via email/SMS
+      // For demo purposes, we'll just return success
+      console.log(`OTP for ${identifier}: ${otpCode}`);
+      
+      res.json({ 
+        message: `OTP sent to your ${type}`,
+        // Remove this in production - only for testing
+        debug: process.env.NODE_ENV === 'development' ? { otp: otpCode } : undefined
+      });
+      
+    } catch (error) {
+      console.error("OTP request failed:", error);
+      res.status(500).json({ message: "Failed to send OTP" });
+    }
+  });
+  
+  // Student OTP verification and login
+  app.post("/api/student/verify-otp", async (req: any, res) => {
+    try {
+      const { identifier, otp, type } = req.body;
+      
+      if (!identifier || !otp || !type) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+      
+      // Verify OTP
+      const validOtp = await storage.getValidOtp(identifier, otp, type);
+      
+      if (!validOtp) {
+        return res.status(401).json({ message: "Invalid or expired OTP" });
+      }
+      
+      // Mark OTP as used
+      await storage.markOtpAsUsed(validOtp.id);
+      
+      // Get or create student user
+      let student;
+      if (type === "email") {
+        student = await storage.getStudentUserByEmail(identifier);
+      } else {
+        student = await storage.getStudentUserByPhone(identifier);
+      }
+      
+      if (!student) {
+        // Get the name from the session
+        const storedData = req.session.otpData?.[identifier];
+        const studentData: any = {
+          name: storedData?.name || "Student",
+        };
+        
+        if (type === "email") {
+          studentData.email = identifier;
+        } else {
+          studentData.phone = identifier;
+        }
+        
+        student = await storage.createStudentUser(studentData);
+      }
+      
+      // Update last login
+      await storage.updateStudentLastLogin(student.id);
+      
+      // Create session
+      req.session.studentUser = {
+        id: student.id,
+        name: student.name,
+        email: student.email,
+        phone: student.phone
+      };
+      
+      res.json({ 
+        message: "Login successful",
+        user: {
+          id: student.id,
+          name: student.name,
+          email: student.email,
+          phone: student.phone
+        }
+      });
+      
+    } catch (error) {
+      console.error("OTP verification failed:", error);
+      res.status(500).json({ message: "Verification failed" });
+    }
+  });
+  
+  // Student logout
+  app.post("/api/student/logout", (req, res) => {
+    req.session.destroy((err: any) => {
+      if (err) {
+        return res.status(500).json({ message: "Logout failed" });
+      }
+      res.json({ message: "Logout successful" });
+    });
+  });
+  
+  // Get current student user
+  app.get("/api/student/me", (req: any, res) => {
+    if (req.session.studentUser) {
+      res.json(req.session.studentUser);
+    } else {
+      res.status(401).json({ message: "Not authenticated" });
     }
   });
 
