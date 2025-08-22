@@ -100,7 +100,7 @@ const Footer = () => {
               </p>
               <p className="flex items-center">
                 <span className="mr-2">📞</span>
-                +91 7011505239 (Ram Sir)
+                +91 8287927021 (Ram Sir)
               </p>
               <a 
                 href="https://wa.me/918287927021?text=Hello!%20I%20found%20Pooja%20Academy%20online%20and%20want%20to%20know%20more%20about%20your%20courses.%20Please%20share%20details."
