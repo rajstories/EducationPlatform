@@ -262,7 +262,7 @@ const Home = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a 
-              href="https://wa.me/918287927021?text=Hello!%20I'm%20interested%20in%20learning%20more%20about%20Pooja%20Academy.%20Could%20you%20please%20provide%20me%20with%20information%20about%20your%20courses%20and%20admission%20process?"
+              href="https://wa.me/918800345115?text=Hello!%20I'm%20interested%20in%20learning%20more%20about%20Pooja%20Academy.%20Could%20you%20please%20provide%20me%20with%20information%20about%20your%20courses%20and%20admission%20process?"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -275,7 +275,7 @@ const Home = () => {
               </Button>
             </a>
             <a 
-              href="https://wa.me/918287927021?text=Hello!%20I%20would%20like%20to%20know%20more%20about%20Pooja%20Academy's%20courses%20and%20facilities.%20Please%20share%20the%20details."
+              href="https://wa.me/918800345115?text=Hello!%20I%20would%20like%20to%20know%20more%20about%20Pooja%20Academy's%20courses%20and%20facilities.%20Please%20share%20the%20details."
               target="_blank"
               rel="noopener noreferrer"
             >

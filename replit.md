@@ -68,6 +68,7 @@ Preferred communication style: Simple, everyday language.
 
 ### Communication
 - **Contact Number**: +91 7011505239 (Ram Sir)
+- **WhatsApp Number**: +91 8800345115 (Contact Us)
 - **Email Service**: Planned integration for notifications and course access
 - **Contact Forms**: Structured contact submission system with database storage
 - **Location**: Kirari, Delhi - Near Haridas Vatika

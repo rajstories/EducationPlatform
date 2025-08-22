@@ -233,7 +233,7 @@ const About = () => {
                 
                 <div className="text-center pt-4">
                   <a
-                    href="https://wa.me/918287927021?text=Hello!%20I%20visited%20your%20About%20page%20and%20am%20impressed%20with%20Pooja%20Academy.%20I%20would%20like%20to%20know%20more%20about%20admissions%20and%20course%20details."
+                    href="https://wa.me/918800345115?text=Hello!%20I%20visited%20your%20About%20page%20and%20am%20impressed%20with%20Pooja%20Academy.%20I%20would%20like%20to%20know%20more%20about%20admissions%20and%20course%20details."
                     target="_blank"
                     rel="noopener noreferrer"
                   >

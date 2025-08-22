@@ -202,7 +202,7 @@ const Contact = () => {
                         <div className="text-center text-sm text-gray-500">or</div>
                         
                         <a
-                          href="https://wa.me/918287927021?text=Hello!%20I%20have%20filled%20the%20contact%20form%20on%20your%20website.%20Please%20get%20back%20to%20me%20with%20details%20about%20Pooja%20Academy."
+                          href="https://wa.me/918800345115?text=Hello!%20I%20have%20filled%20the%20contact%20form%20on%20your%20website.%20Please%20get%20back%20to%20me%20with%20details%20about%20Pooja%20Academy."
                           target="_blank"
                           rel="noopener noreferrer"
                           className="block"
@@ -247,7 +247,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <h4 className="font-semibold text-navy mb-1">Phone</h4>
-                      <p className="text-gray-600 text-sm" data-testid="text-phone-1">+91 8287927021</p>
+                      <p className="text-gray-600 text-sm" data-testid="text-phone-1">+91 7011505239</p>
                       <p className="text-gray-600 text-sm font-semibold text-blue-600" data-testid="text-phone-2">(Ram Sir)</p>
                     </div>
                   </div>
@@ -278,7 +278,7 @@ const Contact = () => {
 
               {/* WhatsApp Button */}
               <a
-                href="https://wa.me/918287927021?text=Hi!%20I%20want%20to%20know%20about%20Pooja%20Academy.%20Please%20share%20information%20about%20courses,%20fees,%20and%20admission%20process."
+                href="https://wa.me/918800345115?text=Hi!%20I%20want%20to%20know%20about%20Pooja%20Academy.%20Please%20share%20information%20about%20courses,%20fees,%20and%20admission%20process."
                 className="inline-flex items-center bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition-colors"
                 target="_blank"
                 rel="noopener noreferrer"
