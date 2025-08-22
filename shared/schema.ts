@@ -58,6 +58,48 @@ export const enrollments = pgTable("enrollments", {
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
 });
 
+// Admin users table for secure admin access
+export const adminUsers = pgTable("admin_users", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  username: text("username").notNull().unique(),
+  password: text("password").notNull(),
+  fullName: text("full_name").notNull(),
+  role: text("role").notNull().default("admin"), // admin, super_admin
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
+});
+
+// Content management table for notes, tests, PYQs, results, announcements
+export const content = pgTable("content", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  description: text("description"),
+  type: text("type").notNull(), // "notes", "test", "pyq", "result", "announcement"
+  classId: varchar("class_id"), // optional - can be for all classes
+  subjectId: varchar("subject_id"), // optional - can be for all subjects
+  chapterId: varchar("chapter_id"), // optional - can be for all chapters
+  isPublished: boolean("is_published").notNull().default(true),
+  publishDate: text("publish_date").default(sql`CURRENT_TIMESTAMP`),
+  expiryDate: text("expiry_date"), // optional expiry for announcements
+  priority: integer("priority").notNull().default(0), // for ordering content
+  createdBy: varchar("created_by").notNull(), // admin user who created it
+  createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
+});
+
+// Content files table for storing file attachments
+export const contentFiles = pgTable("content_files", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentId: varchar("content_id").notNull(),
+  fileName: text("file_name").notNull(),
+  originalFileName: text("original_file_name").notNull(),
+  fileSize: integer("file_size").notNull(), // in bytes
+  mimeType: text("mime_type").notNull(),
+  filePath: text("file_path").notNull(), // path in object storage
+  downloadCount: integer("download_count").notNull().default(0),
+  uploadedAt: text("uploaded_at").default(sql`CURRENT_TIMESTAMP`),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -78,6 +120,35 @@ export const insertEnrollmentSchema = createInsertSchema(enrollments).pick({
   amount: true,
 });
 
+export const insertAdminUserSchema = createInsertSchema(adminUsers).pick({
+  username: true,
+  password: true,
+  fullName: true,
+  role: true,
+});
+
+export const insertContentSchema = createInsertSchema(content).pick({
+  title: true,
+  description: true,
+  type: true,
+  classId: true,
+  subjectId: true,
+  chapterId: true,
+  isPublished: true,
+  publishDate: true,
+  expiryDate: true,
+  priority: true,
+});
+
+export const insertContentFileSchema = createInsertSchema(contentFiles).pick({
+  contentId: true,
+  fileName: true,
+  originalFileName: true,
+  fileSize: true,
+  mimeType: true,
+  filePath: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type Class = typeof classes.$inferSelect;
@@ -87,3 +158,10 @@ export type ContactSubmission = typeof contactSubmissions.$inferSelect;
 export type InsertContact = z.infer<typeof insertContactSchema>;
 export type Enrollment = typeof enrollments.$inferSelect;
 export type InsertEnrollment = z.infer<typeof insertEnrollmentSchema>;
+
+export type AdminUser = typeof adminUsers.$inferSelect;
+export type InsertAdminUser = z.infer<typeof insertAdminUserSchema>;
+export type Content = typeof content.$inferSelect;
+export type InsertContent = z.infer<typeof insertContentSchema>;
+export type ContentFile = typeof contentFiles.$inferSelect;
+export type InsertContentFile = z.infer<typeof insertContentFileSchema>;

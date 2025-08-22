@@ -9,6 +9,9 @@ import Home from "@/pages/Home";
 import ClassDetail from "@/pages/ClassDetail";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
+import StudentPortal from "@/pages/StudentPortal";
+import AdminLogin from "@/pages/AdminLogin";
+import AdminDashboard from "@/pages/AdminDashboard";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -18,6 +21,11 @@ function Router() {
       <Route path="/class/:id" component={ClassDetail} />
       <Route path="/about" component={About} />
       <Route path="/contact" component={Contact} />
+      
+      {/* Admin Routes */}
+      <Route path="/admin/login" component={AdminLogin} />
+      <Route path="/admin" component={AdminDashboard} />
+      
       <Route component={NotFound} />
     </Switch>
   );
@@ -28,11 +36,29 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <div className="min-h-screen bg-white font-poppins">
-          <Header />
-          <main className="relative">
-            <Router />
-          </main>
-          <Footer />
+          <Switch>
+            {/* Admin pages without header/footer */}
+            <Route path="/admin/login" component={AdminLogin} />
+            <Route path="/admin">
+              <AdminDashboard />
+            </Route>
+            
+            {/* Regular pages with header/footer */}
+            <Route>
+              <Header />
+              <main className="relative">
+                <Switch>
+                  <Route path="/" component={Home} />
+                  <Route path="/class/:id" component={ClassDetail} />
+                  <Route path="/about" component={About} />
+                  <Route path="/contact" component={Contact} />
+                  <Route path="/portal" component={StudentPortal} />
+                  <Route component={NotFound} />
+                </Switch>
+              </main>
+              <Footer />
+            </Route>
+          </Switch>
         </div>
         <Toaster />
       </TooltipProvider>

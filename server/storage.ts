@@ -1,4 +1,12 @@
-import { type User, type InsertUser, type Class, type Subject, type Chapter, type ContactSubmission, type InsertContact, type Enrollment, type InsertEnrollment } from "@shared/schema";
+import { 
+  type User, type InsertUser, 
+  type Class, type Subject, type Chapter, 
+  type ContactSubmission, type InsertContact, 
+  type Enrollment, type InsertEnrollment,
+  type AdminUser, type InsertAdminUser,
+  type Content, type InsertContent,
+  type ContentFile, type InsertContentFile
+} from "@shared/schema";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
@@ -18,6 +26,25 @@ export interface IStorage {
   
   createContactSubmission(contact: InsertContact): Promise<ContactSubmission>;
   createEnrollment(enrollment: InsertEnrollment): Promise<Enrollment>;
+  
+  // Admin user methods
+  getAdminUser(id: string): Promise<AdminUser | undefined>;
+  getAdminUserByUsername(username: string): Promise<AdminUser | undefined>;
+  createAdminUser(adminUser: InsertAdminUser): Promise<AdminUser>;
+  validateAdminLogin(username: string, password: string): Promise<AdminUser | undefined>;
+  
+  // Content management methods
+  createContent(content: InsertContent & { createdBy: string }): Promise<Content>;
+  getContent(id: string): Promise<Content | undefined>;
+  getContentByType(type: string, filters?: { classId?: string; subjectId?: string }): Promise<Content[]>;
+  updateContent(id: string, updates: Partial<InsertContent>): Promise<Content | undefined>;
+  deleteContent(id: string): Promise<boolean>;
+  
+  // Content files methods
+  createContentFile(file: InsertContentFile): Promise<ContentFile>;
+  getContentFiles(contentId: string): Promise<ContentFile[]>;
+  deleteContentFile(id: string): Promise<boolean>;
+  incrementDownloadCount(fileId: string): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
@@ -27,6 +54,9 @@ export class MemStorage implements IStorage {
   private chapters: Map<string, Chapter>;
   private contactSubmissions: Map<string, ContactSubmission>;
   private enrollments: Map<string, Enrollment>;
+  private adminUsers: Map<string, AdminUser>;
+  private content: Map<string, Content>;
+  private contentFiles: Map<string, ContentFile>;
 
   constructor() {
     this.users = new Map();
@@ -35,11 +65,25 @@ export class MemStorage implements IStorage {
     this.chapters = new Map();
     this.contactSubmissions = new Map();
     this.enrollments = new Map();
+    this.adminUsers = new Map();
+    this.content = new Map();
+    this.contentFiles = new Map();
     
     this.initializeData();
   }
 
   private initializeData() {
+    // Initialize default admin user (Ram Sir)
+    const defaultAdmin: AdminUser = {
+      id: "admin-1",
+      username: "ramsir",
+      password: "pooja@123", // You should change this password!
+      fullName: "Ram Sir",
+      role: "super_admin",
+      isActive: true,
+      createdAt: new Date().toISOString()
+    };
+    this.adminUsers.set(defaultAdmin.id, defaultAdmin);
     // Initialize classes
     const classes = [
       {
@@ -213,6 +257,118 @@ export class MemStorage implements IStorage {
     };
     this.enrollments.set(id, enrollment);
     return enrollment;
+  }
+
+  // Admin user methods
+  async getAdminUser(id: string): Promise<AdminUser | undefined> {
+    return this.adminUsers.get(id);
+  }
+
+  async getAdminUserByUsername(username: string): Promise<AdminUser | undefined> {
+    return Array.from(this.adminUsers.values()).find(
+      (user) => user.username === username,
+    );
+  }
+
+  async createAdminUser(insertAdminUser: InsertAdminUser): Promise<AdminUser> {
+    const id = randomUUID();
+    const adminUser: AdminUser = { 
+      ...insertAdminUser, 
+      id,
+      role: insertAdminUser.role || "admin",
+      isActive: true,
+      createdAt: new Date().toISOString()
+    };
+    this.adminUsers.set(id, adminUser);
+    return adminUser;
+  }
+
+  async validateAdminLogin(username: string, password: string): Promise<AdminUser | undefined> {
+    const user = await this.getAdminUserByUsername(username);
+    if (user && user.password === password && user.isActive) {
+      return user;
+    }
+    return undefined;
+  }
+
+  // Content management methods
+  async createContent(contentData: InsertContent & { createdBy: string }): Promise<Content> {
+    const id = randomUUID();
+    const content: Content = { 
+      ...contentData, 
+      id,
+      description: contentData.description || null,
+      classId: contentData.classId || null,
+      subjectId: contentData.subjectId || null,
+      chapterId: contentData.chapterId || null,
+      publishDate: contentData.publishDate || new Date().toISOString(),
+      expiryDate: contentData.expiryDate || null,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    this.content.set(id, content);
+    return content;
+  }
+
+  async getContent(id: string): Promise<Content | undefined> {
+    return this.content.get(id);
+  }
+
+  async getContentByType(type: string, filters?: { classId?: string; subjectId?: string }): Promise<Content[]> {
+    return Array.from(this.content.values()).filter(content => {
+      if (content.type !== type) return false;
+      if (filters?.classId && content.classId !== filters.classId) return false;
+      if (filters?.subjectId && content.subjectId !== filters.subjectId) return false;
+      return content.isPublished;
+    }).sort((a, b) => b.priority - a.priority || new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+  }
+
+  async updateContent(id: string, updates: Partial<InsertContent>): Promise<Content | undefined> {
+    const existing = this.content.get(id);
+    if (!existing) return undefined;
+    
+    const updated: Content = { 
+      ...existing, 
+      ...updates, 
+      updatedAt: new Date().toISOString() 
+    };
+    this.content.set(id, updated);
+    return updated;
+  }
+
+  async deleteContent(id: string): Promise<boolean> {
+    return this.content.delete(id);
+  }
+
+  // Content files methods
+  async createContentFile(insertFile: InsertContentFile): Promise<ContentFile> {
+    const id = randomUUID();
+    const file: ContentFile = { 
+      ...insertFile, 
+      id,
+      downloadCount: 0,
+      uploadedAt: new Date().toISOString()
+    };
+    this.contentFiles.set(id, file);
+    return file;
+  }
+
+  async getContentFiles(contentId: string): Promise<ContentFile[]> {
+    return Array.from(this.contentFiles.values()).filter(
+      file => file.contentId === contentId
+    );
+  }
+
+  async deleteContentFile(id: string): Promise<boolean> {
+    return this.contentFiles.delete(id);
+  }
+
+  async incrementDownloadCount(fileId: string): Promise<void> {
+    const file = this.contentFiles.get(fileId);
+    if (file) {
+      file.downloadCount += 1;
+      this.contentFiles.set(fileId, file);
+    }
   }
 }
 
