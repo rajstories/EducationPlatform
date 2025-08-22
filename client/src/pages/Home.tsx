@@ -261,7 +261,11 @@ const Home = () => {
             Start your journey to academic excellence today.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact">
+            <a 
+              href="https://wa.me/918287927021?text=Hello!%20I'm%20interested%20in%20learning%20more%20about%20Pooja%20Academy.%20Could%20you%20please%20provide%20me%20with%20information%20about%20your%20courses%20and%20admission%20process?"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Button 
                 size="lg"
                 className="bg-skyblue text-navy hover:bg-blue-200"
@@ -269,8 +273,12 @@ const Home = () => {
               >
                 Get Started Today
               </Button>
-            </Link>
-            <Link href="/contact">
+            </a>
+            <a 
+              href="https://wa.me/918287927021?text=Hello!%20I%20would%20like%20to%20know%20more%20about%20Pooja%20Academy's%20courses%20and%20facilities.%20Please%20share%20the%20details."
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Button 
                 size="lg"
                 className="bg-white text-navy hover:bg-gray-100 border-2 border-white font-semibold shadow-lg"
@@ -278,7 +286,7 @@ const Home = () => {
               >
                 Contact Us
               </Button>
-            </Link>
+            </a>
           </div>
         </div>
       </section>

@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Target, Users, Lightbulb, HelpCircle } from "lucide-react";
 
 const About = () => {
@@ -213,7 +214,7 @@ const About = () => {
             </p>
             
             <div className="bg-white rounded-xl shadow-lg p-8 max-w-2xl mx-auto">
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <div className="flex items-center justify-center">
                   <span className="text-2xl mr-3">📍</span>
                   <div>
@@ -228,6 +229,22 @@ const About = () => {
                     <p className="text-gray-600">Monday - Saturday: 9:00 AM - 6:00 PM</p>
                     <p className="text-gray-600">Sunday: 10:00 AM - 4:00 PM</p>
                   </div>
+                </div>
+                
+                <div className="text-center pt-4">
+                  <a
+                    href="https://wa.me/918287927021?text=Hello!%20I%20visited%20your%20About%20page%20and%20am%20impressed%20with%20Pooja%20Academy.%20I%20would%20like%20to%20know%20more%20about%20admissions%20and%20course%20details."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Button 
+                      className="bg-green-500 hover:bg-green-600 text-white px-6 py-3"
+                      data-testid="button-about-whatsapp"
+                    >
+                      <span className="mr-2">💬</span>
+                      Contact Us on WhatsApp
+                    </Button>
+                  </a>
                 </div>
               </div>
             </div>

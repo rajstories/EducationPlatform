@@ -189,14 +189,34 @@ const Contact = () => {
                         )}
                       />
                       
-                      <Button
-                        type="submit"
-                        className="w-full bg-navy hover:bg-blue-800 text-white"
-                        disabled={submitContactMutation.isPending}
-                        data-testid="button-submit-contact"
-                      >
-                        {submitContactMutation.isPending ? "Sending..." : "Send Message"}
-                      </Button>
+                      <div className="space-y-3">
+                        <Button
+                          type="submit"
+                          className="w-full bg-navy hover:bg-blue-800 text-white"
+                          disabled={submitContactMutation.isPending}
+                          data-testid="button-submit-contact"
+                        >
+                          {submitContactMutation.isPending ? "Sending..." : "Send Message"}
+                        </Button>
+                        
+                        <div className="text-center text-sm text-gray-500">or</div>
+                        
+                        <a
+                          href="https://wa.me/918287927021?text=Hello!%20I%20have%20filled%20the%20contact%20form%20on%20your%20website.%20Please%20get%20back%20to%20me%20with%20details%20about%20Pooja%20Academy."
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block"
+                        >
+                          <Button 
+                            type="button" 
+                            className="w-full bg-green-500 hover:bg-green-600 text-white"
+                            data-testid="button-whatsapp-contact"
+                          >
+                            <span className="mr-2">💬</span>
+                            Contact via WhatsApp
+                          </Button>
+                        </a>
+                      </div>
                     </form>
                   </Form>
                 </CardContent>
@@ -258,7 +278,7 @@ const Contact = () => {
 
               {/* WhatsApp Button */}
               <a
-                href="https://wa.me/917011505239"
+                href="https://wa.me/918287927021?text=Hi!%20I%20want%20to%20know%20about%20Pooja%20Academy.%20Please%20share%20information%20about%20courses,%20fees,%20and%20admission%20process."
                 className="inline-flex items-center bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition-colors"
                 target="_blank"
                 rel="noopener noreferrer"
