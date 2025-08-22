@@ -29,34 +29,30 @@ export default function AdminDashboard() {
 
   // Content queries
   const notesQuery = useQuery({
-    queryKey: ['/api/admin/content', 'notes'],
-    queryFn: () => apiRequest('/api/admin/content?type=notes'),
+    queryKey: ['/api/admin/content?type=notes'],
   });
 
   const testsQuery = useQuery({
-    queryKey: ['/api/admin/content', 'test'],
-    queryFn: () => apiRequest('/api/admin/content?type=test'),
+    queryKey: ['/api/admin/content?type=test'],
   });
 
   const pyqsQuery = useQuery({
-    queryKey: ['/api/admin/content', 'pyq'],
-    queryFn: () => apiRequest('/api/admin/content?type=pyq'),
+    queryKey: ['/api/admin/content?type=pyq'],
   });
 
   const resultsQuery = useQuery({
-    queryKey: ['/api/admin/content', 'result'],
-    queryFn: () => apiRequest('/api/admin/content?type=result'),
+    queryKey: ['/api/admin/content?type=result'],
   });
 
   const announcementsQuery = useQuery({
-    queryKey: ['/api/admin/content', 'announcement'],
-    queryFn: () => apiRequest('/api/admin/content?type=announcement'),
+    queryKey: ['/api/admin/content?type=announcement'],
   });
 
   // File upload handlers
   const getUploadParameters = async () => {
-    const response = await apiRequest('/api/admin/upload', { method: 'POST' });
-    return { method: 'PUT' as const, url: response.uploadURL };
+    const response = await apiRequest('POST', '/api/admin/upload');
+    const data = await response.json();
+    return { method: 'PUT' as const, url: data.uploadURL };
   };
 
   const handleFileUploadComplete = async (
@@ -73,23 +69,18 @@ export default function AdminDashboard() {
         isPublished: true,
       };
 
-      const content = await apiRequest('/api/admin/content', {
-        method: 'POST',
-        body: JSON.stringify(contentData),
-      });
+      const contentResponse = await apiRequest('POST', '/api/admin/content', contentData);
+      const content = await contentResponse.json();
 
       // Create file entries
       for (const file of uploadedFiles) {
-        await apiRequest('/api/admin/content-files', {
-          method: 'POST',
-          body: JSON.stringify({
-            contentId: content.id,
-            fileName: file.name,
-            originalFileName: file.name,
-            fileSize: file.size,
-            mimeType: file.type,
-            filePath: file.url,
-          }),
+        await apiRequest('POST', '/api/admin/content-files', {
+          contentId: content.id,
+          fileName: file.name,
+          originalFileName: file.name,
+          fileSize: file.size,
+          mimeType: file.type,
+          filePath: file.url,
         });
       }
 
