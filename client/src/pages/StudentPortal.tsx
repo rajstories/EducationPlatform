@@ -20,28 +20,23 @@ export default function StudentPortal() {
 
   // Content queries for students
   const notesQuery = useQuery({
-    queryKey: ['/api/content/notes'],
-    queryFn: () => apiRequest('/api/content/notes'),
+    queryKey: ['/api/content?type=notes'],
   });
 
   const testsQuery = useQuery({
-    queryKey: ['/api/content/test'],
-    queryFn: () => apiRequest('/api/content/test'),
+    queryKey: ['/api/content?type=test'],
   });
 
   const pyqsQuery = useQuery({
-    queryKey: ['/api/content/pyq'],
-    queryFn: () => apiRequest('/api/content/pyq'),
+    queryKey: ['/api/content?type=pyq'],
   });
 
   const resultsQuery = useQuery({
-    queryKey: ['/api/content/result'],
-    queryFn: () => apiRequest('/api/content/result'),
+    queryKey: ['/api/content?type=result'],
   });
 
   const announcementsQuery = useQuery({
-    queryKey: ['/api/content/announcement'],
-    queryFn: () => apiRequest('/api/content/announcement'),
+    queryKey: ['/api/content?type=announcement'],
   });
 
   const ContentCard = ({ item }: { item: Content }) => (

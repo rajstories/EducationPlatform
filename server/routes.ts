@@ -320,11 +320,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/content/:type", async (req, res) => {
     try {
       const { classId, subjectId } = req.query;
-      const filters: any = {};
+      const filters: any = { isPublished: true }; // Only show published content to students
       if (classId && typeof classId === 'string') filters.classId = classId;
       if (subjectId && typeof subjectId === 'string') filters.subjectId = subjectId;
       
       const content = await storage.getContentByType(req.params.type, filters);
+      res.json(content);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch content" });
+    }
+  });
+
+  // Alternative route for query-based content access (used by student portal)
+  app.get("/api/content", async (req, res) => {
+    try {
+      const { type, classId, subjectId, chapterId } = req.query;
+      
+      if (!type || typeof type !== 'string') {
+        return res.status(400).json({ message: "Content type is required" });
+      }
+      
+      const filters: any = { isPublished: true }; // Only show published content to students
+      if (classId && typeof classId === 'string') filters.classId = classId;
+      if (subjectId && typeof subjectId === 'string') filters.subjectId = subjectId;
+      if (chapterId && typeof chapterId === 'string') filters.chapterId = chapterId;
+      
+      const content = await storage.getContentByType(type, filters);
       res.json(content);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch content" });

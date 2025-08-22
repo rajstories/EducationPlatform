@@ -17,7 +17,7 @@ import {
   Trash2,
   Settings
 } from "lucide-react";
-import { ObjectUploader } from "@/components/ObjectUploader";
+import { EnhancedUploader } from "@/components/EnhancedUploader";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import type { Content, ContentFile } from "@shared/schema";
@@ -55,17 +55,23 @@ export default function AdminDashboard() {
     return { method: 'PUT' as const, url: data.uploadURL };
   };
 
-  const handleFileUploadComplete = async (
-    type: string,
-    title: string,
-    uploadedFiles: { url: string; name: string; size: number; type: string }[]
-  ) => {
+  const handleFileUploadComplete = async (data: {
+    title: string;
+    description?: string;
+    classId: string;
+    subjectId: string;
+    chapterId?: string;
+    uploadedFiles: { url: string; name: string; size: number; type: string }[];
+  }, type: string) => {
     try {
-      // Create content entry
+      // Create content entry with class/subject/chapter info
       const contentData = {
-        title,
-        description: `Uploaded ${uploadedFiles.length} file${uploadedFiles.length !== 1 ? 's' : ''}`,
+        title: data.title,
+        description: data.description || `Uploaded ${data.uploadedFiles.length} file${data.uploadedFiles.length !== 1 ? 's' : ''}`,
         type,
+        classId: data.classId,
+        subjectId: data.subjectId,
+        chapterId: data.chapterId || null,
         isPublished: true,
       };
 
@@ -73,7 +79,7 @@ export default function AdminDashboard() {
       const content = await contentResponse.json();
 
       // Create file entries
-      for (const file of uploadedFiles) {
+      for (const file of data.uploadedFiles) {
         await apiRequest('POST', '/api/admin/content-files', {
           contentId: content.id,
           fileName: file.name,
@@ -86,7 +92,7 @@ export default function AdminDashboard() {
 
       toast({
         title: "Upload Successful",
-        description: `${title} uploaded successfully with ${uploadedFiles.length} file${uploadedFiles.length !== 1 ? 's' : ''}`,
+        description: `${data.title} uploaded successfully with ${data.uploadedFiles.length} file${data.uploadedFiles.length !== 1 ? 's' : ''}`,
       });
 
       // Refresh content lists
@@ -111,7 +117,7 @@ export default function AdminDashboard() {
     title: string;
     description: string;
     icon: any;
-    type: string;
+    type: "notes" | "test" | "pyq" | "result" | "announcement";
     uploadTitle: string;
   }) => (
     <Card>
@@ -121,15 +127,18 @@ export default function AdminDashboard() {
       </CardHeader>
       <CardContent>
         <p className="text-xs text-muted-foreground mb-3">{description}</p>
-        <ObjectUploader
-          onGetUploadParameters={getUploadParameters}
-          onComplete={(files) => handleFileUploadComplete(type, uploadTitle, files)}
+        <EnhancedUploader
           maxNumberOfFiles={10}
+          maxFileSize={50 * 1024 * 1024} // 50MB
           acceptedFileTypes={['.pdf', '.doc', '.docx', '.txt', '.jpg', '.png', '.jpeg']}
+          contentType={type}
+          onGetUploadParameters={getUploadParameters}
+          onComplete={(data) => handleFileUploadComplete(data, type)}
+          buttonClassName="w-full bg-blue-600 hover:bg-blue-700 text-white"
         >
           <Upload className="w-4 h-4 mr-2" />
           Upload {title}
-        </ObjectUploader>
+        </EnhancedUploader>
       </CardContent>
     </Card>
   );
