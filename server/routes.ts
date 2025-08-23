@@ -10,8 +10,18 @@ import session from "express-session";
 // Extend session data type
 declare module 'express-session' {
   interface SessionData {
-    adminUser?: any;
-    studentUser?: any;
+    adminUser?: {
+      id: string;
+      username: string;
+      fullName: string;
+      role: string;
+    };
+    student?: {
+      id: string;
+      name: string;
+      email: string | null;
+      phone: string | null;
+    };
     otpData?: { [key: string]: { name: string; type: string } };
   }
 }

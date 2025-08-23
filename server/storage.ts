@@ -322,6 +322,7 @@ export class MemStorage implements IStorage {
       classId: contentData.classId || null,
       subjectId: contentData.subjectId || null,
       chapterId: contentData.chapterId || null,
+      isPublished: contentData.isPublished ?? true,
       publishDate: contentData.publishDate || new Date().toISOString(),
       expiryDate: contentData.expiryDate || null,
       createdAt: new Date().toISOString(),
@@ -408,14 +409,42 @@ export class MemStorage implements IStorage {
   async createStudentUser(insertStudentUser: InsertStudentUser): Promise<StudentUser> {
     const id = randomUUID();
     const studentUser: StudentUser = {
-      ...insertStudentUser,
       id,
+      name: insertStudentUser.name,
       email: insertStudentUser.email || null,
       phone: insertStudentUser.phone || null,
+      dateOfBirth: null,
+      gender: null,
+      address: null,
+      city: null,
+      state: "Delhi",
+      pincode: null,
+      profilePhoto: null,
       classId: insertStudentUser.classId || null,
+      rollNumber: null,
+      stream: null,
+      admissionDate: null,
+      currentSession: null,
+      fatherName: null,
+      motherName: null,
+      guardianName: null,
+      parentPhone: null,
+      parentEmail: null,
+      parentOccupation: null,
+      emergencyContact: null,
+      totalAttendance: 0,
+      presentDays: 0,
+      currentGPA: "0.0",
+      overallGrade: "N/A",
+      feeStatus: "pending",
+      totalFeeDue: 0,
+      lastPaymentDate: null,
+      studentId: null,
+      profileCompleted: false,
       isActive: true,
       lastLogin: null,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     };
     this.studentUsers.set(id, studentUser);
     return studentUser;
@@ -500,11 +529,13 @@ export class MemStorage implements IStorage {
 
   async cleanupExpiredOtps(): Promise<void> {
     const now = new Date();
-    for (const [id, otp] of this.otps.entries()) {
+    const expiredIds: string[] = [];
+    this.otps.forEach((otp, id) => {
       if (new Date(otp.expiresAt) <= now) {
-        this.otps.delete(id);
+        expiredIds.push(id);
       }
-    }
+    });
+    expiredIds.forEach(id => this.otps.delete(id));
   }
 }
 
