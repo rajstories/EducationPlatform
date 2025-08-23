@@ -377,6 +377,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Student profile completion endpoint
   app.post('/api/student/complete-profile', async (req, res) => {
     try {
+      console.log("Profile completion request:", req.session.student);
+      
       if (!req.session.student?.id) {
         return res.status(401).json({ message: "Student not authenticated" });
       }
@@ -395,15 +397,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
         phone: updatedStudent.phone
       };
 
-      res.json({ 
-        message: "Profile completed successfully",
-        user: {
-          id: updatedStudent.id,
-          name: updatedStudent.name,
-          email: updatedStudent.email,
-          phone: updatedStudent.phone,
-          studentId: updatedStudent.studentId
+      // Save session to ensure persistence
+      req.session.save((saveErr) => {
+        if (saveErr) {
+          console.error("Session save error:", saveErr);
         }
+        
+        res.json({ 
+          message: "Profile completed successfully",
+          user: {
+            id: updatedStudent.id,
+            name: updatedStudent.name,
+            email: updatedStudent.email,
+            phone: updatedStudent.phone,
+            studentId: updatedStudent.studentId,
+            profileCompleted: true
+          }
+        });
       });
       
     } catch (error) {
@@ -661,15 +671,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
         phone: student.phone
       };
       
-      res.json({ 
-        message: "Login successful",
-        user: {
-          id: student.id,
-          name: student.name,
-          email: student.email,
-          phone: student.phone
-        },
-        profileCompleted: student.profileCompleted || false
+      // Save session explicitly to ensure persistence
+      req.session.save((saveErr) => {
+        if (saveErr) {
+          console.error("Session save error during OTP verification:", saveErr);
+        }
+        
+        console.log("OTP verification successful, session created for:", student.id);
+        
+        res.json({ 
+          message: "Login successful",
+          user: {
+            id: student.id,
+            name: student.name,
+            email: student.email,
+            phone: student.phone
+          },
+          profileCompleted: student.profileCompleted || false
+        });
       });
       
     } catch (error) {
