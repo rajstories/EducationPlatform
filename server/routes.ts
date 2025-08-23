@@ -364,6 +364,189 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // ========== STUDENT LOGIN ROUTES ==========
   
+  // Student profile completion endpoint
+  app.post('/api/student/complete-profile', async (req, res) => {
+    try {
+      if (!req.session.student?.id) {
+        return res.status(401).json({ message: "Student not authenticated" });
+      }
+
+      const updatedStudent = await storage.completeStudentProfile(req.session.student.id, req.body);
+      
+      if (!updatedStudent) {
+        return res.status(404).json({ message: "Student not found" });
+      }
+
+      // Update session with completed profile
+      req.session.student = {
+        id: updatedStudent.id,
+        name: updatedStudent.name!,
+        email: updatedStudent.email,
+        phone: updatedStudent.phone
+      };
+
+      res.json({ 
+        message: "Profile completed successfully",
+        user: {
+          id: updatedStudent.id,
+          name: updatedStudent.name,
+          email: updatedStudent.email,
+          phone: updatedStudent.phone,
+          studentId: updatedStudent.studentId
+        }
+      });
+      
+    } catch (error) {
+      console.error("Profile completion failed:", error);
+      res.status(500).json({ message: "Profile completion failed" });
+    }
+  });
+
+  // Student dashboard data endpoints
+  app.get('/api/student/profile', async (req, res) => {
+    try {
+      if (!req.session.student?.id) {
+        return res.status(401).json({ message: "Student not authenticated" });
+      }
+
+      const student = await storage.getStudentUser(req.session.student.id);
+      if (!student) {
+        return res.status(404).json({ message: "Student not found" });
+      }
+
+      res.json(student);
+    } catch (error) {
+      console.error("Error fetching student profile:", error);
+      res.status(500).json({ message: "Failed to fetch profile" });
+    }
+  });
+
+  app.get('/api/student/attendance', async (req, res) => {
+    try {
+      if (!req.session.student?.id) {
+        return res.status(401).json({ message: "Student not authenticated" });
+      }
+
+      const attendanceData = {
+        totalDays: 150,
+        presentDays: 135,
+        percentage: Math.round((135 / 150) * 100)
+      };
+
+      res.json(attendanceData);
+    } catch (error) {
+      console.error("Error fetching attendance:", error);
+      res.status(500).json({ message: "Failed to fetch attendance" });
+    }
+  });
+
+  app.get('/api/student/grades', async (req, res) => {
+    try {
+      if (!req.session.student?.id) {
+        return res.status(401).json({ message: "Student not authenticated" });
+      }
+
+      const gradesData = [
+        {
+          testName: "Physics Unit Test 1",
+          subjectName: "Physics",
+          testType: "unit_test",
+          maxMarks: 50,
+          obtainedMarks: 42,
+          percentage: 84,
+          grade: "B+",
+          testDate: "2024-01-15"
+        },
+        {
+          testName: "Chemistry Quiz",
+          subjectName: "Chemistry", 
+          testType: "quiz",
+          maxMarks: 30,
+          obtainedMarks: 28,
+          percentage: 93,
+          grade: "A",
+          testDate: "2024-01-20"
+        }
+      ];
+
+      res.json(gradesData);
+    } catch (error) {
+      console.error("Error fetching grades:", error);
+      res.status(500).json({ message: "Failed to fetch grades" });
+    }
+  });
+
+  app.get('/api/student/fees', async (req, res) => {
+    try {
+      if (!req.session.student?.id) {
+        return res.status(401).json({ message: "Student not authenticated" });
+      }
+
+      const feesData = [
+        {
+          feeType: "Tuition Fee",
+          amount: 3500,
+          dueDate: "2024-02-15",
+          status: "paid",
+          paidDate: "2024-02-10"
+        },
+        {
+          feeType: "Exam Fee",
+          amount: 500,
+          dueDate: "2024-03-15", 
+          status: "pending"
+        }
+      ];
+
+      res.json(feesData);
+    } catch (error) {
+      console.error("Error fetching fees:", error);
+      res.status(500).json({ message: "Failed to fetch fees" });
+    }
+  });
+
+  app.get('/api/student/notifications', async (req, res) => {
+    try {
+      if (!req.session.student?.id) {
+        return res.status(401).json({ message: "Student not authenticated" });
+      }
+
+      const notificationsData = [
+        {
+          title: "New Physics Notes Available",
+          message: "Chapter 12: Electromagnetic Induction notes have been uploaded.",
+          type: "announcement",
+          priority: "medium",
+          isRead: false,
+          createdAt: "2024-01-25T10:00:00Z"
+        },
+        {
+          title: "Fee Reminder", 
+          message: "Your exam fee of ₹500 is due on March 15th.",
+          type: "fee_reminder",
+          priority: "high",
+          isRead: false,
+          createdAt: "2024-01-24T09:00:00Z"
+        }
+      ];
+
+      res.json(notificationsData);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+      res.status(500).json({ message: "Failed to fetch notifications" });
+    }
+  });
+
+  app.post('/api/student/logout', async (req, res) => {
+    try {
+      req.session.student = null;
+      res.json({ message: "Logged out successfully" });
+    } catch (error) {
+      console.error("Logout failed:", error);
+      res.status(500).json({ message: "Logout failed" });
+    }
+  });
+
   // Student OTP request
   app.post("/api/student/request-otp", async (req, res) => {
     try {
@@ -475,7 +658,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           name: student.name,
           email: student.email,
           phone: student.phone
-        }
+        },
+        profileCompleted: student.profileCompleted || false
       });
       
     } catch (error) {

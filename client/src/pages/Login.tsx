@@ -116,12 +116,18 @@ export default function Login() {
       const response = await apiRequest('POST', '/api/student/verify-otp', data);
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
       toast({
         title: "Login Successful",
         description: "Welcome to Student Portal",
       });
-      setLocation("/portal");
+      
+      // Check if profile is completed
+      if (response.profileCompleted) {
+        setLocation("/student-dashboard");
+      } else {
+        setLocation("/profile-completion");
+      }
     },
     onError: (error: Error) => {
       toast({

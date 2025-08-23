@@ -13,6 +13,8 @@ import StudentPortal from "@/pages/StudentPortal";
 import Login from "@/pages/Login";
 import AdminLogin from "@/pages/AdminLogin";
 import AdminDashboard from "@/pages/AdminDashboard";
+import ProfileCompletion from "@/pages/ProfileCompletion";
+import StudentDashboard from "@/pages/StudentDashboard";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -44,6 +46,8 @@ function App() {
             <Route path="/admin">
               <AdminDashboard />
             </Route>
+            <Route path="/profile-completion" component={ProfileCompletion} />
+            <Route path="/student-dashboard" component={StudentDashboard} />
             
             {/* Regular pages with header/footer */}
             <Route>

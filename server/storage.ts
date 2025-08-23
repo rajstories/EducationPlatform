@@ -53,7 +53,9 @@ export interface IStorage {
   getStudentUserByEmail(email: string): Promise<StudentUser | undefined>;
   getStudentUserByPhone(phone: string): Promise<StudentUser | undefined>;
   createStudentUser(studentUser: InsertStudentUser): Promise<StudentUser>;
+  updateStudentUser(id: string, updates: Partial<StudentUser>): Promise<StudentUser | undefined>;
   updateStudentLastLogin(id: string): Promise<void>;
+  completeStudentProfile(id: string, profileData: any): Promise<StudentUser | undefined>;
   
   // OTP methods
   createOtp(otp: InsertOtp): Promise<Otp>;
@@ -425,6 +427,43 @@ export class MemStorage implements IStorage {
       user.lastLogin = new Date().toISOString();
       this.studentUsers.set(id, user);
     }
+  }
+
+  async updateStudentUser(id: string, updates: Partial<StudentUser>): Promise<StudentUser | undefined> {
+    const student = this.studentUsers.get(id);
+    if (student) {
+      Object.assign(student, updates, { updatedAt: new Date().toISOString() });
+      this.studentUsers.set(id, student);
+      return student;
+    }
+    return undefined;
+  }
+
+  async completeStudentProfile(id: string, profileData: any): Promise<StudentUser | undefined> {
+    const student = this.studentUsers.get(id);
+    if (student) {
+      // Generate student ID if not exists
+      if (!student.studentId) {
+        student.studentId = `PA${new Date().getFullYear()}${String(this.studentUsers.size + 1).padStart(3, '0')}`;
+      }
+      
+      // Generate roll number if not exists  
+      if (!student.rollNumber) {
+        student.rollNumber = `${profileData.classId?.replace('class-', '')}-${String(this.studentUsers.size + 1).padStart(3, '0')}`;
+      }
+      
+      // Update profile data
+      Object.assign(student, profileData, {
+        profileCompleted: true,
+        admissionDate: new Date().toISOString(),
+        currentSession: '2024-25',
+        updatedAt: new Date().toISOString()
+      });
+      
+      this.studentUsers.set(id, student);
+      return student;
+    }
+    return undefined;
   }
 
   // OTP methods

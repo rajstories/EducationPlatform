@@ -100,16 +100,57 @@ export const contentFiles = pgTable("content_files", {
   uploadedAt: text("uploaded_at").default(sql`CURRENT_TIMESTAMP`),
 });
 
-// Student users table for student portal access
+// Enhanced Student users table for comprehensive student management
 export const studentUsers = pgTable("student_users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  // Basic Login Info
   email: text("email").unique(),
   phone: text("phone").unique(),
   name: text("name").notNull(),
-  classId: varchar("class_id"), // optional class association
+  
+  // Personal Information
+  dateOfBirth: text("date_of_birth"),
+  gender: text("gender"), // "male", "female", "other"
+  address: text("address"),
+  city: text("city"),
+  state: text("state").default("Delhi"),
+  pincode: text("pincode"),
+  profilePhoto: text("profile_photo"), // path to photo
+  
+  // Academic Information
+  classId: varchar("class_id"), // current class
+  rollNumber: text("roll_number").unique(), // auto-generated
+  stream: text("stream"), // "science", "commerce"
+  admissionDate: text("admission_date"),
+  currentSession: text("current_session"), // "2024-25"
+  
+  // Parent/Guardian Information
+  fatherName: text("father_name"),
+  motherName: text("mother_name"),
+  guardianName: text("guardian_name"),
+  parentPhone: text("parent_phone"),
+  parentEmail: text("parent_email"),
+  parentOccupation: text("parent_occupation"),
+  emergencyContact: text("emergency_contact"),
+  
+  // Academic Performance
+  totalAttendance: integer("total_attendance").default(0),
+  presentDays: integer("present_days").default(0),
+  currentGPA: text("current_gpa").default("0.0"),
+  overallGrade: text("overall_grade").default("N/A"),
+  
+  // Financial Information
+  feeStatus: text("fee_status").default("pending"), // "paid", "pending", "overdue"
+  totalFeeDue: integer("total_fee_due").default(0),
+  lastPaymentDate: text("last_payment_date"),
+  
+  // System Information
+  studentId: text("student_id").unique(), // PA2025001 format
+  profileCompleted: boolean("profile_completed").default(false),
   isActive: boolean("is_active").notNull().default(true),
   lastLogin: text("last_login"),
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
 });
 
 // OTP table for phone/email verification
@@ -202,7 +243,67 @@ export type Content = typeof content.$inferSelect;
 export type InsertContent = z.infer<typeof insertContentSchema>;
 export type ContentFile = typeof contentFiles.$inferSelect;
 export type InsertContentFile = z.infer<typeof insertContentFileSchema>;
+// Student Attendance Table
+export const studentAttendance = pgTable("student_attendance", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  studentId: varchar("student_id").notNull(),
+  date: text("date").notNull(), // YYYY-MM-DD
+  status: text("status").notNull(), // "present", "absent", "late", "half_day"
+  subjectId: varchar("subject_id"), // optional - for subject-wise attendance
+  remarks: text("remarks"),
+  markedBy: varchar("marked_by"), // admin who marked attendance
+  createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
+});
+
+// Student Grades/Performance Table
+export const studentGrades = pgTable("student_grades", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  studentId: varchar("student_id").notNull(),
+  subjectId: varchar("subject_id").notNull(),
+  testType: text("test_type").notNull(), // "assignment", "quiz", "midterm", "final", "project"
+  testName: text("test_name").notNull(),
+  maxMarks: integer("max_marks").notNull(),
+  obtainedMarks: integer("obtained_marks").notNull(),
+  grade: text("grade"), // A+, A, B+, etc.
+  percentage: text("percentage"),
+  testDate: text("test_date").notNull(),
+  remarks: text("remarks"),
+  createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
+});
+
+// Fee Management Table
+export const studentFees = pgTable("student_fees", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  studentId: varchar("student_id").notNull(),
+  feeType: text("fee_type").notNull(), // "tuition", "admission", "exam", "library", "transport"
+  amount: integer("amount").notNull(),
+  dueDate: text("due_date").notNull(),
+  paidDate: text("paid_date"),
+  status: text("status").notNull().default("pending"), // "paid", "pending", "overdue", "waived"
+  paymentMethod: text("payment_method"), // "cash", "online", "cheque", "upi"
+  transactionId: text("transaction_id"),
+  receiptNumber: text("receipt_number"),
+  session: text("session").notNull(), // "2024-25"
+  createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
+});
+
+// Student Notifications/Announcements
+export const studentNotifications = pgTable("student_notifications", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  studentId: varchar("student_id"), // null for all students
+  title: text("title").notNull(),
+  message: text("message").notNull(),
+  type: text("type").notNull(), // "announcement", "fee_reminder", "attendance_alert", "grade_update"
+  priority: text("priority").default("medium"), // "high", "medium", "low"
+  isRead: boolean("is_read").default(false),
+  createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
+});
+
 export type StudentUser = typeof studentUsers.$inferSelect;
 export type InsertStudentUser = z.infer<typeof insertStudentUserSchema>;
+export type StudentAttendance = typeof studentAttendance.$inferSelect;
+export type StudentGrade = typeof studentGrades.$inferSelect;
+export type StudentFee = typeof studentFees.$inferSelect;
+export type StudentNotification = typeof studentNotifications.$inferSelect;
 export type Otp = typeof otps.$inferSelect;
 export type InsertOtp = z.infer<typeof insertOtpSchema>;
