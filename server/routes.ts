@@ -3,8 +3,18 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertContactSchema, insertEnrollmentSchema, insertContentSchema, insertContentFileSchema, insertStudentUserSchema, insertOtpSchema } from "@shared/schema";
 import { ObjectStorageService } from "./objectStorage";
+import { OtpService } from "./otpService";
 import { z } from "zod";
 import session from "express-session";
+
+// Extend session data type
+declare module 'express-session' {
+  interface SessionData {
+    adminUser?: any;
+    studentUser?: any;
+    otpData?: { [key: string]: { name: string; type: string } };
+  }
+}
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Session middleware for admin authentication
@@ -367,8 +377,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Invalid type. Must be email or phone" });
       }
       
-      // Generate 6-digit OTP
-      const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+      // Generate unique 6-digit OTP using crypto
+      const otpCode = OtpService.generateOtp();
       const expiresAt = new Date(Date.now() + 5 * 60 * 1000).toISOString(); // 5 minutes
       
       // Store the name in the session for later use
@@ -385,14 +395,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         expiresAt
       });
       
-      // In a real implementation, you would send the OTP via email/SMS
-      // For demo purposes, we'll just return success
-      console.log(`OTP for ${identifier}: ${otpCode}`);
+      // Send real-time OTP via SMS or Email
+      const otpSent = await OtpService.sendOtp(identifier, otpCode, type, name);
+      
+      if (!otpSent) {
+        return res.status(500).json({ message: "Failed to send OTP. Please try again." });
+      }
       
       res.json({ 
-        message: `OTP sent to your ${type}`,
-        // Remove this in production - only for testing
-        debug: process.env.NODE_ENV === 'development' ? { otp: otpCode } : undefined
+        message: `OTP sent to your ${type} successfully!`,
+        // Show OTP in development mode for testing
+        debug: process.env.NODE_ENV === 'development' && type === 'email' ? { otp: otpCode } : undefined
       });
       
     } catch (error) {
