@@ -398,7 +398,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       };
 
       // Save session to ensure persistence
-      req.session.save((saveErr) => {
+      req.session.save((saveErr: any) => {
         if (saveErr) {
           console.error("Session save error:", saveErr);
         }
@@ -419,6 +419,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Profile completion failed:", error);
       res.status(500).json({ message: "Profile completion failed" });
+    }
+  });
+
+  // Student logout endpoint
+  app.post('/api/student/logout', async (req, res) => {
+    try {
+      req.session.destroy((err) => {
+        if (err) {
+          console.error("Session destruction error:", err);
+          return res.status(500).json({ message: "Logout failed" });
+        }
+        res.clearCookie('connect.sid');
+        res.json({ message: "Logout successful" });
+      });
+    } catch (error) {
+      console.error("Logout failed:", error);
+      res.status(500).json({ message: "Logout failed" });
+    }
+  });
+
+  // Student profile update endpoint
+  app.put('/api/student/profile', async (req, res) => {
+    try {
+      if (!req.session.student?.id) {
+        return res.status(401).json({ message: "Student not authenticated" });
+      }
+
+      const updatedStudent = await storage.updateStudentUser(req.session.student.id, req.body);
+      
+      if (!updatedStudent) {
+        return res.status(404).json({ message: "Student not found" });
+      }
+
+      res.json({ 
+        message: "Profile updated successfully",
+        user: updatedStudent
+      });
+      
+    } catch (error) {
+      console.error("Profile update failed:", error);
+      res.status(500).json({ message: "Profile update failed" });
     }
   });
 
@@ -559,8 +600,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/student/logout', async (req, res) => {
     try {
-      req.session.student = null;
-      res.json({ message: "Logged out successfully" });
+      req.session.destroy((err: any) => {
+        if (err) {
+          console.error("Session destruction error:", err);
+          return res.status(500).json({ message: "Logout failed" });
+        }
+        res.clearCookie('connect.sid');
+        res.json({ message: "Logout successful" });
+      });
     } catch (error) {
       console.error("Logout failed:", error);
       res.status(500).json({ message: "Logout failed" });
@@ -672,7 +719,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       };
       
       // Save session explicitly to ensure persistence
-      req.session.save((saveErr) => {
+      req.session.save((saveErr: any) => {
         if (saveErr) {
           console.error("Session save error during OTP verification:", saveErr);
         }

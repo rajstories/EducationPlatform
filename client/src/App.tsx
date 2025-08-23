@@ -15,6 +15,7 @@ import AdminLogin from "@/pages/AdminLogin";
 import AdminDashboard from "@/pages/AdminDashboard";
 import ProfileCompletion from "@/pages/ProfileCompletion";
 import StudentDashboard from "@/pages/StudentDashboard";
+import EditProfile from "@/pages/EditProfile";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -48,6 +49,7 @@ function App() {
             </Route>
             <Route path="/profile-completion" component={ProfileCompletion} />
             <Route path="/student-dashboard" component={StudentDashboard} />
+            <Route path="/edit-profile" component={EditProfile} />
             
             {/* Regular pages with header/footer */}
             <Route>

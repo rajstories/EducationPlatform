@@ -1,12 +1,19 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Menu, X, GraduationCap, ChevronDown, User } from "lucide-react";
+import { Menu, X, GraduationCap, ChevronDown, User, LogOut, Settings, UserCircle } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { useStudentAuth } from "@/hooks/useStudentAuth";
+import { useMutation } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
 
 const Header = () => {
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { student, isAuthenticated } = useStudentAuth();
+  const { toast } = useToast();
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -21,6 +28,33 @@ const Header = () => {
     { name: "Class 11", href: "/class/class-11" },
     { name: "Class 12", href: "/class/class-12" },
   ];
+
+  // Logout mutation
+  const logoutMutation = useMutation({
+    mutationFn: async () => {
+      const response = await apiRequest('POST', '/api/student/logout', {});
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Logged Out Successfully",
+        description: "You have been logged out of your account.",
+      });
+      setLocation("/");
+      window.location.reload(); // Refresh to clear cached data
+    },
+    onError: () => {
+      toast({
+        title: "Logout Failed",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleLogout = () => {
+    logoutMutation.mutate();
+  };
 
   return (
     <header className="bg-slate-900 text-white fixed top-0 w-full z-50 shadow-xl transition-all duration-300">
@@ -75,15 +109,53 @@ const Header = () => {
               )}
             </div>
 
-            <Link href="/login">
-              <Button
-                className="bg-skyblue text-navy hover:bg-blue-200 font-medium flex items-center gap-2"
-                data-testid="button-login"
-              >
-                <User className="w-4 h-4" />
-                Login
-              </Button>
-            </Link>
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    className="bg-skyblue text-navy hover:bg-blue-200 font-medium flex items-center gap-2"
+                    data-testid="button-user-menu"
+                  >
+                    <UserCircle className="w-4 h-4" />
+                    {student?.name}
+                    <ChevronDown className="w-3 h-3" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuItem asChild>
+                    <Link href="/student-dashboard" className="flex items-center gap-2 w-full" data-testid="link-dashboard">
+                      <UserCircle className="w-4 h-4" />
+                      Dashboard
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/edit-profile" className="flex items-center gap-2 w-full" data-testid="link-edit-profile">
+                      <Settings className="w-4 h-4" />
+                      Edit Profile
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem 
+                    onClick={handleLogout}
+                    className="flex items-center gap-2 text-red-600 focus:text-red-600"
+                    data-testid="button-logout"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link href="/login">
+                <Button
+                  className="bg-skyblue text-navy hover:bg-blue-200 font-medium flex items-center gap-2"
+                  data-testid="button-login"
+                >
+                  <User className="w-4 h-4" />
+                  Login
+                </Button>
+              </Link>
+            )}
           </div>
 
           {/* Mobile Navigation */}
@@ -127,15 +199,55 @@ const Header = () => {
                   ))}
                 </div>
 
-                <Link href="/login">
-                  <Button
-                    className="bg-skyblue text-navy hover:bg-blue-200 font-medium mt-4 flex items-center gap-2 w-full"
-                    data-testid="mobile-button-login"
-                  >
-                    <User className="w-4 h-4" />
-                    Login
-                  </Button>
-                </Link>
+                {isAuthenticated ? (
+                  <div className="border-t border-gray-600 pt-4 mt-4">
+                    <div className="text-lg font-semibold mb-4 flex items-center gap-2">
+                      <UserCircle className="w-5 h-5" />
+                      {student?.name}
+                    </div>
+                    <div className="space-y-2">
+                      <Link href="/student-dashboard">
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-start text-left text-white hover:text-skyblue flex items-center gap-2"
+                          data-testid="mobile-link-dashboard"
+                        >
+                          <UserCircle className="w-4 h-4" />
+                          Dashboard
+                        </Button>
+                      </Link>
+                      <Link href="/edit-profile">
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-start text-left text-white hover:text-skyblue flex items-center gap-2"
+                          data-testid="mobile-link-edit-profile"
+                        >
+                          <Settings className="w-4 h-4" />
+                          Edit Profile
+                        </Button>
+                      </Link>
+                      <Button
+                        variant="ghost"
+                        onClick={handleLogout}
+                        className="w-full justify-start text-left text-red-400 hover:text-red-300 flex items-center gap-2"
+                        data-testid="mobile-button-logout"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        Logout
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <Link href="/login">
+                    <Button
+                      className="bg-skyblue text-navy hover:bg-blue-200 font-medium mt-4 flex items-center gap-2 w-full"
+                      data-testid="mobile-button-login"
+                    >
+                      <User className="w-4 h-4" />
+                      Login
+                    </Button>
+                  </Link>
+                )}
               </div>
             </SheetContent>
           </Sheet>
