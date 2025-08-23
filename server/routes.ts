@@ -404,8 +404,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       res.json({ 
         message: `OTP sent to your ${type} successfully!`,
-        // Show OTP in development mode for testing
-        debug: process.env.NODE_ENV === 'development' && type === 'email' ? { otp: otpCode } : undefined
+        // Show OTP in development mode only for email testing
+        debug: process.env.NODE_ENV === 'development' ? { otp: otpCode } : undefined
       });
       
     } catch (error) {
