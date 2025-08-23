@@ -654,7 +654,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       await storage.updateStudentLastLogin(student.id);
       
       // Create session
-      req.session.studentUser = {
+      req.session.student = {
         id: student.id,
         name: student.name,
         email: student.email,
