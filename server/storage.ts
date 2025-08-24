@@ -709,25 +709,6 @@ export class MemStorage implements IStorage {
     };
     this.studentSessions.set(id, sessionRecord);
     
-    // Auto-mark attendance for login
-    const today = new Date().toISOString().split('T')[0];
-    const existingAttendance = await this.getClassAttendanceForDate(
-      this.studentUsers.get(session.studentId)?.classId || '', 
-      today
-    );
-    
-    const hasAttendanceToday = existingAttendance.some(record => record.studentId === session.studentId);
-    
-    if (!hasAttendanceToday) {
-      await this.markAttendance({
-        studentId: session.studentId,
-        date: today,
-        status: 'present',
-        markedBy: 'system', // auto-marked by login
-        remarks: 'Auto-marked by student login'
-      });
-    }
-    
     return sessionRecord;
   }
 
