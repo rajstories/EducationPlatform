@@ -13,6 +13,7 @@ import kunalPhoto from "@assets/image_1756022382197.png";
 import shaileshPhoto from "@assets/image_1756022503711.png";
 import ajayPhoto from "@assets/image_1756023883616.png";
 import biologyTeacherPhoto from "@assets/image_1756022662880.png";
+import drSanjeevPhoto from "@assets/image_1756024215456.png";
 import champsFullPhoto from "@assets/image_1756023373291.png";
 
 const ResultsCarousel = () => {
@@ -103,7 +104,7 @@ const ResultsCarousel = () => {
     // Biology Teacher Slide
     {
       type: "mentor",
-      name: "BIOLOGY SIR",
+      name: "ANMOL",
       title: "NEET Faculty",
       subtitle: "Botany & Biology Expert",
       experience: "5+ Years Experience",
@@ -112,6 +113,19 @@ const ResultsCarousel = () => {
       bgGradient: "from-green-600 to-emerald-700",
       textColor: "text-white",
       isBiologyTeacher: true
+    },
+    // Dr. Sanjeev Gupta Teacher Slide
+    {
+      type: "mentor",
+      name: "DR. SANJEEV GUPTA",
+      title: "NEET Faculty",
+      subtitle: "Zoology Expert & MBBS Doctor",
+      experience: "8+ Years Experience",
+      students: "Classes 11 & 12 NEET",
+      achievement: "MBBS Doctor & Zoology Specialist",
+      bgGradient: "from-blue-600 to-cyan-700",
+      textColor: "text-white",
+      isSanjeevTeacher: true
     },
     // Academy Achievement Slide (moved to end)
     {
@@ -235,8 +249,8 @@ const ResultsCarousel = () => {
                     <div className="w-full h-full max-h-[300px] aspect-square">
                       <div className="w-full h-full rounded-full overflow-hidden shadow-2xl bg-white border-6 border-blue-400 p-1">
                         <img 
-                          src={slide.isBiologyTeacher ? biologyTeacherPhoto : ramSirPhoto}
-                          alt={slide.isBiologyTeacher ? "Biology Sir - NEET Faculty" : "Ram Sir - Lead Faculty"}
+                          src={slide.isSanjeevTeacher ? drSanjeevPhoto : (slide.isBiologyTeacher ? biologyTeacherPhoto : ramSirPhoto)}
+                          alt={slide.isSanjeevTeacher ? "Dr. Sanjeev Gupta - Zoology Expert" : (slide.isBiologyTeacher ? "Anmol - Botany Expert" : "Ram Sir - Lead Faculty")}
                           className="w-full h-full object-cover object-center scale-90 rounded-full"
                         />
                       </div>
