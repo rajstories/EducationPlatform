@@ -10,6 +10,7 @@ import raniFacePhoto from "@assets/image_1755785587177.png";
 import ramSirPhoto from "@assets/image_1755784859503.png";
 import champsPhoto from "@assets/image_1756022456101.png";
 import kunalPhoto from "@assets/image_1756022382197.png";
+import shaileshPhoto from "@assets/image_1756022503711.png";
 
 const ResultsCarousel = () => {
   const options: EmblaOptionsType = { loop: true };
@@ -95,6 +96,23 @@ const ResultsCarousel = () => {
       phone: "8800345115",
       bgGradient: "from-blue-600 to-blue-800",
       textColor: "text-white"
+    },
+    // Shailesh Pandey Achievement Slide
+    {
+      type: "student",
+      name: "SHAILESH PANDEY",
+      title: "12th TOPPER",
+      subtitle: "Student",
+      percentile: "Class XII Board",
+      exam: "2025 Board Exam",
+      subjects: [
+        { name: "Physics", score: "97" },
+        { name: "Chemistry", score: "100" },
+        { name: "Maths", score: "95" }
+      ],
+      bgGradient: "from-gray-600 to-gray-800",
+      textColor: "text-white",
+      isShailesh: true
     }
   ];
 
@@ -117,13 +135,23 @@ const ResultsCarousel = () => {
                   {/* Left Side - Huge Photo (takes 4/7 of width) */}
                   <div className="col-span-4 flex items-center justify-center p-2">
                     <div className="w-full h-full max-h-[300px] aspect-square">
-                      <div className="w-full h-full rounded-full overflow-hidden shadow-2xl bg-white border-6 border-yellow-400 p-1">
-                        <img 
-                          src={raniFacePhoto}
-                          alt="Rani - JEE Main Success Story"
-                          className="w-full h-full object-cover rounded-full"
-                        />
-                      </div>
+                      {slide.isShailesh ? (
+                        <div className="w-full h-full rounded-xl overflow-hidden shadow-2xl bg-white border-4 border-yellow-400">
+                          <img 
+                            src={shaileshPhoto}
+                            alt="Shailesh Pandey - 12th Topper"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      ) : (
+                        <div className="w-full h-full rounded-full overflow-hidden shadow-2xl bg-white border-6 border-yellow-400 p-1">
+                          <img 
+                            src={raniFacePhoto}
+                            alt="Rani - JEE Main Success Story"
+                            className="w-full h-full object-cover rounded-full"
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -138,8 +166,17 @@ const ResultsCarousel = () => {
                     {/* Achievement Badge */}
                     <div>
                       <div className="bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 px-6 py-3 rounded-xl inline-block shadow-xl">
-                        <div className="text-2xl md:text-4xl font-black">99.3%</div>
-                        <div className="text-sm md:text-base font-bold">JEE MAIN</div>
+                        {slide.isShailesh ? (
+                          <>
+                            <div className="text-xl md:text-3xl font-black">{slide.title}</div>
+                            <div className="text-sm md:text-base font-bold">{slide.percentile}</div>
+                          </>
+                        ) : (
+                          <>
+                            <div className="text-2xl md:text-4xl font-black">99.3%</div>
+                            <div className="text-sm md:text-base font-bold">JEE MAIN</div>
+                          </>
+                        )}
                       </div>
                     </div>
                     
@@ -150,11 +187,21 @@ const ResultsCarousel = () => {
 
                     {/* Subject Scores */}
                     <div className="space-y-1">
-                      {slide.subjects?.slice(0, 2).map((subject, i) => (
-                        <div key={i} className="bg-white/20 backdrop-blur-sm rounded-lg px-3 py-1">
-                          <span className="font-bold text-xs md:text-sm text-white">{subject.score} in {subject.name}</span>
-                        </div>
-                      ))}
+                      {slide.isShailesh ? (
+                        // Show all 3 subjects for Shailesh
+                        slide.subjects?.map((subject, i) => (
+                          <div key={i} className="bg-white/20 backdrop-blur-sm rounded-lg px-3 py-1">
+                            <span className="font-bold text-xs md:text-sm text-white">{subject.score} in {subject.name}</span>
+                          </div>
+                        ))
+                      ) : (
+                        // Show only first 2 subjects for others
+                        slide.subjects?.slice(0, 2).map((subject, i) => (
+                          <div key={i} className="bg-white/20 backdrop-blur-sm rounded-lg px-3 py-1">
+                            <span className="font-bold text-xs md:text-sm text-white">{subject.score} in {subject.name}</span>
+                          </div>
+                        ))
+                      )}
                     </div>
 
                     {/* CTA */}
