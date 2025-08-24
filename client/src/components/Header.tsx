@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Menu, X, GraduationCap, ChevronDown, User, LogOut, Settings, UserCircle } from "lucide-react";
+import poojaLogo from "@assets/image_1756024744044.png";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useStudentAuth } from "@/hooks/useStudentAuth";
@@ -60,9 +61,15 @@ const Header = () => {
     <header className="bg-slate-900 text-white fixed top-0 w-full z-50 shadow-xl transition-all duration-300">
       <nav className="container mx-auto px-4 py-3 sm:py-4">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2" data-testid="link-home">
-            <GraduationCap className="h-6 w-6 sm:h-8 sm:w-8 text-skyblue" />
-            <h1 className="text-lg sm:text-xl font-bold">Pooja Academy</h1>
+          <Link href="/" className="flex items-center space-x-3" data-testid="link-home">
+            <div className="relative flex items-center justify-center">
+              <img 
+                src={poojaLogo} 
+                alt="Pooja Academy" 
+                className="h-8 w-auto sm:h-10 object-contain filter brightness-0 invert opacity-90 transition-all duration-300 hover:opacity-100 hover:scale-105"
+              />
+            </div>
+            <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">Pooja Academy</h1>
           </Link>
 
           {/* Desktop Navigation */}
