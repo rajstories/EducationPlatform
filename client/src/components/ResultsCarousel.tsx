@@ -313,7 +313,13 @@ const ResultsCarousel = () => {
                     {/* Contact */}
                     <div className="flex items-center gap-2 pt-1">
                       <Phone className="w-3 h-3 text-white" />
-                      <span className="font-semibold text-xs md:text-sm text-white">+91 7011505239</span>
+                      <span className="font-semibold text-xs md:text-sm text-white">
+                        +91 {slide.isDiwakarTeacher ? "8800345115" : 
+                             slide.isSunilTeacher ? "9211336486" : 
+                             slide.isBiologyTeacher ? "9899038370" : 
+                             slide.isSanjeevTeacher ? "9990065566" : 
+                             "7011505239"}
+                      </span>
                     </div>
                   </div>
                 </div>
