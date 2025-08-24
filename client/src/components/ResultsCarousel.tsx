@@ -13,6 +13,7 @@ import kunalPhoto from "@assets/image_1756022382197.png";
 import shaileshPhoto from "@assets/image_1756022503711.png";
 import ajayPhoto from "@assets/image_1756022582333.png";
 import biologyTeacherPhoto from "@assets/image_1756022662880.png";
+import champsFullPhoto from "@assets/image_1756023125937.png";
 
 const ResultsCarousel = () => {
   const options: EmblaOptionsType = { loop: true };
@@ -73,16 +74,7 @@ const ResultsCarousel = () => {
     },
     // Champions/Toppers Group Slide
     {
-      type: "champs",
-      title: "CHAMPS",
-      subtitle: "JEE TOPPERS & NEET TOPPERS",
-      tagline: "POOJA ACADEMY",
-      celebration: "2025 RESULT CELEBRATION",
-      achievements: [
-        { text: "JEE Main Qualifiers", count: "15+" },
-        { text: "NEET Qualifiers", count: "20+" },
-        { text: "Board Toppers", count: "25+" }
-      ],
+      type: "champs_full_image",
       bgGradient: "from-green-500 to-emerald-600",
       textColor: "text-white"
     },
@@ -129,9 +121,16 @@ const ResultsCarousel = () => {
     },
     // Biology Teacher Slide
     {
-      type: "biology_image",
+      type: "mentor",
+      name: "BIOLOGY SIR",
+      title: "NEET Faculty",
+      subtitle: "Botany & Biology Expert",
+      experience: "5+ Years Experience",
+      students: "Classes 11 & 12 NEET",
+      achievement: "Pursuing MBBS - Dr. Ambedkar College",
       bgGradient: "from-green-600 to-emerald-700",
-      textColor: "text-white"
+      textColor: "text-white",
+      isBiologyTeacher: true
     }
   ];
 
@@ -240,8 +239,8 @@ const ResultsCarousel = () => {
                     <div className="w-full h-full max-h-[300px] aspect-square">
                       <div className="w-full h-full rounded-full overflow-hidden shadow-2xl bg-white border-6 border-blue-400 p-1">
                         <img 
-                          src={ramSirPhoto}
-                          alt="Ram Sir - Lead Faculty"
+                          src={slide.isBiologyTeacher ? biologyTeacherPhoto : ramSirPhoto}
+                          alt={slide.isBiologyTeacher ? "Biology Sir - NEET Faculty" : "Ram Sir - Lead Faculty"}
                           className="w-full h-full object-cover object-center scale-90 rounded-full"
                         />
                       </div>
@@ -312,56 +311,14 @@ const ResultsCarousel = () => {
                 </div>
               )}
 
-              {slide.type === "champs" && (
-                <div className="relative z-10 h-full grid grid-cols-7 gap-2 py-2">
-                  {/* Left Side - Group Photo (takes 4/7 of width) */}
-                  <div className="col-span-4 flex items-center justify-center p-2">
-                    <div className="w-full h-full max-h-[350px] rounded-xl overflow-hidden shadow-2xl bg-white border-4 border-green-400">
-                      <img 
-                        src={champsPhoto}
-                        alt="Pooja Academy Champions - JEE and NEET Toppers"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Right Side - Champions Details (takes 3/7 of width) */}
-                  <div className="col-span-3 flex flex-col justify-center space-y-3 pr-2">
-                    {/* Pooja Academy Label */}
-                    <div className="flex items-center gap-2">
-                      <Trophy className="w-4 h-4 text-yellow-300" />
-                      <span className="text-yellow-300 font-bold text-xs md:text-sm">{slide.tagline}</span>
-                    </div>
-
-                    {/* Main Title */}
-                    <div className="space-y-1">
-                      <h2 className="text-3xl md:text-5xl font-black text-white tracking-wider">{slide.title}</h2>
-                      <div className="bg-black/40 rounded-lg px-3 py-1">
-                        <p className="text-sm md:text-base font-bold text-white">{slide.subtitle}</p>
-                      </div>
-                    </div>
-
-                    {/* Achievement Stats */}
-                    <div className="space-y-2">
-                      {slide.achievements?.map((achievement, i) => (
-                        <div key={i} className="bg-white/20 backdrop-blur-sm rounded-lg px-3 py-2 flex justify-between items-center">
-                          <span className="font-semibold text-xs md:text-sm text-white">{achievement.text}</span>
-                          <span className="font-bold text-sm md:text-base text-green-200">{achievement.count}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Celebration Text */}
-                    <div className="bg-gradient-to-r from-green-400 to-emerald-400 text-gray-900 px-3 py-2 rounded-lg inline-block font-bold text-xs md:text-sm">
-                      {slide.celebration}
-                    </div>
-
-                    {/* CTA */}
-                    <Link href="/contact">
-                      <Button className="bg-white hover:bg-gray-100 text-gray-900 font-bold px-4 py-2 rounded-lg text-sm md:text-base self-start">
-                        Join the Champions
-                      </Button>
-                    </Link>
+              {slide.type === "champs_full_image" && (
+                <div className="relative z-10 h-full flex items-center justify-center p-4">
+                  <div className="w-full h-full max-h-[450px] rounded-xl overflow-hidden shadow-2xl">
+                    <img 
+                      src={champsFullPhoto}
+                      alt="Pooja Academy Champions - JEE and NEET Toppers"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 </div>
               )}
@@ -451,17 +408,6 @@ const ResultsCarousel = () => {
                 </div>
               )}
 
-              {slide.type === "biology_image" && (
-                <div className="relative z-10 h-full flex items-center justify-center p-4">
-                  <div className="w-full h-full max-h-[450px] rounded-xl overflow-hidden shadow-2xl">
-                    <img 
-                      src={biologyTeacherPhoto}
-                      alt="Biology Teacher - NEET Faculty"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </div>
-              )}
             </div>
           </div>
         ))}
