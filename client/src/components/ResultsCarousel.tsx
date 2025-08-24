@@ -198,6 +198,13 @@ const ResultsCarousel = () => {
                       {slide.name}
                     </div>
 
+                    {/* Board Exam Text for Rani */}
+                    {!slide.isShailesh && (
+                      <div className="text-white font-bold text-lg md:text-xl mb-2">
+                        2025 Board Exam
+                      </div>
+                    )}
+
                     {/* Subject Scores */}
                     <div className="space-y-1">
                       {slide.isShailesh ? (
@@ -216,18 +223,6 @@ const ResultsCarousel = () => {
                         ))
                       )}
                     </div>
-
-                    {/* Phone Numbers for Rani */}
-                    {!slide.isShailesh && (
-                      <div className="space-y-1 mt-2">
-                        <div className="bg-orange-500 rounded-full px-4 py-2">
-                          <span className="font-bold text-sm md:text-base text-white">📞 +91 7011505239</span>
-                        </div>
-                        <div className="bg-orange-500 rounded-full px-4 py-2">
-                          <span className="font-bold text-sm md:text-base text-white">📞 +91 8800345115</span>
-                        </div>
-                      </div>
-                    )}
 
                   </div>
                 </div>
