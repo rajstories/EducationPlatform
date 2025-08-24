@@ -10,7 +10,10 @@ import {
   type Otp, type InsertOtp,
   type StudentAttendance, type InsertStudentAttendance,
   type StudentGrade, type InsertStudentGrade,
-  type StudentSession, type InsertStudentSession
+  type StudentSession, type InsertStudentSession,
+  type Achievement, type InsertAchievement,
+  type StudentAchievement, type InsertStudentAchievement,
+  type StudentProgress, type InsertStudentProgress
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 
@@ -88,6 +91,25 @@ export interface IStorage {
   getValidOtp(identifier: string, otpCode: string, type: string): Promise<Otp | undefined>;
   markOtpAsUsed(id: string): Promise<void>;
   cleanupExpiredOtps(): Promise<void>;
+  
+  // Achievement system methods
+  createAchievement(achievement: InsertAchievement): Promise<Achievement>;
+  getAchievements(): Promise<Achievement[]>;
+  getAchievementsByCategory(category: string): Promise<Achievement[]>;
+  updateAchievement(id: string, updates: Partial<Achievement>): Promise<Achievement | undefined>;
+  deleteAchievement(id: string): Promise<boolean>;
+  
+  // Student achievement methods
+  awardAchievement(studentId: string, achievementId: string): Promise<StudentAchievement | null>;
+  getStudentAchievements(studentId: string): Promise<StudentAchievement[]>;
+  checkAndAwardAchievements(studentId: string): Promise<StudentAchievement[]>;
+  
+  // Student progress methods
+  getStudentProgress(studentId: string): Promise<StudentProgress | null>;
+  updateStudentProgress(studentId: string, updates: Partial<StudentProgress>): Promise<void>;
+  addExperiencePoints(studentId: string, points: number, activity: string): Promise<void>;
+  updateLoginStreak(studentId: string): Promise<void>;
+  getLeaderboard(limit?: number): Promise<{student: StudentUser, progress: StudentProgress}[]>;
 }
 
 export class MemStorage implements IStorage {
@@ -105,6 +127,9 @@ export class MemStorage implements IStorage {
   private studentAttendance: Map<string, StudentAttendance>;
   private studentGrades: Map<string, StudentGrade>;
   private studentSessions: Map<string, StudentSession>;
+  private achievements: Map<string, Achievement>;
+  private studentAchievements: Map<string, StudentAchievement>;
+  private studentProgress: Map<string, StudentProgress>;
 
   constructor() {
     this.users = new Map();
@@ -121,8 +146,137 @@ export class MemStorage implements IStorage {
     this.studentAttendance = new Map();
     this.studentGrades = new Map();
     this.studentSessions = new Map();
+    this.achievements = new Map();
+    this.studentAchievements = new Map();
+    this.studentProgress = new Map();
     
     this.initializeData();
+    this.initializeAchievements();
+  }
+
+  private initializeData() {
+    this.initializeAchievements();
+  }
+
+  private initializeAchievements() {
+    // Initialize default achievements
+    const defaultAchievements: Achievement[] = [
+      // Attendance Achievements
+      {
+        id: "ach-perfect-week",
+        title: "Perfect Week",
+        description: "Maintain 100% attendance for 7 consecutive days",
+        category: "attendance",
+        type: "bronze",
+        icon: "📅",
+        color: "#CD7F32",
+        requirements: { perfectDays: 7 },
+        points: 100,
+        isActive: true,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: "ach-attendance-master",
+        title: "Attendance Master",
+        description: "Achieve 95% attendance rate",
+        category: "attendance", 
+        type: "gold",
+        icon: "🏆",
+        color: "#FFD700",
+        requirements: { attendancePercentage: 95 },
+        points: 500,
+        isActive: true,
+        createdAt: new Date().toISOString()
+      },
+
+      // Academic Achievements
+      {
+        id: "ach-honor-roll",
+        title: "Honor Roll",
+        description: "Maintain GPA above 3.5",
+        category: "academic",
+        type: "silver",
+        icon: "🌟",
+        color: "#C0C0C0", 
+        requirements: { gpa: 3.5 },
+        points: 300,
+        isActive: true,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: "ach-scholar",
+        title: "Scholar",
+        description: "Pass 10 tests with good grades",
+        category: "academic",
+        type: "gold",
+        icon: "🎓",
+        color: "#FFD700",
+        requirements: { testsPassedCount: 10 },
+        points: 400,
+        isActive: true,
+        createdAt: new Date().toISOString()
+      },
+
+      // Engagement Achievements
+      {
+        id: "ach-bookworm", 
+        title: "Bookworm",
+        description: "Download 20 study notes",
+        category: "engagement",
+        type: "bronze",
+        icon: "📚",
+        color: "#CD7F32",
+        requirements: { notesDownloaded: 20 },
+        points: 150,
+        isActive: true,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: "ach-dedicated-learner",
+        title: "Dedicated Learner", 
+        description: "Login for 30 consecutive days",
+        category: "engagement",
+        type: "platinum",
+        icon: "💎",
+        color: "#E5E4E2",
+        requirements: { loginStreak: 30 },
+        points: 1000,
+        isActive: true,
+        createdAt: new Date().toISOString()
+      },
+
+      // Milestone Achievements
+      {
+        id: "ach-level-5",
+        title: "Rising Star",
+        description: "Reach Level 5",
+        category: "milestone",
+        type: "silver",
+        icon: "⭐",
+        color: "#C0C0C0",
+        requirements: { level: 5 },
+        points: 250,
+        isActive: true,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: "ach-point-master",
+        title: "Point Master",
+        description: "Earn 5000 total points",
+        category: "milestone",
+        type: "gold",
+        icon: "💰",
+        color: "#FFD700",
+        requirements: { totalPoints: 5000 },
+        points: 500,
+        isActive: true,
+        createdAt: new Date().toISOString()
+      }
+    ];
+
+    defaultAchievements.forEach(achievement => {
+      this.achievements.set(achievement.id, achievement);
+    });
   }
 
   private initializeData() {
@@ -777,6 +931,9 @@ export class MemStorage implements IStorage {
     };
     this.studentSessions.set(id, sessionRecord);
     
+    // Update login streak and award XP
+    await this.updateLoginStreak(session.studentId);
+    
     return sessionRecord;
   }
 
@@ -792,6 +949,252 @@ export class MemStorage implements IStorage {
     return Array.from(this.studentSessions.values())
       .filter(session => session.loginDate === date)
       .map(session => session.studentId);
+  }
+
+  // Achievement system methods implementation
+  async createAchievement(achievement: InsertAchievement): Promise<Achievement> {
+    const id = randomUUID();
+    const newAchievement: Achievement = {
+      ...achievement,
+      id,
+      isActive: true,
+      createdAt: new Date().toISOString()
+    };
+    this.achievements.set(id, newAchievement);
+    return newAchievement;
+  }
+
+  async getAchievements(): Promise<Achievement[]> {
+    return Array.from(this.achievements.values())
+      .filter(achievement => achievement.isActive)
+      .sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+  }
+
+  async getAchievementsByCategory(category: string): Promise<Achievement[]> {
+    return Array.from(this.achievements.values())
+      .filter(achievement => achievement.category === category && achievement.isActive)
+      .sort((a, b) => a.points - b.points);
+  }
+
+  async updateAchievement(id: string, updates: Partial<Achievement>): Promise<Achievement | undefined> {
+    const achievement = this.achievements.get(id);
+    if (!achievement) return undefined;
+    
+    const updated = { ...achievement, ...updates };
+    this.achievements.set(id, updated);
+    return updated;
+  }
+
+  async deleteAchievement(id: string): Promise<boolean> {
+    return this.achievements.delete(id);
+  }
+
+  // Student achievement methods implementation
+  async awardAchievement(studentId: string, achievementId: string): Promise<StudentAchievement | null> {
+    const achievement = this.achievements.get(achievementId);
+    const student = this.studentUsers.get(studentId);
+    
+    if (!achievement || !student) return null;
+
+    // Check if student already has this achievement
+    const existingAward = Array.from(this.studentAchievements.values())
+      .find(award => award.studentId === studentId && award.achievementId === achievementId);
+    
+    if (existingAward) return null;
+
+    // Award the achievement
+    const id = randomUUID();
+    const studentAchievement: StudentAchievement = {
+      id,
+      studentId,
+      achievementId,
+      points: achievement.points,
+      earnedAt: new Date().toISOString()
+    };
+    
+    this.studentAchievements.set(id, studentAchievement);
+    
+    // Update student progress
+    await this.addExperiencePoints(studentId, achievement.points, `Achievement: ${achievement.title}`);
+    
+    return studentAchievement;
+  }
+
+  async getStudentAchievements(studentId: string): Promise<StudentAchievement[]> {
+    return Array.from(this.studentAchievements.values())
+      .filter(award => award.studentId === studentId)
+      .sort((a, b) => b.earnedAt.localeCompare(a.earnedAt));
+  }
+
+  async checkAndAwardAchievements(studentId: string): Promise<StudentAchievement[]> {
+    const student = this.studentUsers.get(studentId);
+    const progress = await this.getStudentProgress(studentId);
+    
+    if (!student || !progress) return [];
+
+    const newAchievements: StudentAchievement[] = [];
+    const allAchievements = await this.getAchievements();
+    const existingAwards = await this.getStudentAchievements(studentId);
+    const existingAchievementIds = new Set(existingAwards.map(award => award.achievementId));
+
+    for (const achievement of allAchievements) {
+      if (existingAchievementIds.has(achievement.id)) continue;
+
+      const requirements = achievement.requirements as any;
+      let shouldAward = false;
+
+      // Check different achievement criteria
+      switch (achievement.category) {
+        case 'attendance':
+          if (requirements.attendancePercentage && student.presentDays > 0) {
+            const attendanceRate = (student.presentDays / student.totalAttendance) * 100;
+            shouldAward = attendanceRate >= requirements.attendancePercentage;
+          }
+          if (requirements.perfectDays) {
+            shouldAward = progress.perfectAttendanceDays >= requirements.perfectDays;
+          }
+          break;
+
+        case 'academic':
+          if (requirements.gpa && parseFloat(student.currentGPA) >= requirements.gpa) {
+            shouldAward = true;
+          }
+          if (requirements.testsPassedCount && progress.testsPassed >= requirements.testsPassedCount) {
+            shouldAward = true;
+          }
+          break;
+
+        case 'engagement':
+          if (requirements.loginStreak && progress.loginStreak >= requirements.loginStreak) {
+            shouldAward = true;
+          }
+          if (requirements.notesDownloaded && progress.notesDownloaded >= requirements.notesDownloaded) {
+            shouldAward = true;
+          }
+          break;
+
+        case 'milestone':
+          if (requirements.level && progress.level >= requirements.level) {
+            shouldAward = true;
+          }
+          if (requirements.totalPoints && progress.totalPoints >= requirements.totalPoints) {
+            shouldAward = true;
+          }
+          break;
+      }
+
+      if (shouldAward) {
+        const award = await this.awardAchievement(studentId, achievement.id);
+        if (award) newAchievements.push(award);
+      }
+    }
+
+    return newAchievements;
+  }
+
+  // Student progress methods implementation
+  async getStudentProgress(studentId: string): Promise<StudentProgress | null> {
+    let progress = this.studentProgress.get(studentId);
+    
+    if (!progress) {
+      // Create initial progress record
+      const id = randomUUID();
+      progress = {
+        id,
+        studentId,
+        totalPoints: 0,
+        level: 1,
+        experiencePoints: 0,
+        streak: 0,
+        lastActivityDate: null,
+        completedAssignments: 0,
+        perfectAttendanceDays: 0,
+        testsPassed: 0,
+        notesDownloaded: 0,
+        loginStreak: 0,
+        updatedAt: new Date().toISOString()
+      };
+      this.studentProgress.set(studentId, progress);
+    }
+    
+    return progress;
+  }
+
+  async updateStudentProgress(studentId: string, updates: Partial<StudentProgress>): Promise<void> {
+    const progress = await this.getStudentProgress(studentId);
+    if (progress) {
+      Object.assign(progress, updates, { updatedAt: new Date().toISOString() });
+      this.studentProgress.set(studentId, progress);
+    }
+  }
+
+  async addExperiencePoints(studentId: string, points: number, activity: string): Promise<void> {
+    const progress = await this.getStudentProgress(studentId);
+    if (!progress) return;
+
+    const newXP = progress.experiencePoints + points;
+    const newTotalPoints = progress.totalPoints + points;
+    
+    // Calculate level based on XP (every 1000 XP = 1 level)
+    const newLevel = Math.floor(newXP / 1000) + 1;
+    
+    await this.updateStudentProgress(studentId, {
+      experiencePoints: newXP,
+      totalPoints: newTotalPoints,
+      level: newLevel,
+      lastActivityDate: new Date().toISOString()
+    });
+
+    // Check for new achievements after gaining XP
+    await this.checkAndAwardAchievements(studentId);
+  }
+
+  async updateLoginStreak(studentId: string): Promise<void> {
+    const progress = await this.getStudentProgress(studentId);
+    if (!progress) return;
+
+    const today = new Date().toISOString().split('T')[0];
+    const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+    
+    let newStreak = 1;
+    
+    if (progress.lastActivityDate) {
+      const lastActivityDate = progress.lastActivityDate.split('T')[0];
+      
+      if (lastActivityDate === yesterday) {
+        // Consecutive day login
+        newStreak = progress.loginStreak + 1;
+      } else if (lastActivityDate === today) {
+        // Already logged in today
+        newStreak = progress.loginStreak;
+      } else {
+        // Streak broken
+        newStreak = 1;
+      }
+    }
+
+    await this.updateStudentProgress(studentId, {
+      loginStreak: newStreak,
+      lastActivityDate: new Date().toISOString()
+    });
+
+    // Award XP for daily login
+    await this.addExperiencePoints(studentId, 10, 'Daily Login');
+  }
+
+  async getLeaderboard(limit: number = 10): Promise<{student: StudentUser, progress: StudentProgress}[]> {
+    const leaderboard: {student: StudentUser, progress: StudentProgress}[] = [];
+    
+    for (const [studentId, progress] of this.studentProgress.entries()) {
+      const student = this.studentUsers.get(studentId);
+      if (student && student.isActive) {
+        leaderboard.push({ student, progress });
+      }
+    }
+    
+    return leaderboard
+      .sort((a, b) => b.progress.totalPoints - a.progress.totalPoints)
+      .slice(0, limit);
   }
 }
 

@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
+import { ProgressTracker } from "@/components/ProgressTracker";
 
 export default function StudentDashboard() {
   const [, setLocation] = useLocation();
@@ -191,10 +192,11 @@ export default function StudentDashboard() {
 
         {/* Main Content Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="attendance">Attendance</TabsTrigger>
             <TabsTrigger value="results">Results</TabsTrigger>
+            <TabsTrigger value="progress">Progress</TabsTrigger>
             <TabsTrigger value="profile">Profile</TabsTrigger>
           </TabsList>
 
@@ -362,6 +364,11 @@ export default function StudentDashboard() {
                 </div>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          {/* Progress & Achievements Tab */}
+          <TabsContent value="progress" className="space-y-6">
+            <ProgressTracker studentId={student?.id} showLeaderboard={true} />
           </TabsContent>
 
           {/* Profile Tab */}

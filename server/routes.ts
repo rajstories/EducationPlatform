@@ -46,6 +46,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(401).json({ message: "Admin authentication required" });
     }
   };
+
+  // Student authentication middleware
+  const requireStudentAuth = (req: any, res: any, next: any) => {
+    if (req.session.student?.id) {
+      req.session.studentId = req.session.student.id; // Add for backward compatibility
+      next();
+    } else {
+      res.status(401).json({ message: "Student not authenticated" });
+    }
+  };
   // Get all classes
   app.get("/api/classes", async (_req, res) => {
     try {
@@ -522,6 +532,78 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ message: "Chapters reordered successfully" });
     } catch (error) {
       res.status(500).json({ message: "Failed to reorder chapters" });
+    }
+  });
+
+  // Achievement and Progress routes
+  
+  // Get all achievements
+  app.get("/api/achievements", async (req, res) => {
+    try {
+      const achievements = await storage.getAchievements();
+      res.json(achievements);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch achievements" });
+    }
+  });
+
+  // Get student progress
+  app.get("/api/student/progress", requireStudentAuth, async (req: any, res) => {
+    try {
+      const progress = await storage.getStudentProgress(req.session.studentId);
+      res.json(progress);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch progress" });
+    }
+  });
+
+  // Get student achievements
+  app.get("/api/student/achievements", requireStudentAuth, async (req: any, res) => {
+    try {
+      const achievements = await storage.getStudentAchievements(req.session.studentId);
+      const allAchievements = await storage.getAchievements();
+      
+      // Combine earned achievements with achievement details
+      const detailedAchievements = achievements.map(earned => {
+        const achievement = allAchievements.find(a => a.id === earned.achievementId);
+        return { ...earned, achievement };
+      }).filter(a => a.achievement);
+      
+      res.json(detailedAchievements);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch student achievements" });
+    }
+  });
+
+  // Get leaderboard
+  app.get("/api/leaderboard", async (req, res) => {
+    try {
+      const limit = parseInt(req.query.limit as string) || 10;
+      const leaderboard = await storage.getLeaderboard(limit);
+      res.json(leaderboard);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch leaderboard" });
+    }
+  });
+
+  // Award achievement manually (admin only)
+  app.post("/api/admin/award-achievement", requireAdminAuth, async (req, res) => {
+    try {
+      const { studentId, achievementId } = req.body;
+      
+      if (!studentId || !achievementId) {
+        return res.status(400).json({ message: "Student ID and Achievement ID are required" });
+      }
+
+      const award = await storage.awardAchievement(studentId, achievementId);
+      
+      if (!award) {
+        return res.status(400).json({ message: "Achievement already earned or invalid data" });
+      }
+      
+      res.json(award);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to award achievement" });
     }
   });
 
