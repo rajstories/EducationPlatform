@@ -61,13 +61,13 @@ const Header = () => {
     <header className="bg-slate-900 text-white fixed top-0 w-full z-50 shadow-xl transition-all duration-300">
       <nav className="container mx-auto px-4 py-3 sm:py-4">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-3" data-testid="link-home">
+          <Link href="/" className="flex items-center space-x-2.5" data-testid="link-home">
             <img 
               src={poojaLogo} 
               alt="Pooja Academy" 
-              className="h-8 w-auto sm:h-10 object-contain invert transition-all duration-300 hover:scale-105"
+              className="h-7 w-auto sm:h-9 object-contain invert transition-all duration-300 hover:scale-105"
             />
-            <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">Pooja Academy</h1>
+            <h1 className="text-base sm:text-lg font-bold bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent tracking-wide">Pooja Academy</h1>
           </Link>
 
           {/* Desktop Navigation */}
