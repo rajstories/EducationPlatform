@@ -12,6 +12,7 @@ import champsPhoto from "@assets/image_1756022456101.png";
 import kunalPhoto from "@assets/image_1756022382197.png";
 import shaileshPhoto from "@assets/image_1756022503711.png";
 import ajayPhoto from "@assets/image_1756022582333.png";
+import biologyTeacherPhoto from "@assets/image_1756022662880.png";
 
 const ResultsCarousel = () => {
   const options: EmblaOptionsType = { loop: true };
@@ -125,6 +126,19 @@ const ResultsCarousel = () => {
       tagline: "TAUGHT + MENTORED BY RAM SIR",
       bgGradient: "from-red-600 to-red-800",
       textColor: "text-white"
+    },
+    // Biology Teacher Slide
+    {
+      type: "mentor",
+      name: "BIOLOGY SIR",
+      title: "NEET Faculty",
+      subtitle: "Botany & Biology Expert",
+      experience: "5+ Years Experience",
+      students: "Classes 11 & 12 NEET",
+      achievement: "Pursuing MBBS - Dr. Ambedkar College",
+      bgGradient: "from-green-600 to-emerald-700",
+      textColor: "text-white",
+      isBiologyTeacher: true
     }
   ];
 
@@ -233,8 +247,8 @@ const ResultsCarousel = () => {
                     <div className="w-full h-full max-h-[300px] aspect-square">
                       <div className="w-full h-full rounded-full overflow-hidden shadow-2xl bg-white border-6 border-blue-400 p-1">
                         <img 
-                          src={ramSirPhoto}
-                          alt="Ram Sir - Lead Faculty"
+                          src={slide.isBiologyTeacher ? biologyTeacherPhoto : ramSirPhoto}
+                          alt={slide.isBiologyTeacher ? "Biology Sir - NEET Faculty" : "Ram Sir - Lead Faculty"}
                           className="w-full h-full object-cover object-center scale-90 rounded-full"
                         />
                       </div>
