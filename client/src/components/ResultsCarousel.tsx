@@ -13,6 +13,7 @@ import kunalPhoto from "@assets/image_1756022382197.png";
 import shaileshPhoto from "@assets/image_1756022503711.png";
 import ajayPhoto from "@assets/image_1756023883616.png";
 import sunilSirPhoto from "@assets/image_1756025020045.png";
+import diwakarSirPhoto from "@assets/image_1756025135928.png";
 import biologyTeacherPhoto from "@assets/image_1756022662880.png";
 import drSanjeevPhoto from "@assets/image_1756024215456.png";
 import champsFullPhoto from "@assets/image_1756023373291.png";
@@ -114,6 +115,19 @@ const ResultsCarousel = () => {
       bgGradient: "from-purple-600 to-violet-700",
       textColor: "text-white",
       isSunilTeacher: true
+    },
+    // Diwakar Sir Slide
+    {
+      type: "mentor",
+      name: "DIWAKAR SIR",
+      title: "Math & Science Faculty",
+      subtitle: "Math & Science Expert",
+      experience: "5+ Years Experience",
+      students: "Classes 6-10 Math & Science",
+      achievement: "Foundation Building Expert",
+      bgGradient: "from-orange-600 to-red-700",
+      textColor: "text-white",
+      isDiwakarTeacher: true
     },
     // Biology Teacher Slide
     {
@@ -263,8 +277,8 @@ const ResultsCarousel = () => {
                     <div className="w-full h-full max-h-[300px] aspect-square">
                       <div className="w-full h-full rounded-full overflow-hidden shadow-2xl bg-white border-6 border-blue-400 p-1">
                         <img 
-                          src={slide.isSanjeevTeacher ? drSanjeevPhoto : (slide.isSunilTeacher ? sunilSirPhoto : (slide.isBiologyTeacher ? biologyTeacherPhoto : ramSirPhoto))}
-                          alt={slide.isSanjeevTeacher ? "Dr. Sanjeev Gupta - Zoology Expert" : (slide.isSunilTeacher ? "Sunil Sir - Accountancy Expert" : (slide.isBiologyTeacher ? "Anmol - Botany Expert" : "Ram Sir - Lead Faculty"))}
+                          src={slide.isSanjeevTeacher ? drSanjeevPhoto : (slide.isDiwakarTeacher ? diwakarSirPhoto : (slide.isSunilTeacher ? sunilSirPhoto : (slide.isBiologyTeacher ? biologyTeacherPhoto : ramSirPhoto)))}
+                          alt={slide.isSanjeevTeacher ? "Dr. Sanjeev Gupta - Zoology Expert" : (slide.isDiwakarTeacher ? "Diwakar Sir - Math & Science Expert" : (slide.isSunilTeacher ? "Sunil Sir - Accountancy Expert" : (slide.isBiologyTeacher ? "Anmol - Botany Expert" : "Ram Sir - Lead Faculty")))}
                           className="w-full h-full object-cover object-center scale-90 rounded-full"
                         />
                       </div>
