@@ -13,7 +13,7 @@ import kunalPhoto from "@assets/image_1756022382197.png";
 import shaileshPhoto from "@assets/image_1756022503711.png";
 import ajayPhoto from "@assets/image_1756022582333.png";
 import biologyTeacherPhoto from "@assets/image_1756022662880.png";
-import champsFullPhoto from "@assets/image_1756023125937.png";
+import champsFullPhoto from "@assets/image_1756023373291.png";
 
 const ResultsCarousel = () => {
   const options: EmblaOptionsType = { loop: true };
@@ -312,14 +312,12 @@ const ResultsCarousel = () => {
               )}
 
               {slide.type === "champs_full_image" && (
-                <div className="relative z-10 h-full flex items-center justify-center p-4">
-                  <div className="w-full h-full max-h-[450px] rounded-xl overflow-hidden shadow-2xl">
-                    <img 
-                      src={champsFullPhoto}
-                      alt="Pooja Academy Champions - JEE and NEET Toppers"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+                <div className="relative z-10 h-full w-full">
+                  <img 
+                    src={champsFullPhoto}
+                    alt="Pooja Academy Champions - JEE and NEET Toppers"
+                    className="w-full h-full object-cover rounded-xl md:rounded-2xl"
+                  />
                 </div>
               )}
 
