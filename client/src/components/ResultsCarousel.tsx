@@ -366,7 +366,7 @@ const ResultsCarousel = () => {
                   <img 
                     src={ajayPhoto}
                     alt="Ajay Kumar - Air Force Achievement"
-                    className="w-full h-full object-cover rounded-xl md:rounded-2xl"
+                    className="w-full h-full object-contain rounded-xl md:rounded-2xl"
                   />
                 </div>
               )}
