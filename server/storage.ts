@@ -56,6 +56,7 @@ export interface IStorage {
   updateStudentUser(id: string, updates: Partial<StudentUser>): Promise<StudentUser | undefined>;
   updateStudentLastLogin(id: string): Promise<void>;
   completeStudentProfile(id: string, profileData: any): Promise<StudentUser | undefined>;
+  getAllStudents(): Promise<StudentUser[]>;
   
   // OTP methods
   createOtp(otp: InsertOtp): Promise<Otp>;
@@ -493,6 +494,12 @@ export class MemStorage implements IStorage {
       return student;
     }
     return undefined;
+  }
+
+  async getAllStudents(): Promise<StudentUser[]> {
+    return Array.from(this.studentUsers.values())
+      .filter(student => student.profileCompleted)
+      .sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
   }
 
   // OTP methods

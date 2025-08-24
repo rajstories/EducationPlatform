@@ -152,6 +152,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // ========== ADMIN ROUTES ==========
   
+  // Get all students for admin
+  app.get('/api/admin/students', requireAdminAuth, async (req, res) => {
+    try {
+      const students = await storage.getAllStudents();
+      res.json(students);
+    } catch (error) {
+      console.error("Error fetching students:", error);
+      res.status(500).json({ message: "Failed to fetch students" });
+    }
+  });
+  
   // Admin login
   app.post("/api/admin/login", async (req, res) => {
     try {
@@ -383,7 +394,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "Student not authenticated" });
       }
 
-      const updatedStudent = await storage.completeStudentProfile(req.session.student.id, req.body);
+      // Generate unique student ID in format PA2025001
+      const currentYear = new Date().getFullYear();
+      const existingStudents = await storage.getAllStudents();
+      const yearStudents = existingStudents.filter(s => s.studentId?.includes(currentYear.toString()));
+      const nextNumber = yearStudents.length + 1;
+      const generatedStudentId = `PA${currentYear}${nextNumber.toString().padStart(3, '0')}`;
+
+      // Add generated student ID and other defaults to profile data
+      const profileWithDefaults = {
+        ...req.body,
+        studentId: generatedStudentId,
+        admissionDate: new Date().toISOString(),
+        currentSession: `${currentYear}-${(currentYear + 1).toString().slice(-2)}`,
+        isActive: true,
+        feeStatus: "pending",
+        totalFeeDue: 5000, // Default fee amount
+        currentGPA: "0.0",
+        overallGrade: "N/A"
+      };
+
+      const updatedStudent = await storage.completeStudentProfile(req.session.student.id, profileWithDefaults);
       
       if (!updatedStudent) {
         return res.status(404).json({ message: "Student not found" });

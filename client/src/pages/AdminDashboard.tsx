@@ -15,15 +15,29 @@ import {
   Download,
   Eye,
   Trash2,
-  Settings
+  Settings,
+  Search,
+  GraduationCap,
+  Calendar,
+  Phone,
+  Mail,
+  MapPin,
+  Star,
+  TrendingUp,
+  Award,
+  Clock
 } from "lucide-react";
 import { EnhancedUploader } from "@/components/EnhancedUploader";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { Content, ContentFile } from "@shared/schema";
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("overview");
+  const [selectedClass, setSelectedClass] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -47,6 +61,25 @@ export default function AdminDashboard() {
   const announcementsQuery = useQuery({
     queryKey: ['/api/admin/content?type=announcement'],
   });
+
+  // Student data queries
+  const studentsQuery = useQuery({
+    queryKey: ['/api/admin/students'],
+  });
+
+  const classesQuery = useQuery({
+    queryKey: ['/api/classes'],
+  });
+
+  // Filter students based on class and search term
+  const filteredStudents = studentsQuery.data?.filter((student: any) => {
+    const matchesClass = selectedClass === "all" || student.classId === selectedClass;
+    const matchesSearch = searchTerm === "" || 
+      student.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      student.studentId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      student.email?.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesClass && matchesSearch;
+  }) || [];
 
   // File upload handlers
   const getUploadParameters = async () => {
@@ -194,6 +227,156 @@ export default function AdminDashboard() {
     </Card>
   );
 
+  // Student Profile Card Component
+  const StudentProfileCard = ({ student }: { student: any }) => {
+    const getInitials = (name: string) => {
+      return name?.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || 'ST';
+    };
+
+    const getStatusColor = (isActive: boolean) => {
+      return isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
+    };
+
+    const getGradeColor = (grade: string) => {
+      if (grade?.includes('A')) return 'text-green-600';
+      if (grade?.includes('B')) return 'text-blue-600';
+      if (grade?.includes('C')) return 'text-yellow-600';
+      return 'text-gray-600';
+    };
+
+    return (
+      <Card className="hover:shadow-lg transition-shadow duration-200 border-l-4 border-l-blue-500">
+        <CardHeader className="pb-3">
+          <div className="flex items-start justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold">
+                {getInitials(student.name || 'Student')}
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-lg text-gray-900">{student.name || 'Unknown'}</h3>
+                <p className="text-sm text-blue-600 font-medium">{student.studentId}</p>
+                <Badge className={`mt-1 ${getStatusColor(student.isActive)}`} variant="secondary">
+                  {student.isActive ? 'Active' : 'Inactive'}
+                </Badge>
+              </div>
+            </div>
+          </div>
+        </CardHeader>
+        
+        <CardContent className="space-y-4">
+          {/* Academic Info */}
+          <div className="bg-gray-50 rounded-lg p-3">
+            <div className="flex items-center gap-2 mb-2">
+              <GraduationCap className="h-4 w-4 text-blue-500" />
+              <span className="text-sm font-medium text-gray-700">Academic Details</span>
+            </div>
+            <div className="grid grid-cols-2 gap-2 text-sm">
+              <div>
+                <span className="text-gray-500">Class:</span>
+                <p className="font-medium">{student.classId?.replace('class-', 'Class ') || 'N/A'}</p>
+              </div>
+              <div>
+                <span className="text-gray-500">Stream:</span>
+                <p className="font-medium capitalize">{student.stream || 'N/A'}</p>
+              </div>
+              <div>
+                <span className="text-gray-500">Roll No:</span>
+                <p className="font-medium">{student.rollNumber || 'N/A'}</p>
+              </div>
+              <div>
+                <span className="text-gray-500">Session:</span>
+                <p className="font-medium">{student.currentSession || 'N/A'}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Performance Metrics */}
+          <div className="grid grid-cols-3 gap-3">
+            <div className="text-center p-2 bg-green-50 rounded-lg">
+              <div className="flex items-center justify-center mb-1">
+                <TrendingUp className="h-4 w-4 text-green-600" />
+              </div>
+              <p className="text-xs text-gray-500">GPA</p>
+              <p className={`font-bold ${getGradeColor(student.currentGPA)}`}>
+                {student.currentGPA || '0.0'}
+              </p>
+            </div>
+            <div className="text-center p-2 bg-blue-50 rounded-lg">
+              <div className="flex items-center justify-center mb-1">
+                <Calendar className="h-4 w-4 text-blue-600" />
+              </div>
+              <p className="text-xs text-gray-500">Attendance</p>
+              <p className="font-bold text-blue-600">
+                {student.totalAttendance ? Math.round((student.presentDays / student.totalAttendance) * 100) : 0}%
+              </p>
+            </div>
+            <div className="text-center p-2 bg-purple-50 rounded-lg">
+              <div className="flex items-center justify-center mb-1">
+                <Award className="h-4 w-4 text-purple-600" />
+              </div>
+              <p className="text-xs text-gray-500">Grade</p>
+              <p className={`font-bold ${getGradeColor(student.overallGrade)}`}>
+                {student.overallGrade || 'N/A'}
+              </p>
+            </div>
+          </div>
+
+          {/* Contact Info */}
+          <div className="space-y-2">
+            {student.email && (
+              <div className="flex items-center gap-2 text-sm">
+                <Mail className="h-4 w-4 text-gray-400" />
+                <span className="text-gray-600 truncate">{student.email}</span>
+              </div>
+            )}
+            {student.phone && (
+              <div className="flex items-center gap-2 text-sm">
+                <Phone className="h-4 w-4 text-gray-400" />
+                <span className="text-gray-600">{student.phone}</span>
+              </div>
+            )}
+            {student.city && (
+              <div className="flex items-center gap-2 text-sm">
+                <MapPin className="h-4 w-4 text-gray-400" />
+                <span className="text-gray-600">{student.city}, {student.state || 'Delhi'}</span>
+              </div>
+            )}
+          </div>
+
+          {/* Fee Status */}
+          <div className="flex items-center justify-between p-2 bg-yellow-50 rounded-lg">
+            <div className="flex items-center gap-2">
+              <Clock className="h-4 w-4 text-yellow-600" />
+              <span className="text-sm font-medium text-gray-700">Fee Status</span>
+            </div>
+            <Badge variant={student.feeStatus === 'paid' ? 'default' : 'destructive'}>
+              {student.feeStatus === 'paid' ? 'Paid' : `₹${student.totalFeeDue || 0} Due`}
+            </Badge>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex gap-2 pt-2">
+            <Button variant="outline" size="sm" className="flex-1" data-testid={`button-view-${student.id}`}>
+              <Eye className="w-4 h-4 mr-1" />
+              View Details
+            </Button>
+            <Button variant="outline" size="sm" className="flex-1" data-testid={`button-edit-${student.id}`}>
+              <Settings className="w-4 h-4 mr-1" />
+              Manage
+            </Button>
+          </div>
+
+          {/* Last Activity */}
+          {student.lastLogin && (
+            <div className="text-xs text-gray-500 text-center pt-2 border-t">
+              Last active: {new Date(student.lastLogin).toLocaleDateString()}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto py-6">
@@ -210,8 +393,9 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className="grid w-full grid-cols-7">
             <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="students">Student Records</TabsTrigger>
             <TabsTrigger value="notes">Notes</TabsTrigger>
             <TabsTrigger value="tests">Tests</TabsTrigger>
             <TabsTrigger value="pyqs">PYQs</TabsTrigger>
@@ -254,11 +438,14 @@ export default function AdminDashboard() {
 
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Results</CardTitle>
+                  <CardTitle className="text-sm font-medium">Active Students</CardTitle>
                   <Users className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{resultsQuery.data?.length || 0}</div>
+                  <div className="text-2xl font-bold">{studentsQuery.data?.length || 0}</div>
+                  <p className="text-xs text-muted-foreground">
+                    Registered students
+                  </p>
                 </CardContent>
               </Card>
             </div>
@@ -294,6 +481,66 @@ export default function AdminDashboard() {
                 uploadTitle="Student Result"
               />
             </div>
+          </TabsContent>
+
+          <TabsContent value="students" className="space-y-6">
+            {/* Search and Filter Section */}
+            <div className="flex flex-col sm:flex-row gap-4 items-center justify-between bg-white p-4 rounded-lg border shadow-sm">
+              <div className="flex flex-col sm:flex-row gap-4 flex-1">
+                <div className="relative flex-1 max-w-md">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                  <Input
+                    placeholder="Search by name, student ID, or email..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10"
+                    data-testid="input-student-search"
+                  />
+                </div>
+                <Select value={selectedClass} onValueChange={setSelectedClass}>
+                  <SelectTrigger className="w-full sm:w-48" data-testid="select-class-filter">
+                    <SelectValue placeholder="Filter by class" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Classes</SelectItem>
+                    {classesQuery.data?.map((cls: any) => (
+                      <SelectItem key={cls.id} value={cls.id}>
+                        {cls.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="text-sm text-gray-500">
+                {filteredStudents.length} student{filteredStudents.length !== 1 ? 's' : ''} found
+              </div>
+            </div>
+
+            {/* Students Grid */}
+            {studentsQuery.isLoading ? (
+              <div className="flex items-center justify-center py-12">
+                <div className="text-center">
+                  <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+                  <p className="text-gray-600">Loading student records...</p>
+                </div>
+              </div>
+            ) : filteredStudents.length === 0 ? (
+              <div className="text-center py-12">
+                <Users className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                <h3 className="text-lg font-medium text-gray-900 mb-2">No students found</h3>
+                <p className="text-gray-500">
+                  {searchTerm || selectedClass !== "all" 
+                    ? "Try adjusting your search or filter criteria." 
+                    : "Students will appear here once they complete their profile registration."}
+                </p>
+              </div>
+            ) : (
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {filteredStudents.map((student: any) => (
+                  <StudentProfileCard key={student.id} student={student} />
+                ))}
+              </div>
+            )}
           </TabsContent>
 
           <TabsContent value="notes">
