@@ -446,6 +446,85 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Chapter management routes
+  
+  // Get chapters by subject
+  app.get("/api/admin/subjects/:subjectId/chapters", requireAdminAuth, async (req, res) => {
+    try {
+      const chapters = await storage.getChaptersBySubject(req.params.subjectId);
+      res.json(chapters);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch chapters" });
+    }
+  });
+
+  // Create new chapter
+  app.post("/api/admin/chapters", requireAdminAuth, async (req, res) => {
+    try {
+      const { name, subjectId } = req.body;
+      
+      if (!name || !subjectId) {
+        return res.status(400).json({ message: "Name and subjectId are required" });
+      }
+
+      // Get existing chapters to determine order
+      const existingChapters = await storage.getChaptersBySubject(subjectId);
+      const order = existingChapters.length + 1;
+
+      const chapter = await storage.createChapter({ name, subjectId, order });
+      res.status(201).json(chapter);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to create chapter" });
+    }
+  });
+
+  // Update chapter
+  app.put("/api/admin/chapters/:id", requireAdminAuth, async (req, res) => {
+    try {
+      const updates = req.body;
+      const chapter = await storage.updateChapter(req.params.id, updates);
+      
+      if (!chapter) {
+        return res.status(404).json({ message: "Chapter not found" });
+      }
+      
+      res.json(chapter);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to update chapter" });
+    }
+  });
+
+  // Delete chapter
+  app.delete("/api/admin/chapters/:id", requireAdminAuth, async (req, res) => {
+    try {
+      const deleted = await storage.deleteChapter(req.params.id);
+      
+      if (!deleted) {
+        return res.status(404).json({ message: "Chapter not found" });
+      }
+      
+      res.json({ message: "Chapter deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to delete chapter" });
+    }
+  });
+
+  // Reorder chapters
+  app.put("/api/admin/subjects/:subjectId/chapters/reorder", requireAdminAuth, async (req, res) => {
+    try {
+      const { chapterIds } = req.body;
+      
+      if (!Array.isArray(chapterIds)) {
+        return res.status(400).json({ message: "chapterIds must be an array" });
+      }
+
+      await storage.reorderChapters(req.params.subjectId, chapterIds);
+      res.json({ message: "Chapters reordered successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to reorder chapters" });
+    }
+  });
+
   // ========== PUBLIC STUDENT ROUTES ==========
   
   // Get published content for students (public access)

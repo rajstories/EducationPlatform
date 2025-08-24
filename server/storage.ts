@@ -28,6 +28,12 @@ export interface IStorage {
   getSubject(id: string): Promise<Subject | undefined>;
   
   getChaptersBySubject(subjectId: string): Promise<Chapter[]>;
+  getChapter(id: string): Promise<Chapter | undefined>;
+  createChapter(chapter: { name: string; subjectId: string; order: number }): Promise<Chapter>;
+  updateChapter(id: string, updates: Partial<Chapter>): Promise<Chapter | undefined>;
+  deleteChapter(id: string): Promise<boolean>;
+  reorderChapters(subjectId: string, chapterIds: string[]): Promise<void>;
+  updateChapterCounts(subjectId: string): Promise<void>;
   
   createContactSubmission(contact: InsertContact): Promise<ContactSubmission>;
   createEnrollment(enrollment: InsertEnrollment): Promise<Enrollment>;
@@ -280,6 +286,68 @@ export class MemStorage implements IStorage {
     return Array.from(this.chapters.values())
       .filter(chapter => chapter.subjectId === subjectId)
       .sort((a, b) => a.order - b.order);
+  }
+
+  async getChapter(id: string): Promise<Chapter | undefined> {
+    return this.chapters.get(id);
+  }
+
+  async createChapter(chapter: { name: string; subjectId: string; order: number }): Promise<Chapter> {
+    const id = randomUUID();
+    const newChapter: Chapter = {
+      id,
+      name: chapter.name,
+      subjectId: chapter.subjectId,
+      order: chapter.order,
+      hasNotes: false,
+      hasPyqs: false,
+      hasVideos: false
+    };
+    this.chapters.set(id, newChapter);
+    
+    // Update subject chapter count
+    await this.updateChapterCounts(chapter.subjectId);
+    return newChapter;
+  }
+
+  async updateChapter(id: string, updates: Partial<Chapter>): Promise<Chapter | undefined> {
+    const chapter = this.chapters.get(id);
+    if (!chapter) return undefined;
+    
+    const updated = { ...chapter, ...updates };
+    this.chapters.set(id, updated);
+    return updated;
+  }
+
+  async deleteChapter(id: string): Promise<boolean> {
+    const chapter = this.chapters.get(id);
+    if (!chapter) return false;
+    
+    const deleted = this.chapters.delete(id);
+    if (deleted) {
+      // Update subject chapter count
+      await this.updateChapterCounts(chapter.subjectId);
+    }
+    return deleted;
+  }
+
+  async reorderChapters(subjectId: string, chapterIds: string[]): Promise<void> {
+    chapterIds.forEach((chapterId, index) => {
+      const chapter = this.chapters.get(chapterId);
+      if (chapter && chapter.subjectId === subjectId) {
+        chapter.order = index + 1;
+        this.chapters.set(chapterId, chapter);
+      }
+    });
+  }
+
+  async updateChapterCounts(subjectId: string): Promise<void> {
+    const subject = this.subjects.get(subjectId);
+    if (subject) {
+      const chapters = await this.getChaptersBySubject(subjectId);
+      subject.chapterCount = chapters.length;
+      this.subjects.set(subjectId, subject);
+    }
   }
 
   async createContactSubmission(insertContact: InsertContact): Promise<ContactSubmission> {

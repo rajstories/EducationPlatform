@@ -325,3 +325,78 @@ export type StudentSession = typeof studentSessions.$inferSelect;
 export type InsertStudentSession = typeof studentSessions.$inferInsert;
 export type Otp = typeof otps.$inferSelect;
 export type InsertOtp = z.infer<typeof insertOtpSchema>;
+
+// Achievement system for gamified learning
+export const achievements = pgTable("achievements", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  category: text("category").notNull(), // "attendance", "academic", "engagement", "milestone"
+  type: text("type").notNull(), // "bronze", "silver", "gold", "platinum", "special"
+  icon: text("icon").notNull(), // icon name or emoji
+  color: text("color").notNull(), // hex color for badge
+  requirements: jsonb("requirements").notNull(), // criteria to earn this achievement
+  points: integer("points").notNull().default(0), // points awarded
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
+});
+
+// Student achievements earned
+export const studentAchievements = pgTable("student_achievements", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  studentId: varchar("student_id").notNull(),
+  achievementId: varchar("achievement_id").notNull(),
+  earnedAt: text("earned_at").default(sql`CURRENT_TIMESTAMP`),
+  points: integer("points").notNull().default(0),
+});
+
+// Student progress tracking for gamification
+export const studentProgress = pgTable("student_progress", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  studentId: varchar("student_id").notNull(),
+  totalPoints: integer("total_points").notNull().default(0),
+  level: integer("level").notNull().default(1),
+  experiencePoints: integer("experience_points").notNull().default(0),
+  streak: integer("streak").notNull().default(0), // consecutive days with activity
+  lastActivityDate: text("last_activity_date"),
+  
+  // Progress metrics
+  completedAssignments: integer("completed_assignments").default(0),
+  perfectAttendanceDays: integer("perfect_attendance_days").default(0),
+  testsPassed: integer("tests_passed").default(0),
+  notesDownloaded: integer("notes_downloaded").default(0),
+  loginStreak: integer("login_streak").default(0),
+  
+  updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
+});
+
+export const insertAchievementSchema = createInsertSchema(achievements).pick({
+  title: true,
+  description: true,
+  category: true,
+  type: true,
+  icon: true,
+  color: true,
+  requirements: true,
+  points: true,
+});
+
+export const insertStudentAchievementSchema = createInsertSchema(studentAchievements).pick({
+  studentId: true,
+  achievementId: true,
+  points: true,
+});
+
+export const insertStudentProgressSchema = createInsertSchema(studentProgress).pick({
+  studentId: true,
+  totalPoints: true,
+  level: true,
+  experiencePoints: true,
+});
+
+export type Achievement = typeof achievements.$inferSelect;
+export type InsertAchievement = z.infer<typeof insertAchievementSchema>;
+export type StudentAchievement = typeof studentAchievements.$inferSelect;
+export type InsertStudentAchievement = z.infer<typeof insertStudentAchievementSchema>;
+export type StudentProgress = typeof studentProgress.$inferSelect;
+export type InsertStudentProgress = z.infer<typeof insertStudentProgressSchema>;
