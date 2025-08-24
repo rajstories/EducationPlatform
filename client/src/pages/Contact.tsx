@@ -235,9 +235,20 @@ const Contact = () => {
                     </div>
                     <div>
                       <h4 className="font-semibold text-navy mb-1">Address</h4>
-                      <p className="text-gray-600 text-sm" data-testid="text-address">
-                        Kirari, Delhi - Near Haridas Vatika
-                      </p>
+                      <a 
+                        href="https://www.google.com/maps/dir/?api=1&destination=Kirari,+Delhi+Near+Haridas+Vatika&travelmode=driving"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block hover:bg-blue-50 p-2 rounded-lg transition-colors duration-200"
+                        data-testid="link-google-maps"
+                      >
+                        <p className="text-gray-600 text-sm hover:text-blue-600 transition-colors duration-200" data-testid="text-address">
+                          📍 Kirari, Delhi - Near Haridas Vatika
+                        </p>
+                        <p className="text-xs text-blue-500 mt-1">
+                          🗺️ Click to open in Google Maps & get directions
+                        </p>
+                      </a>
                     </div>
                   </div>
 

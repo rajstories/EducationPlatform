@@ -1112,7 +1112,7 @@ Please contact the student for further assistance.`;
       // Handle video streaming with range requests
       if (contentType.startsWith('video/')) {
         const range = req.headers.range;
-        const fileSize = parseInt(metadata.size);
+        const fileSize = parseInt(metadata.size || '0');
         
         if (range) {
           const parts = range.replace(/bytes=/, "").split("-");
