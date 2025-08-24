@@ -71,6 +71,10 @@ export interface IStorage {
   completeStudentProfile(id: string, profileData: any): Promise<StudentUser | undefined>;
   getAllStudents(): Promise<StudentUser[]>;
   
+  // Password-based authentication
+  validateStudentEmailLogin(email: string, password: string): Promise<StudentUser | null>;
+  createStudentUserWithPassword(user: InsertStudentUser & { password: string }): Promise<StudentUser>;
+  
   // Attendance methods
   markAttendance(attendance: InsertStudentAttendance): Promise<StudentAttendance>;
   getStudentAttendance(studentId: string, startDate?: string, endDate?: string): Promise<StudentAttendance[]>;
@@ -756,6 +760,71 @@ export class MemStorage implements IStorage {
     return Array.from(this.studentUsers.values())
       .filter(student => student.profileCompleted)
       .sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
+  }
+
+  // Password-based authentication methods
+  async validateStudentEmailLogin(email: string, password: string): Promise<StudentUser | null> {
+    const bcrypt = require('bcryptjs');
+    const user = await this.getStudentUserByEmail(email);
+    
+    if (!user || !user.password) {
+      return null;
+    }
+    
+    const isValid = await bcrypt.compare(password, user.password);
+    return isValid ? user : null;
+  }
+
+  async createStudentUserWithPassword(userWithPassword: InsertStudentUser & { password: string }): Promise<StudentUser> {
+    const bcrypt = require('bcryptjs');
+    const { password, ...userData } = userWithPassword;
+    
+    // Hash the password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    
+    // Create user with hashed password
+    const id = randomUUID();
+    const studentUser: StudentUser = {
+      ...userData,
+      id,
+      password: hashedPassword,
+      dateOfBirth: userData.dateOfBirth || null,
+      gender: userData.gender || null,
+      address: userData.address || null,
+      city: userData.city || null,
+      state: userData.state || "Delhi",
+      pincode: userData.pincode || null,
+      profilePhoto: userData.profilePhoto || null,
+      classId: userData.classId || null,
+      rollNumber: userData.rollNumber || null,
+      stream: userData.stream || null,
+      admissionDate: userData.admissionDate || null,
+      currentSession: userData.currentSession || null,
+      fatherName: userData.fatherName || null,
+      motherName: userData.motherName || null,
+      guardianName: userData.guardianName || null,
+      parentPhone: userData.parentPhone || null,
+      parentEmail: userData.parentEmail || null,
+      parentOccupation: userData.parentOccupation || null,
+      emergencyContact: userData.emergencyContact || null,
+      totalAttendance: userData.totalAttendance || 0,
+      presentDays: userData.presentDays || 0,
+      currentGPA: userData.currentGPA || "0.0",
+      overallGrade: userData.overallGrade || "N/A",
+      feeStatus: userData.feeStatus || "pending",
+      totalFeeDue: userData.totalFeeDue || 0,
+      lastPaymentDate: userData.lastPaymentDate || null,
+      studentId: userData.studentId || null,
+      profileCompleted: userData.profileCompleted || false,
+      isActive: userData.isActive !== undefined ? userData.isActive : true,
+      lastLogin: userData.lastLogin || null,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    
+    this.studentUsers.set(id, studentUser);
+    return studentUser;
   }
 
   // OTP methods

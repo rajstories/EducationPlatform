@@ -1089,6 +1089,115 @@ Please contact the student for further assistance.`;
       res.json({ message: "Logout successful" });
     });
   });
+
+  // Check if email exists
+  app.post("/api/student/check-email", async (req, res) => {
+    try {
+      const { email } = req.body;
+      
+      if (!email) {
+        return res.status(400).json({ message: "Email is required" });
+      }
+      
+      const user = await storage.getStudentUserByEmail(email);
+      res.json({ exists: !!user });
+      
+    } catch (error) {
+      console.error("Email check failed:", error);
+      res.status(500).json({ message: "Failed to check email" });
+    }
+  });
+
+  // Email login
+  app.post("/api/student/email-login", async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      
+      if (!email || !password) {
+        return res.status(400).json({ message: "Email and password are required" });
+      }
+      
+      const user = await storage.validateStudentEmailLogin(email, password);
+      
+      if (!user) {
+        return res.status(401).json({ message: "Invalid email or password" });
+      }
+      
+      // Update last login
+      await storage.updateStudentLastLogin(user.id);
+      
+      // Create session
+      req.session.student = {
+        id: user.id,
+        email: user.email,
+        name: user.name
+      };
+      
+      res.json({
+        message: "Login successful",
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          phone: user.phone
+        },
+        profileCompleted: user.profileCompleted || false
+      });
+      
+    } catch (error) {
+      console.error("Email login failed:", error);
+      res.status(500).json({ message: "Login failed" });
+    }
+  });
+
+  // Email registration
+  app.post("/api/student/email-register", async (req, res) => {
+    try {
+      const { email, name, password } = req.body;
+      
+      if (!email || !name || !password) {
+        return res.status(400).json({ message: "Email, name, and password are required" });
+      }
+      
+      // Check if user already exists
+      const existingUser = await storage.getStudentUserByEmail(email);
+      if (existingUser) {
+        return res.status(409).json({ message: "User with this email already exists" });
+      }
+      
+      // Create new user with password
+      const newUser = await storage.createStudentUserWithPassword({
+        email,
+        name,
+        password
+      });
+      
+      // Update last login
+      await storage.updateStudentLastLogin(newUser.id);
+      
+      // Create session
+      req.session.student = {
+        id: newUser.id,
+        email: newUser.email,
+        name: newUser.name
+      };
+      
+      res.json({
+        message: "Registration successful",
+        user: {
+          id: newUser.id,
+          email: newUser.email,
+          name: newUser.name,
+          phone: newUser.phone
+        },
+        profileCompleted: newUser.profileCompleted || false
+      });
+      
+    } catch (error) {
+      console.error("Email registration failed:", error);
+      res.status(500).json({ message: "Registration failed" });
+    }
+  });
   
   // Get current student user
   app.get("/api/student/me", (req: any, res) => {

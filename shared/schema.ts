@@ -113,6 +113,7 @@ export const studentUsers = pgTable("student_users", {
   email: text("email").unique(),
   phone: text("phone").unique(),
   name: text("name").notNull(),
+  password: text("password"), // bcrypt hashed password for email login
   
   // Personal Information
   dateOfBirth: text("date_of_birth"),
