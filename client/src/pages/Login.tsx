@@ -145,7 +145,8 @@ export default function Login() {
   // Email register mutation
   const emailRegisterMutation = useMutation({
     mutationFn: async (data: EmailRegisterForm) => {
-      const response = await apiRequest('POST', '/api/student/email-register', data);
+      const { confirmPassword, ...registerData } = data;
+      const response = await apiRequest('POST', '/api/student/email-register', registerData);
       return response.json();
     },
     onSuccess: (data) => {
@@ -236,8 +237,7 @@ export default function Login() {
   };
 
   const handleEmailRegister = (data: EmailRegisterForm) => {
-    const { confirmPassword, ...registerData } = data;
-    emailRegisterMutation.mutate(registerData);
+    emailRegisterMutation.mutate(data);
   };
 
   const handleOtpVerify = (data: OtpVerifyForm) => {

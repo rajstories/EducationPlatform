@@ -1130,7 +1130,8 @@ Please contact the student for further assistance.`;
       req.session.student = {
         id: user.id,
         email: user.email,
-        name: user.name
+        name: user.name,
+        phone: user.phone
       };
       
       res.json({
@@ -1179,7 +1180,8 @@ Please contact the student for further assistance.`;
       req.session.student = {
         id: newUser.id,
         email: newUser.email,
-        name: newUser.name
+        name: newUser.name,
+        phone: newUser.phone
       };
       
       res.json({
@@ -1201,8 +1203,8 @@ Please contact the student for further assistance.`;
   
   // Get current student user
   app.get("/api/student/me", (req: any, res) => {
-    if (req.session.studentUser) {
-      res.json(req.session.studentUser);
+    if (req.session.student) {
+      res.json(req.session.student);
     } else {
       res.status(401).json({ message: "Not authenticated" });
     }
@@ -1221,7 +1223,7 @@ Please contact the student for further assistance.`;
       // Handle video streaming with range requests
       if (contentType.startsWith('video/')) {
         const range = req.headers.range;
-        const fileSize = parseInt(metadata.size || '0');
+        const fileSize = parseInt(String(metadata.size || '0'));
         
         if (range) {
           const parts = range.replace(/bytes=/, "").split("-");
