@@ -208,14 +208,26 @@ const ResultsCarousel = () => {
                           </div>
                         ))
                       ) : (
-                        // Show only first 2 subjects for others
-                        slide.subjects?.slice(0, 2).map((subject, i) => (
-                          <div key={i} className="bg-white/20 backdrop-blur-sm rounded-lg px-3 py-1">
-                            <span className="font-bold text-xs md:text-sm text-white">{subject.score} in {subject.name}</span>
+                        // Show subjects for Rani with orange styling
+                        slide.subjects?.map((subject, i) => (
+                          <div key={i} className="bg-orange-500 rounded-full px-4 py-2">
+                            <span className="font-bold text-sm md:text-base text-white">{subject.score} in {subject.name}</span>
                           </div>
                         ))
                       )}
                     </div>
+
+                    {/* Phone Numbers for Rani */}
+                    {!slide.isShailesh && (
+                      <div className="space-y-1 mt-2">
+                        <div className="bg-orange-500 rounded-full px-4 py-2">
+                          <span className="font-bold text-sm md:text-base text-white">📞 +91 7011505239</span>
+                        </div>
+                        <div className="bg-orange-500 rounded-full px-4 py-2">
+                          <span className="font-bold text-sm md:text-base text-white">📞 +91 8800345115</span>
+                        </div>
+                      </div>
+                    )}
 
                   </div>
                 </div>
