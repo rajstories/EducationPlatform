@@ -9,6 +9,7 @@ import raniPhoto from "@assets/Digital Marketing Social Media and Instagram Post
 import raniFacePhoto from "@assets/image_1755785587177.png";
 import ramSirPhoto from "@assets/image_1755784859503.png";
 import champsPhoto from "@assets/image_1756022456101.png";
+import kunalPhoto from "@assets/image_1756022382197.png";
 
 const ResultsCarousel = () => {
   const options: EmblaOptionsType = { loop: true };
@@ -80,6 +81,19 @@ const ResultsCarousel = () => {
         { text: "Board Toppers", count: "25+" }
       ],
       bgGradient: "from-green-500 to-emerald-600",
+      textColor: "text-white"
+    },
+    // Kunal Achievement Slide
+    {
+      type: "kunal",
+      name: "Kunal",
+      mainScore: "94",
+      mainSubject: "SCIENCE",
+      secondaryScore: "88",
+      secondarySubject: "Math",
+      tagline: "POOJA ACADEMY",
+      phone: "8800345115",
+      bgGradient: "from-blue-600 to-blue-800",
       textColor: "text-white"
     }
   ];
@@ -282,6 +296,50 @@ const ResultsCarousel = () => {
                         Join the Champions
                       </Button>
                     </Link>
+                  </div>
+                </div>
+              )}
+
+              {slide.type === "kunal" && (
+                <div className="relative z-10 text-center h-full flex flex-col justify-center py-4 md:py-6">
+                  {/* PA Logo */}
+                  <div className="absolute top-4 left-4 text-white text-2xl md:text-3xl font-bold">
+                    PA
+                  </div>
+
+                  {/* Main Content */}
+                  <div className="space-y-4 md:space-y-6">
+                    {/* Scored Text */}
+                    <div className="space-y-2">
+                      <h3 className="text-lg md:text-2xl font-bold text-white">SCORED</h3>
+                      <div className="flex items-center justify-center space-x-4">
+                        <div className="text-6xl md:text-8xl font-black text-yellow-400">{slide.mainScore}</div>
+                        <div className="absolute top-8 right-8 bg-yellow-400 text-blue-900 rounded-full w-16 h-16 md:w-20 md:h-20 flex flex-col items-center justify-center">
+                          <span className="text-lg md:text-xl font-bold">{slide.secondaryScore}</span>
+                          <span className="text-xs md:text-sm font-bold">in</span>
+                          <span className="text-xs md:text-sm font-bold">{slide.secondarySubject}</span>
+                        </div>
+                      </div>
+                      <h2 className="text-xl md:text-3xl font-bold text-white">IN {slide.mainSubject}</h2>
+                    </div>
+
+                    {/* Student Name */}
+                    <div className="my-6 md:my-8">
+                      <h1 className="text-4xl md:text-6xl font-bold text-white italic" style={{ fontFamily: 'cursive' }}>
+                        {slide.name}
+                      </h1>
+                    </div>
+
+                    {/* Academy Info */}
+                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center space-x-4">
+                      <div className="flex items-center space-x-2">
+                        <Phone className="w-4 h-4 text-white" />
+                        <span className="text-sm md:text-base text-white font-medium">{slide.phone}</span>
+                      </div>
+                      <div className="bg-yellow-400 text-blue-900 px-4 py-2 md:px-6 md:py-3 rounded-full font-bold text-sm md:text-base">
+                        {slide.tagline}
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
