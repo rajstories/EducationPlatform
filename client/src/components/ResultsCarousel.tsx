@@ -129,16 +129,9 @@ const ResultsCarousel = () => {
     },
     // Biology Teacher Slide
     {
-      type: "mentor",
-      name: "BIOLOGY SIR",
-      title: "NEET Faculty",
-      subtitle: "Botany & Biology Expert",
-      experience: "5+ Years Experience",
-      students: "Classes 11 & 12 NEET",
-      achievement: "Pursuing MBBS - Dr. Ambedkar College",
+      type: "biology_image",
       bgGradient: "from-green-600 to-emerald-700",
-      textColor: "text-white",
-      isBiologyTeacher: true
+      textColor: "text-white"
     }
   ];
 
@@ -247,8 +240,8 @@ const ResultsCarousel = () => {
                     <div className="w-full h-full max-h-[300px] aspect-square">
                       <div className="w-full h-full rounded-full overflow-hidden shadow-2xl bg-white border-6 border-blue-400 p-1">
                         <img 
-                          src={slide.isBiologyTeacher ? biologyTeacherPhoto : ramSirPhoto}
-                          alt={slide.isBiologyTeacher ? "Biology Sir - NEET Faculty" : "Ram Sir - Lead Faculty"}
+                          src={ramSirPhoto}
+                          alt="Ram Sir - Lead Faculty"
                           className="w-full h-full object-cover object-center scale-90 rounded-full"
                         />
                       </div>
@@ -454,6 +447,18 @@ const ResultsCarousel = () => {
                         className="w-full h-full object-cover"
                       />
                     </div>
+                  </div>
+                </div>
+              )}
+
+              {slide.type === "biology_image" && (
+                <div className="relative z-10 h-full flex items-center justify-center p-4">
+                  <div className="w-full h-full max-h-[450px] rounded-xl overflow-hidden shadow-2xl">
+                    <img 
+                      src={biologyTeacherPhoto}
+                      alt="Biology Teacher - NEET Faculty"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 </div>
               )}
