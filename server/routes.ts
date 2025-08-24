@@ -6,6 +6,10 @@ import { ObjectStorageService } from "./objectStorage";
 import { OtpService } from "./otpService";
 import { z } from "zod";
 import session from "express-session";
+import twilio from "twilio";
+
+// Initialize Twilio client
+const twilioClient = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 // Extend session data type
 declare module 'express-session' {
@@ -125,6 +129,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const validatedData = insertContactSchema.parse(req.body);
       const submission = await storage.createContactSubmission(validatedData);
+      
+      // Send SMS to Diwakar Sir
+      try {
+        const smsMessage = `New Student Inquiry from Pooja Academy:
+
+Name: ${validatedData.name}
+Phone: ${validatedData.phone}
+Email: ${validatedData.email}
+Class: ${validatedData.selectedClass || 'Not specified'}
+Message: ${validatedData.message}
+
+Please contact the student for further assistance.`;
+        
+        await twilioClient.messages.create({
+          body: smsMessage,
+          from: process.env.TWILIO_PHONE_NUMBER,
+          to: "+918800345115" // Diwakar Sir's number
+        });
+        
+        console.log("SMS sent successfully to Diwakar Sir");
+      } catch (smsError) {
+        console.error("Failed to send SMS to Diwakar Sir:", smsError);
+        // Don't fail the main request if SMS fails
+      }
+      
       res.status(201).json({ 
         message: "Contact form submitted successfully", 
         id: submission.id 
