@@ -65,7 +65,7 @@ const Header = () => {
             <img 
               src={poojaLogo} 
               alt="Pooja Academy" 
-              className="h-8 w-auto sm:h-10 object-contain filter brightness-0 invert transition-all duration-300 hover:scale-105"
+              className="h-8 w-auto sm:h-10 object-contain invert transition-all duration-300 hover:scale-105"
             />
             <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">Pooja Academy</h1>
           </Link>
