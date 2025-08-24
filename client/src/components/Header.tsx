@@ -62,11 +62,11 @@ const Header = () => {
       <nav className="container mx-auto px-4 py-3 sm:py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-3" data-testid="link-home">
-            <div className="relative flex items-center justify-center">
+            <div className="relative flex items-center justify-center bg-white rounded-md px-2 py-1">
               <img 
                 src={poojaLogo} 
                 alt="Pooja Academy" 
-                className="h-8 w-auto sm:h-10 object-contain filter brightness-0 invert opacity-90 transition-all duration-300 hover:opacity-100 hover:scale-105"
+                className="h-6 w-auto sm:h-8 object-contain transition-all duration-300 hover:scale-105"
               />
             </div>
             <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">Pooja Academy</h1>
