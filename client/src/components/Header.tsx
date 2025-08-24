@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Menu, X, GraduationCap, ChevronDown, User, LogOut, Settings, UserCircle } from "lucide-react";
-import poojaAcademyLogo from "@assets/image_1756024433367.png";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useStudentAuth } from "@/hooks/useStudentAuth";
@@ -61,14 +60,8 @@ const Header = () => {
     <header className="bg-slate-900 text-white fixed top-0 w-full z-50 shadow-xl transition-all duration-300">
       <nav className="container mx-auto px-4 py-3 sm:py-4">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-3" data-testid="link-home">
-            <div className="relative">
-              <img 
-                src={poojaAcademyLogo} 
-                alt="Pooja Academy Logo" 
-                className="h-10 w-14 sm:h-12 sm:w-18 object-fill bg-orange-500 rounded-lg shadow-lg border-2 border-orange-400"
-              />
-            </div>
+          <Link href="/" className="flex items-center space-x-2" data-testid="link-home">
+            <GraduationCap className="h-6 w-6 sm:h-8 sm:w-8 text-skyblue" />
             <h1 className="text-lg sm:text-xl font-bold">Pooja Academy</h1>
           </Link>
 
