@@ -46,19 +46,9 @@ export default function StudentDashboard() {
     queryKey: ['/api/student/attendance'],
   });
 
-  // Fetch grades data
-  const gradesQuery = useQuery({
-    queryKey: ['/api/student/grades'],
-  });
-
-  // Fetch fee data
-  const feesQuery = useQuery({
-    queryKey: ['/api/student/fees'],
-  });
-
-  // Fetch notifications
-  const notificationsQuery = useQuery({
-    queryKey: ['/api/student/notifications'],
+  // Fetch results data
+  const resultsQuery = useQuery({
+    queryKey: ['/api/student/results'],
   });
 
   const handleLogout = () => {
@@ -76,13 +66,23 @@ export default function StudentDashboard() {
       });
   };
 
-  const student = studentQuery.data;
-  const attendance = attendanceQuery.data || { totalDays: 0, presentDays: 0, percentage: 0 };
-  const grades = gradesQuery.data || [];
-  const fees = feesQuery.data || [];
-  const notifications = notificationsQuery.data || [];
+  const student = studentQuery.data as any || {};
+  const attendance = (attendanceQuery.data as any[]) || [];
+  const results = (resultsQuery.data as any[]) || [];
 
-  if (studentQuery.isLoading) {
+  // Calculate attendance statistics
+  const presentDays = Array.isArray(attendance) ? attendance.filter((record: any) => record.status === 'present').length : 0;
+  const totalDays = Array.isArray(attendance) ? attendance.length : 0;
+  const attendancePercentage = totalDays > 0 ? Math.round((presentDays / totalDays) * 100) : 0;
+
+  // Calculate overall performance from results
+  const totalMarks = Array.isArray(results) ? results.reduce((sum: number, result: any) => sum + (result.obtainedMarks || 0), 0) : 0;
+  const totalMaxMarks = Array.isArray(results) ? results.reduce((sum: number, result: any) => sum + (result.maxMarks || 0), 0) : 0;
+  const overallPercentage = totalMaxMarks > 0 ? Math.round((totalMarks / totalMaxMarks) * 100) : 0;
+
+  const isLoading = studentQuery.isLoading || attendanceQuery.isLoading || resultsQuery.isLoading;
+
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
@@ -97,79 +97,93 @@ export default function StudentDashboard() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
-        <div className="container mx-auto px-4 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Avatar className="h-12 w-12">
-                <AvatarFallback className="bg-blue-600 text-white text-lg font-bold">
-                  {student?.name?.charAt(0) || 'S'}
+            <div className="flex items-center space-x-4">
+              <Avatar className="h-10 w-10">
+                <AvatarFallback className="bg-blue-600 text-white">
+                  {student.name?.charAt(0) || 'S'}
                 </AvatarFallback>
               </Avatar>
               <div>
-                <h1 className="text-xl font-bold text-navy">Welcome, {student?.name || 'Student'}!</h1>
-                <p className="text-sm text-gray-600">
-                  {student?.studentId} • {student?.classId ? `Class ${student.classId}` : 'Class Not Set'} • {student?.stream || 'Stream Not Set'}
-                </p>
+                <h1 className="text-2xl font-bold text-gray-900">Welcome back, {student.name || 'Student'}!</h1>
+                <p className="text-gray-600">Here's your academic overview</p>
+                <Badge variant="secondary" className="text-xs">
+                  {student.studentId} • Class {student.classId}
+                </Badge>
               </div>
             </div>
             <Button variant="outline" onClick={handleLogout} className="flex items-center gap-2">
-              <LogOut className="w-4 h-4" />
+              <LogOut className="h-4 w-4" />
               Logout
             </Button>
           </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
-        {/* Quick Stats */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Key Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card>
+          <Card className="border-0 shadow-md">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">Attendance</p>
-                  <p className="text-2xl font-bold text-navy">{attendance.percentage}%</p>
+                  <p className="text-3xl font-bold text-green-600">{attendancePercentage}%</p>
+                  <p className="text-xs text-gray-500">{presentDays}/{totalDays} days</p>
                 </div>
-                <Calendar className="w-8 h-8 text-blue-600" />
+                <div className="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center">
+                  <CheckCircle className="h-6 w-6 text-green-600" />
+                </div>
               </div>
-              <Progress value={attendance.percentage} className="mt-2" />
+              <Progress value={attendancePercentage} className="mt-3" />
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="border-0 shadow-md">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Current GPA</p>
-                  <p className="text-2xl font-bold text-navy">{student?.currentGPA || '0.0'}</p>
+                  <p className="text-sm font-medium text-gray-600">Overall Performance</p>
+                  <p className="text-3xl font-bold text-blue-600">{overallPercentage}%</p>
+                  <p className="text-xs text-gray-500">Current GPA: {student.currentGPA || '0.0'}</p>
                 </div>
-                <TrendingUp className="w-8 h-8 text-green-600" />
+                <div className="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <TrendingUp className="h-6 w-6 text-blue-600" />
+                </div>
+              </div>
+              <Progress value={overallPercentage} className="mt-3" />
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-md">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Overall Grade</p>
+                  <p className="text-3xl font-bold text-purple-600">{student.overallGrade || 'N/A'}</p>
+                  <p className="text-xs text-gray-500">Based on all tests</p>
+                </div>
+                <div className="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                  <Award className="h-6 w-6 text-purple-600" />
+                </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="border-0 shadow-md">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">Fee Status</p>
-                  <Badge variant={fees.some((f: any) => f.status === 'overdue') ? 'destructive' : 'secondary'}>
-                    {student?.feeStatus || 'Pending'}
-                  </Badge>
+                  <p className="text-3xl font-bold text-orange-600">
+                    {student.feeStatus === 'paid' ? 'Paid' : 'Pending'}
+                  </p>
+                  <p className="text-xs text-gray-500">Session 2024-25</p>
                 </div>
-                <DollarSign className="w-8 h-8 text-yellow-600" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Notifications</p>
-                  <p className="text-2xl font-bold text-navy">{notifications.filter((n: any) => !n.isRead).length}</p>
+                <div className="h-12 w-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                  <DollarSign className="h-6 w-6 text-orange-600" />
                 </div>
-                <Bell className="w-8 h-8 text-red-600" />
               </div>
             </CardContent>
           </Card>
@@ -177,140 +191,72 @@ export default function StudentDashboard() {
 
         {/* Main Content Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="profile">Profile</TabsTrigger>
             <TabsTrigger value="attendance">Attendance</TabsTrigger>
-            <TabsTrigger value="grades">Grades</TabsTrigger>
-            <TabsTrigger value="fees">Fees</TabsTrigger>
-            <TabsTrigger value="notifications">Notifications</TabsTrigger>
+            <TabsTrigger value="results">Results</TabsTrigger>
+            <TabsTrigger value="profile">Profile</TabsTrigger>
           </TabsList>
 
           {/* Overview Tab */}
           <TabsContent value="overview" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Recent Grades */}
-              <Card>
+              <Card className="border-0 shadow-md">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Award className="w-5 h-5" />
-                    Recent Grades
+                    <Calendar className="h-5 w-5" />
+                    Recent Attendance
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
-                    {grades.slice(0, 5).map((grade: any, index: number) => (
+                  <div className="space-y-3">
+                    {Array.isArray(attendance) && attendance.slice(0, 5).map((record: any, index: number) => (
                       <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <div>
-                          <p className="font-medium">{grade.testName}</p>
-                          <p className="text-sm text-gray-600">{grade.subjectName}</p>
+                        <div className="flex items-center gap-3">
+                          {record.status === 'present' ? (
+                            <CheckCircle className="h-4 w-4 text-green-600" />
+                          ) : (
+                            <XCircle className="h-4 w-4 text-red-600" />
+                          )}
+                          <span className="text-sm font-medium">{record.date}</span>
                         </div>
-                        <div className="text-right">
-                          <p className="font-bold text-lg">{grade.obtainedMarks}/{grade.maxMarks}</p>
-                          <Badge variant={grade.percentage >= 90 ? 'default' : grade.percentage >= 70 ? 'secondary' : 'destructive'}>
-                            {grade.grade}
+                        <Badge 
+                          variant={record.status === 'present' ? 'default' : 'destructive'}
+                          className="text-xs"
+                        >
+                          {record.status}
+                        </Badge>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="border-0 shadow-md">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <BarChart3 className="h-5 w-5" />
+                    Recent Results
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {Array.isArray(results) && results.slice(0, 5).map((result: any, index: number) => (
+                      <div key={index} className="p-3 bg-gray-50 rounded-lg">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="font-medium text-sm">{result.testName}</span>
+                          <Badge variant="outline" className="text-xs">
+                            {result.obtainedMarks}/{result.maxMarks}
                           </Badge>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Upcoming Events */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Calendar className="w-5 h-5" />
-                    Recent Notifications
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {notifications.slice(0, 5).map((notification: any, index: number) => (
-                      <div key={index} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-                        <div className={`w-2 h-2 rounded-full mt-2 ${notification.priority === 'high' ? 'bg-red-500' : notification.priority === 'medium' ? 'bg-yellow-500' : 'bg-green-500'}`}></div>
-                        <div>
-                          <p className="font-medium">{notification.title}</p>
-                          <p className="text-sm text-gray-600">{notification.message}</p>
-                          <p className="text-xs text-gray-500 mt-1">{new Date(notification.createdAt).toLocaleDateString()}</p>
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs text-gray-600">{result.testDate}</span>
+                          <span className="text-sm font-bold text-blue-600">
+                            {Math.round((result.obtainedMarks / result.maxMarks) * 100)}%
+                          </span>
                         </div>
                       </div>
                     ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-
-          {/* Profile Tab */}
-          <TabsContent value="profile" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <User className="w-5 h-5" />
-                    Personal Information
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-sm font-medium text-gray-600">Full Name</p>
-                      <p className="text-sm">{student?.name || 'Not set'}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-600">Student ID</p>
-                      <p className="text-sm">{student?.studentId || 'Not assigned'}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-600">Date of Birth</p>
-                      <p className="text-sm">{student?.dateOfBirth ? new Date(student.dateOfBirth).toLocaleDateString() : 'Not set'}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-600">Gender</p>
-                      <p className="text-sm">{student?.gender || 'Not set'}</p>
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-600 mb-1">Address</p>
-                    <p className="text-sm">{student?.address || 'Not set'}</p>
-                    <p className="text-sm">{student?.city}, {student?.state} - {student?.pincode}</p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Users className="w-5 h-5" />
-                    Parent/Guardian Information
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-sm font-medium text-gray-600">Father's Name</p>
-                      <p className="text-sm">{student?.fatherName || 'Not set'}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-600">Mother's Name</p>
-                      <p className="text-sm">{student?.motherName || 'Not set'}</p>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <Phone className="w-4 h-4 text-gray-500" />
-                      <p className="text-sm">{student?.parentPhone || 'Not set'}</p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Mail className="w-4 h-4 text-gray-500" />
-                      <p className="text-sm">{student?.parentEmail || 'Not set'}</p>
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Emergency Contact</p>
-                    <p className="text-sm">{student?.emergencyContact || 'Not set'}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -319,117 +265,98 @@ export default function StudentDashboard() {
 
           {/* Attendance Tab */}
           <TabsContent value="attendance" className="space-y-6">
-            <Card>
+            <Card className="border-0 shadow-md">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Calendar className="w-5 h-5" />
-                  Attendance Record
-                </CardTitle>
+                <CardTitle>Attendance History</CardTitle>
                 <CardDescription>
-                  Your attendance record for the current session
+                  Your complete attendance record with detailed information
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="space-y-4">
+                  <div className="grid grid-cols-3 gap-4 mb-6">
                     <div className="text-center p-4 bg-green-50 rounded-lg">
-                      <CheckCircle className="w-8 h-8 text-green-600 mx-auto mb-2" />
-                      <p className="text-2xl font-bold text-green-600">{attendance.presentDays}</p>
+                      <p className="text-2xl font-bold text-green-600">{presentDays}</p>
                       <p className="text-sm text-gray-600">Present Days</p>
                     </div>
                     <div className="text-center p-4 bg-red-50 rounded-lg">
-                      <XCircle className="w-8 h-8 text-red-600 mx-auto mb-2" />
-                      <p className="text-2xl font-bold text-red-600">{attendance.totalDays - attendance.presentDays}</p>
+                      <p className="text-2xl font-bold text-red-600">{totalDays - presentDays}</p>
                       <p className="text-sm text-gray-600">Absent Days</p>
                     </div>
                     <div className="text-center p-4 bg-blue-50 rounded-lg">
-                      <BarChart3 className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-                      <p className="text-2xl font-bold text-blue-600">{attendance.percentage}%</p>
-                      <p className="text-sm text-gray-600">Overall Attendance</p>
+                      <p className="text-2xl font-bold text-blue-600">{attendancePercentage}%</p>
+                      <p className="text-sm text-gray-600">Attendance Percentage</p>
                     </div>
                   </div>
-                  
-                  <div>
-                    <h4 className="font-medium mb-4">Attendance Progress</h4>
-                    <Progress value={attendance.percentage} className="mb-2" />
-                    <p className="text-sm text-gray-600">
-                      {attendance.presentDays} out of {attendance.totalDays} days attended
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
 
-          {/* Grades Tab */}
-          <TabsContent value="grades" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Award className="w-5 h-5" />
-                  Academic Performance
-                </CardTitle>
-                <CardDescription>
-                  Your grades and test scores
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {grades.map((grade: any, index: number) => (
-                    <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                      <div className="flex-1">
-                        <h4 className="font-medium">{grade.testName}</h4>
-                        <p className="text-sm text-gray-600">{grade.subjectName} • {grade.testType}</p>
-                        <p className="text-xs text-gray-500">{new Date(grade.testDate).toLocaleDateString()}</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-lg font-bold">{grade.obtainedMarks}/{grade.maxMarks}</p>
-                        <div className="flex items-center gap-2">
-                          <Badge variant={grade.percentage >= 90 ? 'default' : grade.percentage >= 70 ? 'secondary' : 'destructive'}>
-                            {grade.grade}
-                          </Badge>
-                          <span className="text-sm text-gray-600">{grade.percentage}%</span>
+                  <div className="space-y-2">
+                    {Array.isArray(attendance) && attendance.map((record: any, index: number) => (
+                      <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
+                        <div className="flex items-center gap-3">
+                          {record.status === 'present' ? (
+                            <CheckCircle className="h-5 w-5 text-green-600" />
+                          ) : (
+                            <XCircle className="h-5 w-5 text-red-600" />
+                          )}
+                          <div>
+                            <p className="font-medium">{record.date}</p>
+                            {record.remarks && (
+                              <p className="text-sm text-gray-600">{record.remarks}</p>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Fees Tab */}
-          <TabsContent value="fees" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <DollarSign className="w-5 h-5" />
-                  Fee Management
-                </CardTitle>
-                <CardDescription>
-                  Your fee payments and pending dues
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {fees.map((fee: any, index: number) => (
-                    <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                      <div>
-                        <h4 className="font-medium">{fee.feeType}</h4>
-                        <p className="text-sm text-gray-600">Due: {new Date(fee.dueDate).toLocaleDateString()}</p>
-                        {fee.paidDate && (
-                          <p className="text-xs text-green-600">Paid: {new Date(fee.paidDate).toLocaleDateString()}</p>
-                        )}
-                      </div>
-                      <div className="text-right">
-                        <p className="text-lg font-bold">₹{fee.amount}</p>
-                        <Badge variant={
-                          fee.status === 'paid' ? 'secondary' : 
-                          fee.status === 'overdue' ? 'destructive' : 'default'
-                        }>
-                          {fee.status}
+                        <Badge 
+                          variant={record.status === 'present' ? 'default' : 'destructive'}
+                        >
+                          {record.status}
                         </Badge>
                       </div>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Results Tab */}
+          <TabsContent value="results" className="space-y-6">
+            <Card className="border-0 shadow-md">
+              <CardHeader>
+                <CardTitle>Academic Results</CardTitle>
+                <CardDescription>
+                  Your test scores, grades, and academic performance
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {Array.isArray(results) && results.map((result: any, index: number) => (
+                    <div key={index} className="p-4 border rounded-lg">
+                      <div className="flex items-center justify-between mb-3">
+                        <div>
+                          <h3 className="font-semibold">{result.testName}</h3>
+                          <p className="text-sm text-gray-600">{result.testType} • {result.testDate}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-lg font-bold text-blue-600">
+                            {result.obtainedMarks}/{result.maxMarks}
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            {Math.round((result.obtainedMarks / result.maxMarks) * 100)}%
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <Badge variant="outline">
+                          Grade: {result.grade || 'N/A'}
+                        </Badge>
+                        {result.remarks && (
+                          <p className="text-sm text-gray-600 italic">{result.remarks}</p>
+                        )}
+                      </div>
+                      <Progress 
+                        value={Math.round((result.obtainedMarks / result.maxMarks) * 100)} 
+                        className="mt-2"
+                      />
                     </div>
                   ))}
                 </div>
@@ -437,43 +364,84 @@ export default function StudentDashboard() {
             </Card>
           </TabsContent>
 
-          {/* Notifications Tab */}
-          <TabsContent value="notifications" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Bell className="w-5 h-5" />
-                  Notifications
-                </CardTitle>
-                <CardDescription>
-                  Important updates and announcements
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {notifications.map((notification: any, index: number) => (
-                    <div key={index} className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
-                      <div className={`w-3 h-3 rounded-full mt-1 flex-shrink-0 ${
-                        notification.priority === 'high' ? 'bg-red-500' : 
-                        notification.priority === 'medium' ? 'bg-yellow-500' : 'bg-green-500'
-                      }`}></div>
-                      <div className="flex-1">
-                        <div className="flex items-start justify-between">
-                          <h4 className="font-medium">{notification.title}</h4>
-                          {!notification.isRead && (
-                            <Badge variant="secondary" className="text-xs">New</Badge>
-                          )}
-                        </div>
-                        <p className="text-sm text-gray-600 mt-1">{notification.message}</p>
-                        <p className="text-xs text-gray-500 mt-2">
-                          {new Date(notification.createdAt).toLocaleString()}
-                        </p>
-                      </div>
+          {/* Profile Tab */}
+          <TabsContent value="profile" className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <Card className="border-0 shadow-md">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <User className="h-5 w-5" />
+                    Personal Information
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div>
+                    <label className="text-sm font-medium text-gray-600">Full Name</label>
+                    <p className="text-lg font-semibold">{student.name || 'Not provided'}</p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-600">Student ID</label>
+                    <p className="text-lg font-semibold">{student.studentId || 'Not generated'}</p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-600">Date of Birth</label>
+                    <p className="text-lg font-semibold">
+                      {student.dateOfBirth ? new Date(student.dateOfBirth).toLocaleDateString() : 'Not provided'}
+                    </p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-600">Gender</label>
+                    <p className="text-lg font-semibold">{student.gender || 'Not specified'}</p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-600">Address</label>
+                    <p className="text-lg font-semibold">
+                      {student.address && student.city && student.state ? 
+                        `${student.address}, ${student.city}, ${student.state} - ${student.pincode}` : 
+                        'Not provided'
+                      }
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="border-0 shadow-md">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Users className="h-5 w-5" />
+                    Parent/Guardian Information
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div>
+                    <label className="text-sm font-medium text-gray-600">Father's Name</label>
+                    <p className="text-lg font-semibold">{student.fatherName || 'Not provided'}</p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-600">Mother's Name</label>
+                    <p className="text-lg font-semibold">{student.motherName || 'Not provided'}</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Phone className="h-4 w-4 text-gray-600" />
+                    <div>
+                      <label className="text-sm font-medium text-gray-600">Parent Phone</label>
+                      <p className="text-lg font-semibold">{student.parentPhone || 'Not provided'}</p>
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Mail className="h-4 w-4 text-gray-600" />
+                    <div>
+                      <label className="text-sm font-medium text-gray-600">Parent Email</label>
+                      <p className="text-lg font-semibold">{student.parentEmail || 'Not provided'}</p>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-600">Emergency Contact</label>
+                    <p className="text-lg font-semibold">{student.emergencyContact || 'Not provided'}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
         </Tabs>
       </div>

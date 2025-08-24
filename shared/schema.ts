@@ -164,6 +164,18 @@ export const otps = pgTable("otps", {
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
 });
 
+// Student login sessions for attendance tracking
+export const studentSessions = pgTable("student_sessions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  studentId: varchar("student_id").notNull(),
+  loginDate: text("login_date").notNull(), // YYYY-MM-DD format
+  loginTime: text("login_time").notNull(),
+  logoutTime: text("logout_time"),
+  duration: integer("duration"), // in minutes
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -302,8 +314,14 @@ export const studentNotifications = pgTable("student_notifications", {
 export type StudentUser = typeof studentUsers.$inferSelect;
 export type InsertStudentUser = z.infer<typeof insertStudentUserSchema>;
 export type StudentAttendance = typeof studentAttendance.$inferSelect;
+export type InsertStudentAttendance = typeof studentAttendance.$inferInsert;
 export type StudentGrade = typeof studentGrades.$inferSelect;
+export type InsertStudentGrade = typeof studentGrades.$inferInsert;
 export type StudentFee = typeof studentFees.$inferSelect;
+export type InsertStudentFee = typeof studentFees.$inferInsert;
 export type StudentNotification = typeof studentNotifications.$inferSelect;
+export type InsertStudentNotification = typeof studentNotifications.$inferInsert;
+export type StudentSession = typeof studentSessions.$inferSelect;
+export type InsertStudentSession = typeof studentSessions.$inferInsert;
 export type Otp = typeof otps.$inferSelect;
 export type InsertOtp = z.infer<typeof insertOtpSchema>;

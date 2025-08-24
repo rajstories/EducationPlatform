@@ -28,6 +28,7 @@ import {
   Clock
 } from "lucide-react";
 import { EnhancedUploader } from "@/components/EnhancedUploader";
+import { AttendanceManagement } from "@/components/AttendanceManagement";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
@@ -393,9 +394,10 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-7">
+          <TabsList className="grid w-full grid-cols-8">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="students">Student Records</TabsTrigger>
+            <TabsTrigger value="attendance">Attendance</TabsTrigger>
             <TabsTrigger value="notes">Notes</TabsTrigger>
             <TabsTrigger value="tests">Tests</TabsTrigger>
             <TabsTrigger value="pyqs">PYQs</TabsTrigger>
@@ -541,6 +543,14 @@ export default function AdminDashboard() {
                 ))}
               </div>
             )}
+          </TabsContent>
+
+          {/* Attendance Management Tab */}
+          <TabsContent value="attendance" className="space-y-6">
+            <AttendanceManagement 
+              students={filteredStudents || []}
+              classes={classesQuery.data || []}
+            />
           </TabsContent>
 
           <TabsContent value="notes">

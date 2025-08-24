@@ -7,7 +7,10 @@ import {
   type Content, type InsertContent,
   type ContentFile, type InsertContentFile,
   type StudentUser, type InsertStudentUser,
-  type Otp, type InsertOtp
+  type Otp, type InsertOtp,
+  type StudentAttendance, type InsertStudentAttendance,
+  type StudentGrade, type InsertStudentGrade,
+  type StudentSession, type InsertStudentSession
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 
@@ -58,6 +61,22 @@ export interface IStorage {
   completeStudentProfile(id: string, profileData: any): Promise<StudentUser | undefined>;
   getAllStudents(): Promise<StudentUser[]>;
   
+  // Attendance methods
+  markAttendance(attendance: InsertStudentAttendance): Promise<StudentAttendance>;
+  getStudentAttendance(studentId: string, startDate?: string, endDate?: string): Promise<StudentAttendance[]>;
+  getClassAttendanceForDate(classId: string, date: string): Promise<StudentAttendance[]>;
+  updateAttendanceStats(studentId: string): Promise<void>;
+  
+  // Student results/grades methods
+  addStudentResult(result: InsertStudentGrade): Promise<StudentGrade>;
+  getStudentResults(studentId: string, subjectId?: string): Promise<StudentGrade[]>;
+  updateStudentGPA(studentId: string): Promise<void>;
+  
+  // Student session tracking
+  createStudentSession(session: InsertStudentSession): Promise<StudentSession>;
+  updateStudentSession(sessionId: string, updates: Partial<StudentSession>): Promise<void>;
+  getActiveStudentsForDate(date: string): Promise<string[]>; // returns student IDs
+  
   // OTP methods
   createOtp(otp: InsertOtp): Promise<Otp>;
   getValidOtp(identifier: string, otpCode: string, type: string): Promise<Otp | undefined>;
@@ -77,6 +96,9 @@ export class MemStorage implements IStorage {
   private contentFiles: Map<string, ContentFile>;
   private studentUsers: Map<string, StudentUser>;
   private otps: Map<string, Otp>;
+  private studentAttendance: Map<string, StudentAttendance>;
+  private studentGrades: Map<string, StudentGrade>;
+  private studentSessions: Map<string, StudentSession>;
 
   constructor() {
     this.users = new Map();
@@ -90,6 +112,9 @@ export class MemStorage implements IStorage {
     this.contentFiles = new Map();
     this.studentUsers = new Map();
     this.otps = new Map();
+    this.studentAttendance = new Map();
+    this.studentGrades = new Map();
+    this.studentSessions = new Map();
     
     this.initializeData();
   }
@@ -543,6 +568,181 @@ export class MemStorage implements IStorage {
       }
     });
     expiredIds.forEach(id => this.otps.delete(id));
+  }
+
+  // Attendance methods implementation
+  async markAttendance(attendance: InsertStudentAttendance): Promise<StudentAttendance> {
+    const id = randomUUID();
+    const record: StudentAttendance = {
+      ...attendance,
+      id,
+      createdAt: new Date().toISOString(),
+      subjectId: attendance.subjectId || null,
+      remarks: attendance.remarks || null,
+      markedBy: attendance.markedBy || null
+    };
+    this.studentAttendance.set(id, record);
+    
+    // Update student attendance stats
+    await this.updateAttendanceStats(attendance.studentId);
+    return record;
+  }
+
+  async getStudentAttendance(studentId: string, startDate?: string, endDate?: string): Promise<StudentAttendance[]> {
+    const records = Array.from(this.studentAttendance.values())
+      .filter(record => record.studentId === studentId);
+    
+    if (startDate && endDate) {
+      return records.filter(record => 
+        record.date >= startDate && record.date <= endDate
+      ).sort((a, b) => b.date.localeCompare(a.date));
+    }
+    
+    return records.sort((a, b) => b.date.localeCompare(a.date));
+  }
+
+  async getClassAttendanceForDate(classId: string, date: string): Promise<StudentAttendance[]> {
+    const classStudents = Array.from(this.studentUsers.values())
+      .filter(student => student.classId === classId);
+    
+    return Array.from(this.studentAttendance.values())
+      .filter(record => 
+        record.date === date && 
+        classStudents.some(student => student.id === record.studentId)
+      );
+  }
+
+  async updateAttendanceStats(studentId: string): Promise<void> {
+    const student = this.studentUsers.get(studentId);
+    if (!student) return;
+
+    const attendanceRecords = await this.getStudentAttendance(studentId);
+    const presentDays = attendanceRecords.filter(record => record.status === 'present').length;
+    const totalDays = attendanceRecords.length;
+
+    const updatedStudent = {
+      ...student,
+      presentDays,
+      totalAttendance: totalDays,
+      updatedAt: new Date().toISOString()
+    };
+
+    this.studentUsers.set(studentId, updatedStudent);
+  }
+
+  // Student results methods implementation
+  async addStudentResult(result: InsertStudentGrade): Promise<StudentGrade> {
+    const id = randomUUID();
+    const grade: StudentGrade = {
+      ...result,
+      id,
+      createdAt: new Date().toISOString(),
+      grade: result.grade || null,
+      percentage: result.percentage || null,
+      remarks: result.remarks || null
+    };
+    this.studentGrades.set(id, grade);
+    
+    // Update student GPA
+    await this.updateStudentGPA(result.studentId);
+    return grade;
+  }
+
+  async getStudentResults(studentId: string, subjectId?: string): Promise<StudentGrade[]> {
+    const results = Array.from(this.studentGrades.values())
+      .filter(result => result.studentId === studentId);
+    
+    if (subjectId) {
+      return results.filter(result => result.subjectId === subjectId)
+        .sort((a, b) => b.testDate.localeCompare(a.testDate));
+    }
+    
+    return results.sort((a, b) => b.testDate.localeCompare(a.testDate));
+  }
+
+  async updateStudentGPA(studentId: string): Promise<void> {
+    const student = this.studentUsers.get(studentId);
+    if (!student) return;
+
+    const results = await this.getStudentResults(studentId);
+    if (results.length === 0) return;
+
+    // Calculate GPA (simple average of percentages converted to 4.0 scale)
+    const totalPercentage = results.reduce((sum, result) => {
+      const percentage = parseFloat(result.percentage || '0');
+      return sum + percentage;
+    }, 0);
+    
+    const averagePercentage = totalPercentage / results.length;
+    const gpa = (averagePercentage / 100) * 4; // Convert to 4.0 scale
+    
+    // Determine overall grade
+    let overallGrade = 'F';
+    if (averagePercentage >= 90) overallGrade = 'A+';
+    else if (averagePercentage >= 85) overallGrade = 'A';
+    else if (averagePercentage >= 80) overallGrade = 'B+';
+    else if (averagePercentage >= 75) overallGrade = 'B';
+    else if (averagePercentage >= 70) overallGrade = 'C+';
+    else if (averagePercentage >= 65) overallGrade = 'C';
+    else if (averagePercentage >= 60) overallGrade = 'D';
+
+    const updatedStudent = {
+      ...student,
+      currentGPA: gpa.toFixed(2),
+      overallGrade,
+      updatedAt: new Date().toISOString()
+    };
+
+    this.studentUsers.set(studentId, updatedStudent);
+  }
+
+  // Student session methods implementation
+  async createStudentSession(session: InsertStudentSession): Promise<StudentSession> {
+    const id = randomUUID();
+    const sessionRecord: StudentSession = {
+      ...session,
+      id,
+      logoutTime: session.logoutTime || null,
+      duration: session.duration || null,
+      ipAddress: session.ipAddress || null,
+      userAgent: session.userAgent || null
+    };
+    this.studentSessions.set(id, sessionRecord);
+    
+    // Auto-mark attendance for login
+    const today = new Date().toISOString().split('T')[0];
+    const existingAttendance = await this.getClassAttendanceForDate(
+      this.studentUsers.get(session.studentId)?.classId || '', 
+      today
+    );
+    
+    const hasAttendanceToday = existingAttendance.some(record => record.studentId === session.studentId);
+    
+    if (!hasAttendanceToday) {
+      await this.markAttendance({
+        studentId: session.studentId,
+        date: today,
+        status: 'present',
+        markedBy: 'system', // auto-marked by login
+        remarks: 'Auto-marked by student login'
+      });
+    }
+    
+    return sessionRecord;
+  }
+
+  async updateStudentSession(sessionId: string, updates: Partial<StudentSession>): Promise<void> {
+    const session = this.studentSessions.get(sessionId);
+    if (session) {
+      const updatedSession = { ...session, ...updates };
+      this.studentSessions.set(sessionId, updatedSession);
+    }
+  }
+
+  async getActiveStudentsForDate(date: string): Promise<string[]> {
+    return Array.from(this.studentSessions.values())
+      .filter(session => session.loginDate === date)
+      .map(session => session.studentId);
   }
 }
 

@@ -150,6 +150,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Student attendance endpoints
+  app.get('/api/student/attendance', async (req: any, res) => {
+    try {
+      if (!req.session.student?.id) {
+        return res.status(401).json({ message: "Student not authenticated" });
+      }
+      
+      const studentId = req.session.student.id;
+      const { startDate, endDate } = req.query;
+      const attendance = await storage.getStudentAttendance(studentId, startDate as string, endDate as string);
+      res.json(attendance);
+    } catch (error) {
+      console.error("Error fetching student attendance:", error);
+      res.status(500).json({ message: "Failed to fetch attendance" });
+    }
+  });
+
+  // Student results endpoints
+  app.get('/api/student/results', async (req: any, res) => {
+    try {
+      if (!req.session.student?.id) {
+        return res.status(401).json({ message: "Student not authenticated" });
+      }
+      
+      const studentId = req.session.student.id;
+      const { subjectId } = req.query;
+      const results = await storage.getStudentResults(studentId, subjectId as string);
+      res.json(results);
+    } catch (error) {
+      console.error("Error fetching student results:", error);
+      res.status(500).json({ message: "Failed to fetch results" });
+    }
+  });
+
   // ========== ADMIN ROUTES ==========
   
   // Get all students for admin
@@ -160,6 +194,73 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching students:", error);
       res.status(500).json({ message: "Failed to fetch students" });
+    }
+  });
+
+  // Attendance management endpoints
+  app.post('/api/admin/attendance/mark', requireAdminAuth, async (req: any, res) => {
+    try {
+      const { studentId, date, status, remarks } = req.body;
+      const attendance = await storage.markAttendance({
+        studentId,
+        date,
+        status,
+        markedBy: req.session.adminUser.id,
+        remarks
+      });
+      res.json(attendance);
+    } catch (error) {
+      console.error("Error marking attendance:", error);
+      res.status(500).json({ message: "Failed to mark attendance" });
+    }
+  });
+
+  app.get('/api/admin/attendance/class/:classId/date/:date', requireAdminAuth, async (req, res) => {
+    try {
+      const { classId, date } = req.params;
+      const attendance = await storage.getClassAttendanceForDate(classId, date);
+      res.json(attendance);
+    } catch (error) {
+      console.error("Error fetching class attendance:", error);
+      res.status(500).json({ message: "Failed to fetch attendance" });
+    }
+  });
+
+  app.get('/api/admin/students/active/:date', requireAdminAuth, async (req, res) => {
+    try {
+      const { date } = req.params;
+      const activeStudentIds = await storage.getActiveStudentsForDate(date);
+      res.json(activeStudentIds);
+    } catch (error) {
+      console.error("Error fetching active students:", error);
+      res.status(500).json({ message: "Failed to fetch active students" });
+    }
+  });
+
+  // Student results management
+  app.post('/api/admin/results/add', requireAdminAuth, async (req: any, res) => {
+    try {
+      const resultData = {
+        ...req.body,
+        enteredBy: req.session.adminUser.id
+      };
+      const result = await storage.addStudentResult(resultData);
+      res.json(result);
+    } catch (error) {
+      console.error("Error adding student result:", error);
+      res.status(500).json({ message: "Failed to add result" });
+    }
+  });
+
+  app.get('/api/admin/results/student/:studentId', requireAdminAuth, async (req, res) => {
+    try {
+      const { studentId } = req.params;
+      const { subjectId } = req.query;
+      const results = await storage.getStudentResults(studentId, subjectId as string);
+      res.json(results);
+    } catch (error) {
+      console.error("Error fetching student results:", error);
+      res.status(500).json({ message: "Failed to fetch results" });
     }
   });
   
@@ -756,6 +857,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
         
         console.log("OTP verification successful, session created for:", student.id);
+        
+        // Create student session for attendance tracking
+        const today = new Date().toISOString().split('T')[0];
+        const loginTime = new Date().toISOString();
+        
+        storage.createStudentSession({
+          studentId: student.id,
+          loginDate: today,
+          loginTime,
+          ipAddress: req.ip || 'unknown',
+          userAgent: req.get('User-Agent') || 'unknown'
+        }).catch(error => {
+          console.error("Failed to create student session:", error);
+        });
         
         res.json({ 
           message: "Login successful",
