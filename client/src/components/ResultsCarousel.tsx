@@ -11,7 +11,7 @@ import ramSirPhoto from "@assets/image_1755784859503.png";
 import champsPhoto from "@assets/image_1756022456101.png";
 import kunalPhoto from "@assets/image_1756022382197.png";
 import shaileshPhoto from "@assets/image_1756022503711.png";
-import ajayPhoto from "@assets/image_1756023448119.png";
+import ajayPhoto from "@assets/image_1756023883616.png";
 import biologyTeacherPhoto from "@assets/image_1756022662880.png";
 import champsFullPhoto from "@assets/image_1756023373291.png";
 
