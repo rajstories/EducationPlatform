@@ -66,9 +66,8 @@ const Header = () => {
               <img 
                 src={poojaAcademyLogo} 
                 alt="Pooja Academy Logo" 
-                className="h-9 w-12 sm:h-11 sm:w-16 object-cover bg-gradient-to-r from-orange-400 to-yellow-400 rounded-lg p-1 shadow-lg border-2 border-orange-300"
+                className="h-10 w-14 sm:h-12 sm:w-18 object-fill bg-orange-500 rounded-lg shadow-lg border-2 border-orange-400"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-400/20 to-yellow-400/20 rounded-lg animate-pulse"></div>
             </div>
             <h1 className="text-lg sm:text-xl font-bold">Pooja Academy</h1>
           </Link>
