@@ -31,6 +31,7 @@ import {
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { ProgressTracker } from "@/components/ProgressTracker";
+import { VideoPlayer } from "@/components/VideoPlayer";
 
 export default function StudentDashboard() {
   const [, setLocation] = useLocation();
@@ -50,6 +51,11 @@ export default function StudentDashboard() {
   // Fetch results data
   const resultsQuery = useQuery({
     queryKey: ['/api/student/results'],
+  });
+
+  // Fetch video content
+  const videosQuery = useQuery({
+    queryKey: ['/api/content', { type: 'video' }],
   });
 
   const handleLogout = () => {
@@ -192,8 +198,9 @@ export default function StudentDashboard() {
 
         {/* Main Content Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="videos">Video Lectures</TabsTrigger>
             <TabsTrigger value="attendance">Attendance</TabsTrigger>
             <TabsTrigger value="results">Results</TabsTrigger>
             <TabsTrigger value="progress">Progress</TabsTrigger>
@@ -364,6 +371,52 @@ export default function StudentDashboard() {
                 </div>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          {/* Video Lectures Tab */}
+          <TabsContent value="videos" className="space-y-6">
+            <div className="space-y-6">
+              <Card className="border-0 shadow-md">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <BookOpen className="h-5 w-5" />
+                    Video Lectures
+                  </CardTitle>
+                  <CardDescription>
+                    Watch video lectures and track your learning progress
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {videosQuery.isLoading ? (
+                    <div className="text-center py-8">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                      <p className="text-gray-600">Loading videos...</p>
+                    </div>
+                  ) : Array.isArray(videosQuery.data) && videosQuery.data.length > 0 ? (
+                    <div className="grid gap-6">
+                      {videosQuery.data.map((video: any) => (
+                        <VideoPlayer
+                          key={video.id}
+                          contentId={video.id}
+                          videoUrl={`/objects/${video.videoId}`}
+                          title={video.title}
+                          description={video.description}
+                          className="w-full"
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <BookOpen className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                      <h3 className="text-lg font-medium text-gray-900 mb-2">No Video Lectures Available</h3>
+                      <p className="text-gray-600">
+                        Video lectures will appear here when your instructor uploads them.
+                      </p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
 
           {/* Progress & Achievements Tab */}

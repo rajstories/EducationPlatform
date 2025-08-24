@@ -1070,20 +1070,107 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Download file (public access for published content)
+  // Download file (public access for published content) with video streaming support
   app.get("/objects/:objectPath(*)", async (req, res) => {
     try {
       const objectStorage = new ObjectStorageService();
       const objectFile = await objectStorage.getObjectEntityFile(`/objects/${req.params.objectPath}`);
       
-      // Increment download count
-      // Note: In a real implementation, you'd want to track which file this is
-      // and increment its download count in the database
+      // Get file metadata
+      const [metadata] = await objectFile.getMetadata();
+      const contentType = metadata.contentType || "application/octet-stream";
       
-      objectStorage.downloadObject(objectFile, res);
+      // Handle video streaming with range requests
+      if (contentType.startsWith('video/')) {
+        const range = req.headers.range;
+        const fileSize = parseInt(metadata.size);
+        
+        if (range) {
+          const parts = range.replace(/bytes=/, "").split("-");
+          const start = parseInt(parts[0], 10);
+          const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+          const chunksize = (end - start) + 1;
+
+          res.status(206).set({
+            "Content-Range": `bytes ${start}-${end}/${fileSize}`,
+            "Accept-Ranges": "bytes",
+            "Content-Length": chunksize.toString(),
+            "Content-Type": contentType,
+            "Cache-Control": "public, max-age=3600",
+          });
+
+          const stream = objectFile.createReadStream({ start, end });
+          stream.on("error", (err) => {
+            console.error("Video stream error:", err);
+            if (!res.headersSent) {
+              res.status(500).end();
+            }
+          });
+          stream.pipe(res);
+        } else {
+          // Full video file request
+          res.set({
+            "Content-Type": contentType,
+            "Content-Length": metadata.size,
+            "Accept-Ranges": "bytes",
+            "Cache-Control": "public, max-age=3600",
+          });
+          objectStorage.downloadObject(objectFile, res);
+        }
+      } else {
+        // Regular file download
+        objectStorage.downloadObject(objectFile, res);
+      }
     } catch (error) {
       console.error("Download error:", error);
       res.status(404).json({ message: "File not found" });
+    }
+  });
+
+  // Video-related endpoints
+
+  // Get video progress for a student
+  app.get("/api/videos/:contentId/progress", requireStudentAuth, async (req: any, res) => {
+    try {
+      const { contentId } = req.params;
+      const studentId = req.session.student.id;
+      
+      const progress = await storage.getVideoProgress(studentId, contentId);
+      res.json(progress || {
+        currentTime: 0,
+        completionPercentage: 0,
+        isCompleted: false
+      });
+    } catch (error) {
+      console.error("Error getting video progress:", error);
+      res.status(500).json({ message: "Failed to get video progress" });
+    }
+  });
+
+  // Update video progress
+  app.put("/api/videos/:contentId/progress", requireStudentAuth, async (req: any, res) => {
+    try {
+      const { contentId } = req.params;
+      const { currentTime, completionPercentage } = req.body;
+      const studentId = req.session.student.id;
+      
+      await storage.updateVideoProgress(studentId, contentId, currentTime, completionPercentage);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error updating video progress:", error);
+      res.status(500).json({ message: "Failed to update video progress" });
+    }
+  });
+
+  // Get all video progress for a student
+  app.get("/api/student/video-progress", requireStudentAuth, async (req: any, res) => {
+    try {
+      const studentId = req.session.student.id;
+      const progress = await storage.getStudentVideoProgress(studentId);
+      res.json(progress);
+    } catch (error) {
+      console.error("Error getting student video progress:", error);
+      res.status(500).json({ message: "Failed to get video progress" });
     }
   });
 

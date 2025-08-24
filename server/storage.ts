@@ -13,7 +13,8 @@ import {
   type StudentSession, type InsertStudentSession,
   type Achievement, type InsertAchievement,
   type StudentAchievement, type InsertStudentAchievement,
-  type StudentProgress, type InsertStudentProgress
+  type StudentProgress, type InsertStudentProgress,
+  type VideoProgress, type InsertVideoProgress
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 
@@ -110,6 +111,12 @@ export interface IStorage {
   addExperiencePoints(studentId: string, points: number, activity: string): Promise<void>;
   updateLoginStreak(studentId: string): Promise<void>;
   getLeaderboard(limit?: number): Promise<{student: StudentUser, progress: StudentProgress}[]>;
+  
+  // Video progress methods
+  createOrUpdateVideoProgress(progress: InsertVideoProgress): Promise<VideoProgress>;
+  getVideoProgress(studentId: string, contentId: string): Promise<VideoProgress | undefined>;
+  getStudentVideoProgress(studentId: string): Promise<VideoProgress[]>;
+  updateVideoProgress(studentId: string, contentId: string, currentTime: number, completionPercentage: number): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
@@ -130,6 +137,7 @@ export class MemStorage implements IStorage {
   private achievements: Map<string, Achievement>;
   private studentAchievements: Map<string, StudentAchievement>;
   private studentProgress: Map<string, StudentProgress>;
+  private videoProgress: Map<string, VideoProgress>;
 
   constructor() {
     this.users = new Map();
@@ -149,6 +157,7 @@ export class MemStorage implements IStorage {
     this.achievements = new Map();
     this.studentAchievements = new Map();
     this.studentProgress = new Map();
+    this.videoProgress = new Map();
     
     this.initializeData();
     this.initializeAchievements();
@@ -1195,6 +1204,69 @@ export class MemStorage implements IStorage {
     return leaderboard
       .sort((a, b) => b.progress.totalPoints - a.progress.totalPoints)
       .slice(0, limit);
+  }
+
+  // Video progress methods
+  async createOrUpdateVideoProgress(progress: InsertVideoProgress): Promise<VideoProgress> {
+    const key = `${progress.studentId}-${progress.contentId}`;
+    const existing = this.videoProgress.get(key);
+    
+    const videoProgress: VideoProgress = {
+      id: existing?.id || randomUUID(),
+      studentId: progress.studentId,
+      contentId: progress.contentId,
+      currentTime: progress.currentTime,
+      duration: progress.duration,
+      completionPercentage: progress.completionPercentage,
+      isCompleted: progress.isCompleted,
+      lastWatchedAt: new Date().toISOString(),
+      totalWatchTime: progress.totalWatchTime,
+      createdAt: existing?.createdAt || new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    
+    this.videoProgress.set(key, videoProgress);
+    return videoProgress;
+  }
+
+  async getVideoProgress(studentId: string, contentId: string): Promise<VideoProgress | undefined> {
+    const key = `${studentId}-${contentId}`;
+    return this.videoProgress.get(key);
+  }
+
+  async getStudentVideoProgress(studentId: string): Promise<VideoProgress[]> {
+    return Array.from(this.videoProgress.values()).filter(
+      progress => progress.studentId === studentId
+    );
+  }
+
+  async updateVideoProgress(
+    studentId: string, 
+    contentId: string, 
+    currentTime: number, 
+    completionPercentage: number
+  ): Promise<void> {
+    const key = `${studentId}-${contentId}`;
+    const existing = this.videoProgress.get(key);
+    
+    if (existing) {
+      const isCompleted = completionPercentage >= 80; // Consider 80% as completed
+      const progress: VideoProgress = {
+        ...existing,
+        currentTime,
+        completionPercentage,
+        isCompleted,
+        lastWatchedAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      
+      this.videoProgress.set(key, progress);
+      
+      // Award XP when video is completed for the first time
+      if (isCompleted && !existing.isCompleted) {
+        await this.addExperiencePoints(studentId, 20, 'Video Completed');
+      }
+    }
   }
 }
 

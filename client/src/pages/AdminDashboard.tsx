@@ -28,6 +28,7 @@ import {
   Clock
 } from "lucide-react";
 import { EnhancedUploader } from "@/components/EnhancedUploader";
+import { VideoUploader } from "@/components/VideoUploader";
 import { AttendanceManagement } from "@/components/AttendanceManagement";
 import { ChapterManagement } from "@/components/ChapterManagement";
 import { apiRequest } from "@/lib/queryClient";
@@ -62,6 +63,10 @@ export default function AdminDashboard() {
 
   const announcementsQuery = useQuery({
     queryKey: ['/api/admin/content?type=announcement'],
+  });
+
+  const videosQuery = useQuery({
+    queryKey: ['/api/admin/content?type=video'],
   });
 
   // Student data queries
@@ -395,11 +400,12 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-9">
+          <TabsList className="grid w-full grid-cols-10">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="students">Student Records</TabsTrigger>
             <TabsTrigger value="attendance">Attendance</TabsTrigger>
             <TabsTrigger value="chapters">Chapters</TabsTrigger>
+            <TabsTrigger value="videos">Video Lectures</TabsTrigger>
             <TabsTrigger value="notes">Notes</TabsTrigger>
             <TabsTrigger value="tests">Tests</TabsTrigger>
             <TabsTrigger value="pyqs">PYQs</TabsTrigger>
@@ -560,6 +566,30 @@ export default function AdminDashboard() {
             <ChapterManagement 
               classes={classesQuery.data || []}
               subjects={subjectsQuery.data || []}
+            />
+          </TabsContent>
+
+          {/* Video Lectures Tab */}
+          <TabsContent value="videos" className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h2 className="text-2xl font-bold">Video Lectures</h2>
+                <p className="text-muted-foreground">Upload and manage video lectures for students</p>
+              </div>
+              <VideoUploader 
+                onUploadComplete={() => {
+                  queryClient.invalidateQueries({ queryKey: ['/api/admin/content?type=video'] });
+                  toast({
+                    title: "Success",
+                    description: "Video lecture uploaded successfully!",
+                  });
+                }}
+              />
+            </div>
+            <ContentList
+              title="Video Lectures"
+              items={videosQuery.data}
+              isLoading={videosQuery.isLoading}
             />
           </TabsContent>
 

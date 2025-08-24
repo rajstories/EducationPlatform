@@ -74,7 +74,7 @@ export const content = pgTable("content", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   title: text("title").notNull(),
   description: text("description"),
-  type: text("type").notNull(), // "notes", "test", "pyq", "result", "announcement"
+  type: text("type").notNull(), // "notes", "test", "pyq", "result", "announcement", "video"
   classId: varchar("class_id"), // optional - can be for all classes
   subjectId: varchar("subject_id"), // optional - can be for all subjects
   chapterId: varchar("chapter_id"), // optional - can be for all chapters
@@ -83,6 +83,12 @@ export const content = pgTable("content", {
   expiryDate: text("expiry_date"), // optional expiry for announcements
   priority: integer("priority").notNull().default(0), // for ordering content
   createdBy: varchar("created_by").notNull(), // admin user who created it
+  
+  // Video-specific fields
+  duration: integer("duration"), // video duration in seconds
+  thumbnailUrl: text("thumbnail_url"), // video thumbnail image
+  videoId: varchar("video_id"), // unique identifier for the video file
+  
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
   updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
 });
@@ -214,6 +220,9 @@ export const insertContentSchema = createInsertSchema(content).pick({
   publishDate: true,
   expiryDate: true,
   priority: true,
+  duration: true,
+  thumbnailUrl: true,
+  videoId: true,
 });
 
 export const insertContentFileSchema = createInsertSchema(contentFiles).pick({
@@ -400,3 +409,31 @@ export type StudentAchievement = typeof studentAchievements.$inferSelect;
 export type InsertStudentAchievement = z.infer<typeof insertStudentAchievementSchema>;
 export type StudentProgress = typeof studentProgress.$inferSelect;
 export type InsertStudentProgress = z.infer<typeof insertStudentProgressSchema>;
+
+// Video progress tracking for students
+export const videoProgress = pgTable("video_progress", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  studentId: varchar("student_id").notNull(),
+  contentId: varchar("content_id").notNull(), // video content ID
+  currentTime: integer("current_time").notNull().default(0), // current watch position in seconds
+  duration: integer("duration").notNull(), // total video duration in seconds
+  completionPercentage: integer("completion_percentage").notNull().default(0), // 0-100%
+  isCompleted: boolean("is_completed").notNull().default(false),
+  lastWatchedAt: text("last_watched_at").default(sql`CURRENT_TIMESTAMP`),
+  totalWatchTime: integer("total_watch_time").notNull().default(0), // total time watched in seconds
+  createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
+});
+
+export const insertVideoProgressSchema = createInsertSchema(videoProgress).pick({
+  studentId: true,
+  contentId: true,
+  currentTime: true,
+  duration: true,
+  completionPercentage: true,
+  isCompleted: true,
+  totalWatchTime: true,
+});
+
+export type VideoProgress = typeof videoProgress.$inferSelect;
+export type InsertVideoProgress = z.infer<typeof insertVideoProgressSchema>;
