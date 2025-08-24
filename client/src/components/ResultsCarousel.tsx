@@ -104,7 +104,7 @@ const ResultsCarousel = () => {
     // Biology Teacher Slide
     {
       type: "mentor",
-      name: "ANMOL",
+      name: "ANMOL SIR",
       title: "NEET Faculty",
       subtitle: "Botany & Biology Expert",
       experience: "5+ Years Experience",
