@@ -279,11 +279,7 @@ const ResultsCarousel = () => {
                         <img 
                           src={slide.isSanjeevTeacher ? drSanjeevPhoto : (slide.isDiwakarTeacher ? diwakarSirPhoto : (slide.isSunilTeacher ? sunilSirPhoto : (slide.isBiologyTeacher ? biologyTeacherPhoto : ramSirPhoto)))}
                           alt={slide.isSanjeevTeacher ? "Dr. Sanjeev Gupta - Zoology Expert" : (slide.isDiwakarTeacher ? "Diwakar Sir - Math & Science Expert" : (slide.isSunilTeacher ? "Sunil Sir - Accountancy Expert" : (slide.isBiologyTeacher ? "Anmol - Botany Expert" : "Ram Sir - Lead Faculty")))}
-                          className={`w-full h-full object-cover rounded-full ${
-                            slide.isSunilTeacher ? "object-top scale-75" : 
-                            slide.isDiwakarTeacher ? "object-[center_top] scale-80" : 
-                            "object-center scale-90"
-                          }`}
+                          className="w-full h-full object-cover object-[center_top] scale-80 rounded-full"
                         />
                       </div>
                     </div>
