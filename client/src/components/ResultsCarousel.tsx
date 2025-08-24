@@ -11,7 +11,7 @@ import ramSirPhoto from "@assets/image_1755784859503.png";
 import champsPhoto from "@assets/image_1756022456101.png";
 import kunalPhoto from "@assets/image_1756022382197.png";
 import shaileshPhoto from "@assets/image_1756022503711.png";
-import ajayPhoto from "@assets/image_1756022582333.png";
+import ajayPhoto from "@assets/image_1756023448119.png";
 import biologyTeacherPhoto from "@assets/image_1756022662880.png";
 import champsFullPhoto from "@assets/image_1756023373291.png";
 
@@ -108,14 +108,9 @@ const ResultsCarousel = () => {
       textColor: "text-white",
       isShailesh: true
     },
-    // Ajay Kumar Air Force Achievement Slide
+    // Ajay Kumar Air Force Achievement Slide (Full Image)
     {
-      type: "airforce",
-      name: "AJAY KUMAR",
-      title: "AIR FORCE",
-      subtitle: "POOJA ACADEMY CHAMPIONS",
-      percentage: "98",
-      tagline: "TAUGHT + MENTORED BY RAM SIR",
+      type: "airforce_full_image",
       bgGradient: "from-red-600 to-red-800",
       textColor: "text-white"
     },
@@ -222,12 +217,6 @@ const ResultsCarousel = () => {
                       )}
                     </div>
 
-                    {/* CTA */}
-                    <Link href="/contact">
-                      <Button className="bg-white hover:bg-gray-100 text-gray-900 font-bold px-4 py-2 rounded-lg text-sm md:text-base self-start">
-                        Join Now
-                      </Button>
-                    </Link>
                   </div>
                 </div>
               )}
@@ -365,44 +354,13 @@ const ResultsCarousel = () => {
                 </div>
               )}
 
-              {slide.type === "airforce" && (
-                <div className="relative z-10 h-full grid grid-cols-7 gap-2 py-2">
-                  {/* Left Side - Achievement Text (takes 4/7 of width) */}
-                  <div className="col-span-4 flex flex-col justify-center p-4 space-y-4">
-                    {/* PA Logo */}
-                    <div className="text-white text-3xl md:text-4xl font-black">
-                      PA
-                    </div>
-
-                    {/* Champions Text */}
-                    <div className="space-y-2">
-                      <h3 className="text-red-300 text-lg md:text-xl font-bold">{slide.subtitle}</h3>
-                      <h1 className="text-4xl md:text-6xl font-black text-white tracking-wide">{slide.title}</h1>
-                    </div>
-
-                    {/* Percentage */}
-                    <div className="flex items-center space-x-2">
-                      <div className="text-6xl md:text-8xl font-black text-white">{slide.percentage}</div>
-                      <div className="text-3xl md:text-4xl font-bold text-white">%</div>
-                    </div>
-
-                    {/* Student Name */}
-                    <div className="space-y-1">
-                      <h2 className="text-2xl md:text-3xl font-bold text-white">{slide.name}</h2>
-                      <p className="text-sm md:text-base text-red-200 font-medium">{slide.tagline}</p>
-                    </div>
-                  </div>
-
-                  {/* Right Side - Photo (takes 3/7 of width) */}
-                  <div className="col-span-3 flex items-center justify-center p-2">
-                    <div className="w-full h-full max-h-[350px] rounded-xl overflow-hidden shadow-2xl bg-white border-4 border-red-400">
-                      <img 
-                        src={ajayPhoto}
-                        alt="Ajay Kumar - Air Force Achievement"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  </div>
+              {slide.type === "airforce_full_image" && (
+                <div className="relative z-10 h-full w-full">
+                  <img 
+                    src={ajayPhoto}
+                    alt="Ajay Kumar - Air Force Achievement"
+                    className="w-full h-full object-cover rounded-xl md:rounded-2xl"
+                  />
                 </div>
               )}
 
