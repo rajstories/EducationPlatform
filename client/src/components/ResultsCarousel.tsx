@@ -12,6 +12,7 @@ import champsPhoto from "@assets/image_1756022456101.png";
 import kunalPhoto from "@assets/image_1756022382197.png";
 import shaileshPhoto from "@assets/image_1756022503711.png";
 import ajayPhoto from "@assets/image_1756023883616.png";
+import sunilSirPhoto from "@assets/image_1756025020045.png";
 import biologyTeacherPhoto from "@assets/image_1756022662880.png";
 import drSanjeevPhoto from "@assets/image_1756024215456.png";
 import champsFullPhoto from "@assets/image_1756023373291.png";
@@ -100,6 +101,19 @@ const ResultsCarousel = () => {
       type: "airforce_full_image",
       bgGradient: "from-red-600 to-red-800",
       textColor: "text-white"
+    },
+    // Sunil Sir Slide
+    {
+      type: "mentor",
+      name: "SUNIL SIR",
+      title: "Commerce Faculty",
+      subtitle: "Accountancy Expert",
+      experience: "10+ Years Experience",
+      students: "Classes 11 & 12 Commerce",
+      achievement: "95% Success Rate",
+      bgGradient: "from-purple-600 to-violet-700",
+      textColor: "text-white",
+      isSunilTeacher: true
     },
     // Biology Teacher Slide
     {
@@ -249,8 +263,8 @@ const ResultsCarousel = () => {
                     <div className="w-full h-full max-h-[300px] aspect-square">
                       <div className="w-full h-full rounded-full overflow-hidden shadow-2xl bg-white border-6 border-blue-400 p-1">
                         <img 
-                          src={slide.isSanjeevTeacher ? drSanjeevPhoto : (slide.isBiologyTeacher ? biologyTeacherPhoto : ramSirPhoto)}
-                          alt={slide.isSanjeevTeacher ? "Dr. Sanjeev Gupta - Zoology Expert" : (slide.isBiologyTeacher ? "Anmol - Botany Expert" : "Ram Sir - Lead Faculty")}
+                          src={slide.isSanjeevTeacher ? drSanjeevPhoto : (slide.isSunilTeacher ? sunilSirPhoto : (slide.isBiologyTeacher ? biologyTeacherPhoto : ramSirPhoto))}
+                          alt={slide.isSanjeevTeacher ? "Dr. Sanjeev Gupta - Zoology Expert" : (slide.isSunilTeacher ? "Sunil Sir - Accountancy Expert" : (slide.isBiologyTeacher ? "Anmol - Botany Expert" : "Ram Sir - Lead Faculty"))}
                           className="w-full h-full object-cover object-center scale-90 rounded-full"
                         />
                       </div>
