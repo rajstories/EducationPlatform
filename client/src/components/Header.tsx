@@ -62,11 +62,14 @@ const Header = () => {
       <nav className="container mx-auto px-4 py-3 sm:py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-3" data-testid="link-home">
-            <img 
-              src={poojaAcademyLogo} 
-              alt="Pooja Academy Logo" 
-              className="h-8 w-8 sm:h-10 sm:w-10 object-contain bg-white rounded p-1"
-            />
+            <div className="relative">
+              <img 
+                src={poojaAcademyLogo} 
+                alt="Pooja Academy Logo" 
+                className="h-9 w-12 sm:h-11 sm:w-16 object-cover bg-gradient-to-r from-orange-400 to-yellow-400 rounded-lg p-1 shadow-lg border-2 border-orange-300"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-400/20 to-yellow-400/20 rounded-lg animate-pulse"></div>
+            </div>
             <h1 className="text-lg sm:text-xl font-bold">Pooja Academy</h1>
           </Link>
 
