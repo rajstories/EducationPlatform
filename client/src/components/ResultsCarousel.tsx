@@ -58,20 +58,6 @@ const ResultsCarousel = () => {
       bgGradient: "from-blue-600 to-indigo-700",
       textColor: "text-white"
     },
-    // Academy Achievement Slide
-    {
-      type: "academy",
-      title: "2025 TOPPERS",
-      subtitle: "POOJA ACADEMY",
-      tagline: "TAUGHT BY RAM SIR!",
-      stats: [
-        { label: "Students Cleared", value: "1000+" },
-        { label: "Success Rate", value: "95%" },
-        { label: "Years Experience", value: "10+" }
-      ],
-      bgGradient: "from-purple-600 to-violet-700",
-      textColor: "text-white"
-    },
     // Champions/Toppers Group Slide
     {
       type: "champs_full_image",
@@ -126,6 +112,20 @@ const ResultsCarousel = () => {
       bgGradient: "from-green-600 to-emerald-700",
       textColor: "text-white",
       isBiologyTeacher: true
+    },
+    // Academy Achievement Slide (moved to end)
+    {
+      type: "academy",
+      title: "2025 TOPPERS",
+      subtitle: "POOJA ACADEMY",
+      tagline: "TAUGHT BY RAM SIR!",
+      stats: [
+        { label: "Students Cleared", value: "1000+" },
+        { label: "Success Rate", value: "95%" },
+        { label: "Years Experience", value: "10+" }
+      ],
+      bgGradient: "from-purple-600 to-violet-700",
+      textColor: "text-white"
     }
   ];
 
