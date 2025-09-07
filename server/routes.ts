@@ -33,12 +33,15 @@ declare module 'express-session' {
 export async function registerRoutes(app: Express): Promise<Server> {
   // Session middleware for admin authentication
   app.use(session({
-    secret: 'pooja-academy-secret',
+    secret: 'pooja-academy-secret-key-for-sessions',
     resave: false,
     saveUninitialized: false,
+    name: 'pooja.session.id', // Custom session name
     cookie: {
       secure: false, // set to true if using https
-      maxAge: 24 * 60 * 60 * 1000 // 24 hours
+      httpOnly: true, // Prevent XSS attacks
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      sameSite: 'lax' // Allow cross-site requests
     }
   }));
 
@@ -260,7 +263,9 @@ Please contact the student for further assistance.`;
   app.get('/api/admin/students/:classId', requireAdminAuth, async (req, res) => {
     try {
       const { classId } = req.params;
+      console.log(`Getting students for classId: ${classId}`);
       const students = await storage.getStudentsByClass(classId);
+      console.log(`Found ${students.length} students for class ${classId}`);
       res.json(students);
     } catch (error) {
       console.error("Error fetching students by class:", error);
