@@ -378,6 +378,57 @@ Please contact the student for further assistance.`;
     }
   });
 
+  // Admin Results Management Endpoints
+  app.post("/api/admin/results/publish", requireAdminAuth, async (req, res) => {
+    try {
+      const resultData = req.body;
+      
+      // Store results in the database/storage
+      const result = await storage.createResult({
+        ...resultData,
+        id: `result-${Date.now()}`,
+        publishedAt: new Date().toISOString(),
+      });
+      
+      res.json(result);
+    } catch (error) {
+      console.error("Failed to publish results:", error);
+      res.status(500).json({ message: "Failed to publish results" });
+    }
+  });
+
+  app.get("/api/admin/results", requireAdminAuth, async (req, res) => {
+    try {
+      const results = await storage.getResults();
+      res.json(results);
+    } catch (error) {
+      console.error("Failed to fetch results:", error);
+      res.status(500).json({ message: "Failed to fetch results" });
+    }
+  });
+
+  app.post("/api/admin/notifications/broadcast", requireAdminAuth, async (req, res) => {
+    try {
+      const notification = req.body;
+      
+      // In a real app, this would send notifications via WebSocket or push notifications
+      // For now, store it as an announcement
+      const announcement = await storage.createAnnouncement({
+        title: notification.title,
+        content: notification.message,
+        type: notification.type,
+        priority: notification.priority,
+        data: notification.data,
+        createdAt: new Date().toISOString(),
+      });
+      
+      res.json({ success: true, announcement });
+    } catch (error) {
+      console.error("Failed to broadcast notification:", error);
+      res.status(500).json({ message: "Failed to send notification" });
+    }
+  });
+
   // Create new content
   app.post("/api/admin/content", requireAdminAuth, async (req: any, res) => {
     try {
@@ -1125,22 +1176,20 @@ Please contact the student for further assistance.`;
       
       // Check for admin credentials
       if (email === "rajshrivastav283815@gmail.com" && password === "Rambhaiya@9958") {
-        // Create admin session
-        (req.session as any).admin = {
+        // Create admin session - set both admin and adminUser for middleware compatibility
+        const adminData = {
           id: "admin-1",
           email: email,
-          name: "Admin",
+          name: "Ram Sir",
           role: "admin"
         };
         
+        (req.session as any).admin = adminData;
+        (req.session as any).adminUser = adminData;
+        
         return res.json({
           message: "Admin login successful",
-          user: {
-            id: "admin-1",
-            email: email,
-            name: "Admin",
-            role: "admin"
-          },
+          user: adminData,
           isAdmin: true,
           profileCompleted: true
         });

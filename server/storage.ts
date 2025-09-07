@@ -121,6 +121,15 @@ export interface IStorage {
   getVideoProgress(studentId: string, contentId: string): Promise<VideoProgress | undefined>;
   getStudentVideoProgress(studentId: string): Promise<VideoProgress[]>;
   updateVideoProgress(studentId: string, contentId: string, currentTime: number, completionPercentage: number): Promise<void>;
+  
+  // Results Management
+  createResult(result: any): Promise<any>;
+  getResults(): Promise<any[]>;
+  getLatestResults(): Promise<any[]>;
+  
+  // Announcements
+  createAnnouncement(announcement: any): Promise<any>;
+  getAnnouncements(): Promise<any[]>;
 }
 
 export class MemStorage implements IStorage {
@@ -1336,6 +1345,49 @@ export class MemStorage implements IStorage {
         await this.addExperiencePoints(studentId, 20, 'Video Completed');
       }
     }
+  }
+
+  // Results Management
+  private results: Map<string, any> = new Map();
+  
+  async createResult(result: any): Promise<any> {
+    const resultWithId = {
+      ...result,
+      id: result.id || randomUUID(),
+      createdAt: new Date().toISOString(),
+    };
+    this.results.set(resultWithId.id, resultWithId);
+    return resultWithId;
+  }
+
+  async getResults(): Promise<any[]> {
+    return Array.from(this.results.values()).sort((a, b) => 
+      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+    );
+  }
+
+  async getLatestResults(): Promise<any[]> {
+    const results = await this.getResults();
+    return results.slice(0, 5); // Return latest 5 results
+  }
+
+  // Announcements
+  private announcements: Map<string, any> = new Map();
+  
+  async createAnnouncement(announcement: any): Promise<any> {
+    const announcementWithId = {
+      ...announcement,
+      id: announcement.id || randomUUID(),
+      createdAt: announcement.createdAt || new Date().toISOString(),
+    };
+    this.announcements.set(announcementWithId.id, announcementWithId);
+    return announcementWithId;
+  }
+
+  async getAnnouncements(): Promise<any[]> {
+    return Array.from(this.announcements.values()).sort((a, b) => 
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
   }
 }
 
