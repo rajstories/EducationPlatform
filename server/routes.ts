@@ -44,7 +44,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Admin authentication middleware
   const requireAdminAuth = (req: any, res: any, next: any) => {
-    if (req.session.adminUser) {
+    const session = req.session as any;
+    if (session.admin || session.adminUser) {
       next();
     } else {
       res.status(401).json({ message: "Admin authentication required" });

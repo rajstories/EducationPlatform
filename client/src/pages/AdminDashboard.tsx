@@ -404,17 +404,17 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-10">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="students">Student Records</TabsTrigger>
-            <TabsTrigger value="attendance">Attendance</TabsTrigger>
-            <TabsTrigger value="chapters">Chapters</TabsTrigger>
-            <TabsTrigger value="videos">Video Lectures</TabsTrigger>
-            <TabsTrigger value="notes">Notes</TabsTrigger>
-            <TabsTrigger value="tests">Tests</TabsTrigger>
-            <TabsTrigger value="pyqs">PYQs</TabsTrigger>
-            <TabsTrigger value="results">Results</TabsTrigger>
-            <TabsTrigger value="announcements">News</TabsTrigger>
+          <TabsList className="flex flex-wrap w-full h-auto p-1 gap-1">
+            <TabsTrigger value="overview" className="flex-shrink-0">Overview</TabsTrigger>
+            <TabsTrigger value="students" className="flex-shrink-0">Students</TabsTrigger>
+            <TabsTrigger value="attendance" className="flex-shrink-0">Attendance</TabsTrigger>
+            <TabsTrigger value="chapters" className="flex-shrink-0">Chapters</TabsTrigger>
+            <TabsTrigger value="videos" className="flex-shrink-0">Videos</TabsTrigger>
+            <TabsTrigger value="notes" className="flex-shrink-0">Notes</TabsTrigger>
+            <TabsTrigger value="tests" className="flex-shrink-0">Tests</TabsTrigger>
+            <TabsTrigger value="pyqs" className="flex-shrink-0">PYQs</TabsTrigger>
+            <TabsTrigger value="results" className="flex-shrink-0">Results</TabsTrigger>
+            <TabsTrigger value="announcements" className="flex-shrink-0">News</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6">
