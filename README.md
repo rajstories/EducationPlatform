@@ -6,7 +6,7 @@
 
 *Empowering 1000+ students in JEE & NEET preparation with modern technology*
 
-[Live Demo](#) • [Documentation](#) • [Contact](#contact)
+[Live Demo](pooja-academy.replit.app) • [Documentation](#) • [Contact](#9958262272)
 
 </div>
 
