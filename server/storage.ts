@@ -154,6 +154,7 @@ export class MemStorage implements IStorage {
   private videoProgress: Map<string, VideoProgress>;
 
   constructor() {
+    console.log('MemStorage constructor called...');
     this.users = new Map();
     this.classes = new Map();
     this.subjects = new Map();
@@ -173,14 +174,72 @@ export class MemStorage implements IStorage {
     this.studentProgress = new Map();
     this.videoProgress = new Map();
     
-    this.initializeData();
+    console.log('About to initialize data...');
+    
+    // Initialize classes
+    const classes: Class[] = [
+      { id: "class-9", name: "Class 9", description: "9th Standard" },
+      { id: "class-10", name: "Class 10", description: "10th Standard" },
+      { id: "class-11", name: "Class 11", description: "11th Standard" },
+      { id: "class-12", name: "Class 12", description: "12th Standard" }
+    ];
+    classes.forEach(cls => this.classes.set(cls.id, cls));
+    console.log('Classes initialized');
+
+    // Initialize sample students
+    const sampleStudents = [
+      { id: "student-1", name: "Aarav Sharma", email: "aarav@example.com", phone: "9876543210", classId: "class-10", rollNumber: "101", stream: "science", profilePhoto: null, password: "password123", isActive: true, profileCompleted: true },
+      { id: "student-2", name: "Priya Patel", email: "priya@example.com", phone: "9876543211", classId: "class-10", rollNumber: "102", stream: "science", profilePhoto: null, password: "password123", isActive: true, profileCompleted: true },
+      { id: "student-3", name: "Rohan Gupta", email: "rohan@example.com", phone: "9876543212", classId: "class-10", rollNumber: "103", stream: "science", profilePhoto: null, password: "password123", isActive: true, profileCompleted: true },
+      { id: "student-4", name: "Ananya Singh", email: "ananya@example.com", phone: "9876543213", classId: "class-10", rollNumber: "104", stream: "science", profilePhoto: null, password: "password123", isActive: true, profileCompleted: true },
+      { id: "student-5", name: "Arjun Kumar", email: "arjun@example.com", phone: "9876543214", classId: "class-10", rollNumber: "105", stream: "science", profilePhoto: null, password: "password123", isActive: true, profileCompleted: true },
+      { id: "student-6", name: "Kavya Reddy", email: "kavya@example.com", phone: "9876543215", classId: "class-10", rollNumber: "106", stream: "science", profilePhoto: null, password: "password123", isActive: true, profileCompleted: true }
+    ];
+
+    sampleStudents.forEach(student => {
+      const studentUser: StudentUser = {
+        ...student,
+        dateOfBirth: null,
+        gender: null,
+        address: null,
+        city: null,
+        state: "Delhi",
+        pincode: null,
+        admissionDate: new Date().toISOString(),
+        currentSession: "2024-25",
+        fatherName: null,
+        motherName: null,
+        guardianName: null,
+        parentPhone: null,
+        parentEmail: null,
+        parentOccupation: null,
+        emergencyContact: null,
+        totalAttendance: 0,
+        presentDays: 0,
+        currentGPA: null,
+        overallGrade: null,
+        feeStatus: "pending",
+        totalFeeDue: 0,
+        lastPaymentDate: null,
+        studentId: student.rollNumber,
+        lastLogin: null,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+      console.log(`Adding student: ${student.name} to class: ${student.classId}`);
+      this.studentUsers.set(student.id, studentUser);
+    });
+    
+    console.log(`Constructor completed. Total students: ${this.studentUsers.size}`);
   }
 
   private initializeData() {
+    console.log('Starting data initialization...');
     this.initializeClasses();
     this.initializeSubjects();
     this.initializeSampleStudents();
     this.initializeAchievements();
+    console.log('Data initialization completed.');
   }
 
   private initializeClasses() {
