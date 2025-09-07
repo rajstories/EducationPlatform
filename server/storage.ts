@@ -1455,9 +1455,12 @@ export class MemStorage implements IStorage {
     );
   }
 
-  async getLatestResults(): Promise<any[]> {
-    const results = await this.getResults();
-    return results.slice(0, 5); // Return latest 5 results
+  async getLatestResults(): Promise<any> {
+    const results = Array.from(this.results.values()).sort((a, b) => 
+      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+    );
+    return results.length > 0 ? results[0] : null;
+  }
   }
 
   // Announcements

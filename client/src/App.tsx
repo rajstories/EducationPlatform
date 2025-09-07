@@ -17,6 +17,7 @@ import ProfileCompletion from "@/pages/ProfileCompletion";
 import StudentDashboard from "@/pages/StudentDashboard";
 import EditProfile from "@/pages/EditProfile";
 import NotFound from "@/pages/not-found";
+import { ResultAnnouncement } from "@/components/ResultAnnouncement";
 
 function Router() {
   return (
@@ -61,6 +62,14 @@ function App() {
                   <Route path="/about" component={About} />
                   <Route path="/contact" component={Contact} />
                   <Route path="/portal" component={StudentPortal} />
+                  <Route path="/results" component={() => (
+                    <div className="min-h-screen bg-gray-50 py-8">
+                      <div className="max-w-4xl mx-auto px-4">
+                        <h1 className="text-3xl font-bold text-center mb-8 text-navy">Latest Results</h1>
+                        <ResultAnnouncement />
+                      </div>
+                    </div>
+                  )} />
                   <Route component={NotFound} />
                 </Switch>
               </main>

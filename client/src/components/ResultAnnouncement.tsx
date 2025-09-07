@@ -45,8 +45,8 @@ export function ResultAnnouncement({ notification }: ResultAnnouncementProps) {
 
   // Fetch latest results
   const resultsQuery = useQuery({
-    queryKey: ['/api/results/latest'],
-    enabled: false, // Only fetch when notification arrives
+    queryKey: ['/api/admin/results/latest'],
+    enabled: true, // Always fetch to show published results
   });
 
   useEffect(() => {
@@ -59,6 +59,14 @@ export function ResultAnnouncement({ notification }: ResultAnnouncementProps) {
       setTimeout(() => setShowCelebration(false), 3000);
     }
   }, [notification]);
+
+  // Show results from query if no notification data
+  useEffect(() => {
+    if (resultsQuery.data && !selectedResult) {
+      setSelectedResult(resultsQuery.data);
+      setShowResults(true);
+    }
+  }, [resultsQuery.data, selectedResult]);
 
   // Podium display for top 3
   const PodiumDisplay = ({ results }: { results: StudentResult[] }) => {
