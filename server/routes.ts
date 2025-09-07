@@ -237,6 +237,18 @@ Please contact the student for further assistance.`;
     }
   });
 
+  // Get students by class ID
+  app.get('/api/admin/students/:classId', requireAdminAuth, async (req, res) => {
+    try {
+      const { classId } = req.params;
+      const students = await storage.getStudentsByClass(classId);
+      res.json(students);
+    } catch (error) {
+      console.error("Error fetching students by class:", error);
+      res.status(500).json({ message: "Failed to fetch students" });
+    }
+  });
+
   // Attendance management endpoints
   app.post('/api/admin/attendance/mark', requireAdminAuth, async (req: any, res) => {
     try {

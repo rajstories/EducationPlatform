@@ -70,6 +70,7 @@ export interface IStorage {
   updateStudentLastLogin(id: string): Promise<void>;
   completeStudentProfile(id: string, profileData: any): Promise<StudentUser | undefined>;
   getAllStudents(): Promise<StudentUser[]>;
+  getStudentsByClass(classId: string): Promise<StudentUser[]>;
   
   // Password-based authentication
   validateStudentEmailLogin(email: string, password: string): Promise<StudentUser | null>;
@@ -1461,6 +1462,11 @@ export class MemStorage implements IStorage {
     );
     return results.length > 0 ? results[0] : null;
   }
+
+  async getStudentsByClass(classId: string): Promise<StudentUser[]> {
+    return Array.from(this.studentUsers.values())
+      .filter(student => student.classId === classId && student.profileCompleted)
+      .sort((a, b) => (a.rollNumber || '').localeCompare(b.rollNumber || ''));
   }
 
   // Announcements
