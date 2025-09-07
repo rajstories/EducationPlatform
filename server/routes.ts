@@ -45,9 +45,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Admin authentication middleware
   const requireAdminAuth = (req: any, res: any, next: any) => {
     const session = req.session as any;
+    console.log('Admin auth check - Session data:', {
+      hasAdmin: !!session.admin,
+      hasAdminUser: !!session.adminUser,
+      sessionId: req.sessionID
+    });
+    
     if (session.admin || session.adminUser) {
+      console.log('Admin authentication successful');
       next();
     } else {
+      console.log('Admin authentication failed - no valid session');
       res.status(401).json({ message: "Admin authentication required" });
     }
   };
