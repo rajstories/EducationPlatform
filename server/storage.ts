@@ -165,7 +165,7 @@ export class MemStorage implements IStorage {
     this.contentFiles = new Map();
     this.studentUsers = new Map();
     this.otps = new Map();
-    this.studentAttendance = new Map();
+    this.attendanceRecords = new Map();
     this.studentGrades = new Map();
     this.studentSessions = new Map();
     this.achievements = new Map();
@@ -236,6 +236,7 @@ export class MemStorage implements IStorage {
       { id: "student-12", name: "Meera Nair", email: "meera@example.com", phone: "9876543221", classId: "class-12", rollNumber: "402", stream: "commerce", profilePhoto: null, password: "password123", isActive: true, profileCompleted: true }
     ];
 
+    console.log('Initializing sample students...');
     sampleStudents.forEach(student => {
       const studentUser: StudentUser = {
         ...student,
@@ -266,8 +267,10 @@ export class MemStorage implements IStorage {
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
       };
+      console.log(`Adding student: ${student.name} with ID: ${student.id} to class: ${student.classId}`);
       this.studentUsers.set(student.id, studentUser);
     });
+    console.log(`Total students after initialization: ${this.studentUsers.size}`);
   }
 
   private initializeAchievements() {
