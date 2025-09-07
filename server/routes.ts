@@ -102,6 +102,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get subjects by class
+  app.get("/api/subjects/by-class/:classId", async (req, res) => {
+    try {
+      const subjects = await storage.getSubjects();
+      const filteredSubjects = subjects.filter(subject => subject.classId === req.params.classId);
+      res.json(filteredSubjects);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch subjects" });
+    }
+  });
+
   // Get subject by ID
   app.get("/api/subjects/:id", async (req, res) => {
     try {
