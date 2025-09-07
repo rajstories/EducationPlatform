@@ -433,16 +433,25 @@ export function ResultsManagement({ classes, subjects }: ResultsManagementProps)
         </CardContent>
       </Card>
 
-      {selectedClass && studentsQuery.data && (
+      {selectedClass && (
         <Card>
           <CardHeader>
             <CardTitle>Enter Student Marks</CardTitle>
             <CardDescription>Add marks for each student in the selected class</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-              {studentsQuery.data && studentsQuery.data.length > 0 ? (
-                studentsQuery.data.map((student: any) => (
+            {studentsQuery.isLoading ? (
+              <div className="text-center py-8">
+                <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+                <p>Loading students...</p>
+              </div>
+            ) : studentsQuery.error ? (
+              <div className="text-center py-8 text-red-600">
+                <p>Error loading students: {(studentsQuery.error as Error).message}</p>
+              </div>
+            ) : studentsQuery.data && studentsQuery.data.length > 0 ? (
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                {studentsQuery.data.map((student: any) => (
                   <div key={student.id} className="flex items-center gap-2 p-2 border rounded-lg">
                     <div className="flex-1">
                       <p className="font-medium text-sm">{student.name}</p>
@@ -458,11 +467,11 @@ export function ResultsManagement({ classes, subjects }: ResultsManagementProps)
                       value={studentResults.find(r => r.studentId === student.id)?.marks || ''}
                     />
                   </div>
-                ))
-              ) : (
-                <p className="text-center text-gray-500 py-4">No students found in selected class</p>
-              )}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-center text-gray-500 py-4">No students found in selected class</p>
+            )}
           </CardContent>
         </Card>
       )}
