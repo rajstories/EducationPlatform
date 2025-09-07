@@ -454,14 +454,7 @@ export default function Login() {
                           <div className="relative">
                             <Mail className="absolute left-3 top-3 w-4 h-4 text-gray-400 z-10" />
                             <Input
-                              value={field.value || ""}
-                              onChange={(e) => {
-                                field.onChange(e);
-                                console.log("Email input:", e.target.value);
-                              }}
-                              onBlur={field.onBlur}
-                              name={field.name}
-                              ref={field.ref}
+                              {...field}
                               type="email"
                               placeholder="Enter your email"
                               className="pl-10"
