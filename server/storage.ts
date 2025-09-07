@@ -154,7 +154,6 @@ export class MemStorage implements IStorage {
   private videoProgress: Map<string, VideoProgress>;
 
   constructor() {
-    console.log('MemStorage constructor called...');
     this.users = new Map();
     this.classes = new Map();
     this.subjects = new Map();
@@ -174,8 +173,6 @@ export class MemStorage implements IStorage {
     this.studentProgress = new Map();
     this.videoProgress = new Map();
     
-    console.log('About to initialize data...');
-    
     // Initialize classes
     const classes: Class[] = [
       { id: "class-9", name: "Class 9", description: "9th Standard" },
@@ -184,7 +181,6 @@ export class MemStorage implements IStorage {
       { id: "class-12", name: "Class 12", description: "12th Standard" }
     ];
     classes.forEach(cls => this.classes.set(cls.id, cls));
-    console.log('Classes initialized');
 
     // Initialize sample students
     const sampleStudents = [
@@ -226,7 +222,6 @@ export class MemStorage implements IStorage {
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
       };
-      console.log(`Adding student: ${student.name} to class: ${student.classId}`);
       this.studentUsers.set(student.id, studentUser);
     });
     
@@ -252,9 +247,6 @@ export class MemStorage implements IStorage {
       { id: "sub-economics-12", name: "Economics", classId: "class-12", stream: "commerce", description: "Economics for Class 12", chapterCount: 9 }
     ];
     subjects.forEach(subject => this.subjects.set(subject.id, subject));
-    console.log(`Subjects initialized: ${this.subjects.size} subjects`);
-    
-    console.log(`Constructor completed. Total students: ${this.studentUsers.size}`);
   }
 
   private initializeData() {
