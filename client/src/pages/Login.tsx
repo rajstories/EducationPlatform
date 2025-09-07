@@ -452,9 +452,16 @@ export default function Login() {
                         <FormLabel>Email Address</FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <Mail className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
+                            <Mail className="absolute left-3 top-3 w-4 h-4 text-gray-400 z-10" />
                             <Input
-                              {...field}
+                              value={field.value || ""}
+                              onChange={(e) => {
+                                field.onChange(e);
+                                console.log("Email input:", e.target.value);
+                              }}
+                              onBlur={field.onBlur}
+                              name={field.name}
+                              ref={field.ref}
                               type="email"
                               placeholder="Enter your email"
                               className="pl-10"
