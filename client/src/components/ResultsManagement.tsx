@@ -63,7 +63,7 @@ export function ResultsManagement({ classes, subjects }: ResultsManagementProps)
 
   // Fetch students for selected class
   const studentsQuery = useQuery({
-    queryKey: ['/api/admin/students', selectedClass],
+    queryKey: [`/api/admin/students/${selectedClass}`],
     enabled: !!selectedClass,
   });
 
@@ -370,11 +370,15 @@ export function ResultsManagement({ classes, subjects }: ResultsManagementProps)
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {subjects?.map((subject: any) => (
-                            <SelectItem key={subject.id} value={subject.id}>
-                              {subject.name}
-                            </SelectItem>
-                          ))}
+                          {subjects && subjects.length > 0 ? (
+                            subjects.map((subject: any) => (
+                              <SelectItem key={subject.id} value={subject.id}>
+                                {subject.name}
+                              </SelectItem>
+                            ))
+                          ) : (
+                            <SelectItem value="physics">Physics</SelectItem>
+                          )}
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -437,23 +441,27 @@ export function ResultsManagement({ classes, subjects }: ResultsManagementProps)
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-              {studentsQuery.data?.map((student: any) => (
-                <div key={student.id} className="flex items-center gap-2 p-2 border rounded-lg">
-                  <div className="flex-1">
-                    <p className="font-medium text-sm">{student.name}</p>
-                    <p className="text-xs text-gray-500">Roll: {student.rollNumber}</p>
+              {studentsQuery.data && studentsQuery.data.length > 0 ? (
+                studentsQuery.data.map((student: any) => (
+                  <div key={student.id} className="flex items-center gap-2 p-2 border rounded-lg">
+                    <div className="flex-1">
+                      <p className="font-medium text-sm">{student.name}</p>
+                      <p className="text-xs text-gray-500">Roll: {student.rollNumber}</p>
+                    </div>
+                    <Input
+                      type="number"
+                      placeholder="Marks"
+                      className="w-24"
+                      min="0"
+                      max={form.getValues('totalMarks')}
+                      onChange={(e) => handleMarksChange(student.id, e.target.value)}
+                      value={studentResults.find(r => r.studentId === student.id)?.marks || ''}
+                    />
                   </div>
-                  <Input
-                    type="number"
-                    placeholder="Marks"
-                    className="w-24"
-                    min="0"
-                    max={form.getValues('totalMarks')}
-                    onChange={(e) => handleMarksChange(student.id, e.target.value)}
-                    value={studentResults.find(r => r.studentId === student.id)?.marks || ''}
-                  />
-                </div>
-              ))}
+                ))
+              ) : (
+                <p className="text-center text-gray-500 py-4">No students found in selected class</p>
+              )}
             </div>
           </CardContent>
         </Card>

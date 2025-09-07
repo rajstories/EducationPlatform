@@ -173,11 +173,100 @@ export class MemStorage implements IStorage {
     this.videoProgress = new Map();
     
     this.initializeData();
-    this.initializeAchievements();
   }
 
   private initializeData() {
+    this.initializeClasses();
+    this.initializeSubjects();
+    this.initializeSampleStudents();
     this.initializeAchievements();
+  }
+
+  private initializeClasses() {
+    // Initialize classes
+    const classes: Class[] = [
+      { id: "class-9", name: "Class 9", description: "9th Standard" },
+      { id: "class-10", name: "Class 10", description: "10th Standard" },
+      { id: "class-11", name: "Class 11", description: "11th Standard" },
+      { id: "class-12", name: "Class 12", description: "12th Standard" }
+    ];
+    classes.forEach(cls => this.classes.set(cls.id, cls));
+  }
+
+  private initializeSubjects() {
+    // Initialize subjects for each class
+    const subjects: Subject[] = [
+      { id: "sub-physics-9", name: "Physics", classId: "class-9", stream: "science", description: "Physics for Class 9", chapterCount: 10 },
+      { id: "sub-chemistry-9", name: "Chemistry", classId: "class-9", stream: "science", description: "Chemistry for Class 9", chapterCount: 10 },
+      { id: "sub-maths-9", name: "Mathematics", classId: "class-9", stream: "both", description: "Mathematics for Class 9", chapterCount: 12 },
+      { id: "sub-physics-10", name: "Physics", classId: "class-10", stream: "science", description: "Physics for Class 10", chapterCount: 10 },
+      { id: "sub-chemistry-10", name: "Chemistry", classId: "class-10", stream: "science", description: "Chemistry for Class 10", chapterCount: 10 },
+      { id: "sub-maths-10", name: "Mathematics", classId: "class-10", stream: "both", description: "Mathematics for Class 10", chapterCount: 12 },
+      { id: "sub-physics-11", name: "Physics", classId: "class-11", stream: "science", description: "Physics for Class 11", chapterCount: 15 },
+      { id: "sub-chemistry-11", name: "Chemistry", classId: "class-11", stream: "science", description: "Chemistry for Class 11", chapterCount: 14 },
+      { id: "sub-maths-11", name: "Mathematics", classId: "class-11", stream: "both", description: "Mathematics for Class 11", chapterCount: 16 },
+      { id: "sub-physics-12", name: "Physics", classId: "class-12", stream: "science", description: "Physics for Class 12", chapterCount: 15 },
+      { id: "sub-chemistry-12", name: "Chemistry", classId: "class-12", stream: "science", description: "Chemistry for Class 12", chapterCount: 16 },
+      { id: "sub-maths-12", name: "Mathematics", classId: "class-12", stream: "both", description: "Mathematics for Class 12", chapterCount: 13 },
+      { id: "sub-accounts-11", name: "Accountancy", classId: "class-11", stream: "commerce", description: "Accountancy for Class 11", chapterCount: 15 },
+      { id: "sub-business-11", name: "Business Studies", classId: "class-11", stream: "commerce", description: "Business Studies for Class 11", chapterCount: 11 },
+      { id: "sub-economics-11", name: "Economics", classId: "class-11", stream: "commerce", description: "Economics for Class 11", chapterCount: 10 },
+      { id: "sub-accounts-12", name: "Accountancy", classId: "class-12", stream: "commerce", description: "Accountancy for Class 12", chapterCount: 13 },
+      { id: "sub-business-12", name: "Business Studies", classId: "class-12", stream: "commerce", description: "Business Studies for Class 12", chapterCount: 12 },
+      { id: "sub-economics-12", name: "Economics", classId: "class-12", stream: "commerce", description: "Economics for Class 12", chapterCount: 9 }
+    ];
+    subjects.forEach(subject => this.subjects.set(subject.id, subject));
+  }
+
+  private initializeSampleStudents() {
+    // Initialize sample students for testing
+    const sampleStudents = [
+      { id: "student-1", name: "Aarav Sharma", email: "aarav@example.com", phone: "9876543210", classId: "class-10", rollNumber: "101", stream: "science", profilePhoto: null, password: "password123", isActive: true, profileCompleted: true },
+      { id: "student-2", name: "Priya Patel", email: "priya@example.com", phone: "9876543211", classId: "class-10", rollNumber: "102", stream: "science", profilePhoto: null, password: "password123", isActive: true, profileCompleted: true },
+      { id: "student-3", name: "Rohan Gupta", email: "rohan@example.com", phone: "9876543212", classId: "class-10", rollNumber: "103", stream: "science", profilePhoto: null, password: "password123", isActive: true, profileCompleted: true },
+      { id: "student-4", name: "Ananya Singh", email: "ananya@example.com", phone: "9876543213", classId: "class-10", rollNumber: "104", stream: "science", profilePhoto: null, password: "password123", isActive: true, profileCompleted: true },
+      { id: "student-5", name: "Arjun Kumar", email: "arjun@example.com", phone: "9876543214", classId: "class-10", rollNumber: "105", stream: "science", profilePhoto: null, password: "password123", isActive: true, profileCompleted: true },
+      { id: "student-6", name: "Kavya Reddy", email: "kavya@example.com", phone: "9876543215", classId: "class-10", rollNumber: "106", stream: "science", profilePhoto: null, password: "password123", isActive: true, profileCompleted: true },
+      { id: "student-7", name: "Vikram Mehta", email: "vikram@example.com", phone: "9876543216", classId: "class-9", rollNumber: "201", stream: "science", profilePhoto: null, password: "password123", isActive: true, profileCompleted: true },
+      { id: "student-8", name: "Sneha Verma", email: "sneha@example.com", phone: "9876543217", classId: "class-9", rollNumber: "202", stream: "science", profilePhoto: null, password: "password123", isActive: true, profileCompleted: true },
+      { id: "student-9", name: "Aditya Joshi", email: "aditya@example.com", phone: "9876543218", classId: "class-11", rollNumber: "301", stream: "science", profilePhoto: null, password: "password123", isActive: true, profileCompleted: true },
+      { id: "student-10", name: "Ishita Rao", email: "ishita@example.com", phone: "9876543219", classId: "class-11", rollNumber: "302", stream: "commerce", profilePhoto: null, password: "password123", isActive: true, profileCompleted: true },
+      { id: "student-11", name: "Karan Malhotra", email: "karan@example.com", phone: "9876543220", classId: "class-12", rollNumber: "401", stream: "science", profilePhoto: null, password: "password123", isActive: true, profileCompleted: true },
+      { id: "student-12", name: "Meera Nair", email: "meera@example.com", phone: "9876543221", classId: "class-12", rollNumber: "402", stream: "commerce", profilePhoto: null, password: "password123", isActive: true, profileCompleted: true }
+    ];
+
+    sampleStudents.forEach(student => {
+      const studentUser: StudentUser = {
+        ...student,
+        dateOfBirth: null,
+        gender: null,
+        address: null,
+        city: null,
+        state: "Delhi",
+        pincode: null,
+        admissionDate: new Date().toISOString(),
+        currentSession: "2024-25",
+        fatherName: null,
+        motherName: null,
+        guardianName: null,
+        parentPhone: null,
+        parentEmail: null,
+        parentOccupation: null,
+        emergencyContact: null,
+        totalAttendance: 0,
+        presentDays: 0,
+        currentGPA: null,
+        overallGrade: null,
+        feeStatus: "pending",
+        totalFeeDue: 0,
+        lastPaymentDate: null,
+        studentId: student.rollNumber,
+        lastLogin: null,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+      this.studentUsers.set(student.id, studentUser);
+    });
   }
 
   private initializeAchievements() {
