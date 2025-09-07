@@ -31,6 +31,7 @@ import { EnhancedUploader } from "@/components/EnhancedUploader";
 import { VideoUploader } from "@/components/VideoUploader";
 import { AttendanceManagement } from "@/components/AttendanceManagement";
 import { ChapterManagement } from "@/components/ChapterManagement";
+import { ResultsManagement } from "@/components/ResultsManagement";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
@@ -621,11 +622,10 @@ export default function AdminDashboard() {
             />
           </TabsContent>
 
-          <TabsContent value="results">
-            <ContentList
-              title="Results"
-              items={resultsQuery.data}
-              isLoading={resultsQuery.isLoading}
+          <TabsContent value="results" className="space-y-6">
+            <ResultsManagement 
+              classes={classesQuery.data || []}
+              subjects={subjectsQuery.data || []}
             />
           </TabsContent>
 
