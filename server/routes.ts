@@ -1099,8 +1099,13 @@ Please contact the student for further assistance.`;
         return res.status(400).json({ message: "Email is required" });
       }
       
+      // Check for admin email
+      if (email === "rajshrivastav283815@gmail.com") {
+        return res.json({ exists: true, isAdmin: true });
+      }
+      
       const user = await storage.getStudentUserByEmail(email);
-      res.json({ exists: !!user });
+      res.json({ exists: !!user, isAdmin: false });
       
     } catch (error) {
       console.error("Email check failed:", error);
@@ -1115,6 +1120,29 @@ Please contact the student for further assistance.`;
       
       if (!email || !password) {
         return res.status(400).json({ message: "Email and password are required" });
+      }
+      
+      // Check for admin credentials
+      if (email === "rajshrivastav283815@gmail.com" && password === "Rambhaiya@9958") {
+        // Create admin session
+        (req.session as any).admin = {
+          id: "admin-1",
+          email: email,
+          name: "Admin",
+          role: "admin"
+        };
+        
+        return res.json({
+          message: "Admin login successful",
+          user: {
+            id: "admin-1",
+            email: email,
+            name: "Admin",
+            role: "admin"
+          },
+          isAdmin: true,
+          profileCompleted: true
+        });
       }
       
       const user = await storage.validateStudentEmailLogin(email, password);
@@ -1142,6 +1170,7 @@ Please contact the student for further assistance.`;
           name: user.name,
           phone: user.phone
         },
+        isAdmin: false,
         profileCompleted: user.profileCompleted || false
       });
       
@@ -1201,10 +1230,13 @@ Please contact the student for further assistance.`;
     }
   });
   
-  // Get current student user
+  // Get current user (student or admin)
   app.get("/api/student/me", (req: any, res) => {
-    if (req.session.student) {
-      res.json(req.session.student);
+    const session = req.session as any;
+    if (session.admin) {
+      res.json({ ...session.admin, isAdmin: true });
+    } else if (session.student) {
+      res.json({ ...session.student, isAdmin: false });
     } else {
       res.status(401).json({ message: "Not authenticated" });
     }

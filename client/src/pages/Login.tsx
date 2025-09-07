@@ -101,6 +101,13 @@ export default function Login() {
         setUserExists(true);
         setEmailFlow("login");
         emailLoginForm.setValue("email", email);
+        // Show admin message if it's admin email
+        if (data.isAdmin) {
+          toast({
+            title: "Admin Access",
+            description: "Please enter your admin password",
+          });
+        }
       } else {
         setUserExists(false);
         setEmailFlow("register");
@@ -123,14 +130,22 @@ export default function Login() {
       return response.json();
     },
     onSuccess: (data) => {
-      toast({
-        title: "Welcome Back!",
-        description: "Successfully logged in",
-      });
-      if (data.profileCompleted) {
-        setLocation("/student");
+      if (data.isAdmin) {
+        toast({
+          title: "Admin Access Granted",
+          description: "Welcome to Admin Dashboard",
+        });
+        setLocation("/admin");
       } else {
-        setLocation("/student/profile");
+        toast({
+          title: "Welcome Back!",
+          description: "Successfully logged in",
+        });
+        if (data.profileCompleted) {
+          setLocation("/student");
+        } else {
+          setLocation("/student/profile");
+        }
       }
     },
     onError: (error: Error) => {
