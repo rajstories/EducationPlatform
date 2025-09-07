@@ -334,6 +334,8 @@ Please contact the student for further assistance.`;
       const adminUser = await storage.validateAdminLogin(username, password);
       
       if (adminUser) {
+        // Set both admin and adminUser for middleware compatibility
+        req.session.admin = adminUser;
         req.session.adminUser = adminUser;
         res.json({ 
           message: "Login successful", 
