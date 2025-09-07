@@ -230,6 +230,30 @@ export class MemStorage implements IStorage {
       this.studentUsers.set(student.id, studentUser);
     });
     
+    // Initialize subjects for each class
+    const subjects: Subject[] = [
+      { id: "sub-physics-9", name: "Physics", classId: "class-9", stream: "science", description: "Physics for Class 9", chapterCount: 10 },
+      { id: "sub-chemistry-9", name: "Chemistry", classId: "class-9", stream: "science", description: "Chemistry for Class 9", chapterCount: 10 },
+      { id: "sub-maths-9", name: "Mathematics", classId: "class-9", stream: "both", description: "Mathematics for Class 9", chapterCount: 12 },
+      { id: "sub-physics-10", name: "Physics", classId: "class-10", stream: "science", description: "Physics for Class 10", chapterCount: 10 },
+      { id: "sub-chemistry-10", name: "Chemistry", classId: "class-10", stream: "science", description: "Chemistry for Class 10", chapterCount: 10 },
+      { id: "sub-maths-10", name: "Mathematics", classId: "class-10", stream: "both", description: "Mathematics for Class 10", chapterCount: 12 },
+      { id: "sub-physics-11", name: "Physics", classId: "class-11", stream: "science", description: "Physics for Class 11", chapterCount: 15 },
+      { id: "sub-chemistry-11", name: "Chemistry", classId: "class-11", stream: "science", description: "Chemistry for Class 11", chapterCount: 14 },
+      { id: "sub-maths-11", name: "Mathematics", classId: "class-11", stream: "both", description: "Mathematics for Class 11", chapterCount: 16 },
+      { id: "sub-physics-12", name: "Physics", classId: "class-12", stream: "science", description: "Physics for Class 12", chapterCount: 15 },
+      { id: "sub-chemistry-12", name: "Chemistry", classId: "class-12", stream: "science", description: "Chemistry for Class 12", chapterCount: 16 },
+      { id: "sub-maths-12", name: "Mathematics", classId: "class-12", stream: "both", description: "Mathematics for Class 12", chapterCount: 13 },
+      { id: "sub-accounts-11", name: "Accountancy", classId: "class-11", stream: "commerce", description: "Accountancy for Class 11", chapterCount: 15 },
+      { id: "sub-business-11", name: "Business Studies", classId: "class-11", stream: "commerce", description: "Business Studies for Class 11", chapterCount: 11 },
+      { id: "sub-economics-11", name: "Economics", classId: "class-11", stream: "commerce", description: "Economics for Class 11", chapterCount: 10 },
+      { id: "sub-accounts-12", name: "Accountancy", classId: "class-12", stream: "commerce", description: "Accountancy for Class 12", chapterCount: 13 },
+      { id: "sub-business-12", name: "Business Studies", classId: "class-12", stream: "commerce", description: "Business Studies for Class 12", chapterCount: 12 },
+      { id: "sub-economics-12", name: "Economics", classId: "class-12", stream: "commerce", description: "Economics for Class 12", chapterCount: 9 }
+    ];
+    subjects.forEach(subject => this.subjects.set(subject.id, subject));
+    console.log(`Subjects initialized: ${this.subjects.size} subjects`);
+    
     console.log(`Constructor completed. Total students: ${this.studentUsers.size}`);
   }
 
