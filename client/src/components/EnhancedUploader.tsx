@@ -19,6 +19,8 @@ const uploadFormSchema = z.object({
   classId: z.string().min(1, "Class is required"),
   subjectId: z.string().min(1, "Subject is required"),
   chapterId: z.string().optional(),
+  chapterNumber: z.string().min(1, "Chapter number is required"),
+  chapterName: z.string().min(1, "Chapter name is required"),
 });
 
 type UploadFormData = z.infer<typeof uploadFormSchema>;
@@ -61,6 +63,8 @@ export function EnhancedUploader({
       classId: "",
       subjectId: "",
       chapterId: "",
+      chapterNumber: "",
+      chapterName: "",
     },
   });
 
@@ -361,6 +365,45 @@ export function EnhancedUploader({
                         )}
                       />
                     )}
+
+                    {/* Chapter Number and Name Fields */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="chapterNumber"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Chapter Number *</FormLabel>
+                            <FormControl>
+                              <Input 
+                                placeholder="e.g., 1, 2, 3..." 
+                                {...field} 
+                                data-testid="input-chapter-number"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="chapterName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Chapter Name *</FormLabel>
+                            <FormControl>
+                              <Input 
+                                placeholder="e.g., Motion in a Straight Line" 
+                                {...field} 
+                                data-testid="input-chapter-name"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
 
                     {/* File Selection Area */}
                     <div>
