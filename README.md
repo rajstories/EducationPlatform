@@ -1,4 +1,4 @@
-                                                                       🎓 Pooja Academy - Educational Institute Platform
+#                                                                       🎓 Pooja Academy - Educational Institute Platform
 
 <div align="center">
 
