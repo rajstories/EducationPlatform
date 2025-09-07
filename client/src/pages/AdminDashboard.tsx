@@ -78,6 +78,10 @@ export default function AdminDashboard() {
     queryKey: ['/api/classes'],
   });
 
+  const subjectsQuery = useQuery({
+    queryKey: ['/api/subjects'],
+  });
+
   // Filter students based on class and search term
   const filteredStudents = studentsQuery.data?.filter((student: any) => {
     const matchesClass = selectedClass === "all" || student.classId === selectedClass;
