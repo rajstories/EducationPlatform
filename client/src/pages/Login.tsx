@@ -508,7 +508,6 @@ export default function Login() {
                             placeholder="Enter your email"
                             className="pl-10"
                             data-testid="input-email"
-                            disabled
                           />
                         </div>
                       </FormControl>
