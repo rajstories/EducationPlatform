@@ -1464,9 +1464,18 @@ export class MemStorage implements IStorage {
   }
 
   async getStudentsByClass(classId: string): Promise<StudentUser[]> {
-    return Array.from(this.studentUsers.values())
-      .filter(student => student.classId === classId && student.profileCompleted)
-      .sort((a, b) => (a.rollNumber || '').localeCompare(b.rollNumber || ''));
+    console.log(`Getting students for classId: ${classId}`);
+    console.log(`Total students in storage: ${this.studentUsers.size}`);
+    
+    const allStudents = Array.from(this.studentUsers.values());
+    console.log(`All students:`, allStudents.map(s => ({ id: s.id, name: s.name, classId: s.classId, profileCompleted: s.profileCompleted })));
+    
+    const filteredStudents = allStudents
+      .filter(student => student.classId === classId && student.profileCompleted);
+    
+    console.log(`Filtered students for ${classId}:`, filteredStudents.map(s => ({ id: s.id, name: s.name, classId: s.classId })));
+    
+    return filteredStudents.sort((a, b) => (a.rollNumber || '').localeCompare(b.rollNumber || ''));
   }
 
   // Announcements
