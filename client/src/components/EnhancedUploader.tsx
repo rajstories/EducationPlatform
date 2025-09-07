@@ -74,7 +74,7 @@ export function EnhancedUploader({
 
   // Fetch subjects for selected class
   const { data: subjects } = useQuery<Subject[]>({
-    queryKey: ['/api/subjects', selectedClassId],
+    queryKey: [`/api/classes/${selectedClassId}/subjects`],
     enabled: !!selectedClassId,
   });
 
