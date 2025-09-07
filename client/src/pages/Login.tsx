@@ -443,43 +443,44 @@ export default function Login() {
           ) : emailFlow === "check" ? (
             /* Email Check Form */
             <div className="space-y-4">
-              <Form {...emailCheckForm}>
-                <form onSubmit={emailCheckForm.handleSubmit(handleEmailCheck)} className="space-y-4">
-                  <FormField
-                    control={emailCheckForm.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email Address</FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                            <Mail className="absolute left-3 top-3 w-4 h-4 text-gray-400 z-10" />
-                            <Input
-                              {...field}
-                              type="email"
-                              placeholder="Enter your email"
-                              className="pl-10"
-                              data-testid="input-email"
-                              autoComplete="email"
-                              autoFocus
-                            />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
+                    <input
+                      id="email-input"
+                      type="email"
+                      placeholder="Enter your email"
+                      className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      data-testid="input-email"
+                      autoFocus
+                      style={{ pointerEvents: 'auto', userSelect: 'text' }}
+                    />
+                  </div>
+                </div>
 
-                  <Button 
-                    type="submit" 
-                    className="w-full" 
-                    disabled={checkEmailMutation.isPending}
-                    data-testid="button-continue-email"
-                  >
-                    {checkEmailMutation.isPending ? "Checking..." : "Continue"}
-                  </Button>
-                </form>
-              </Form>
+                <Button 
+                  type="button"
+                  onClick={() => {
+                    const emailInput = document.getElementById('email-input') as HTMLInputElement;
+                    const email = emailInput?.value || '';
+                    if (email.trim()) {
+                      handleEmailCheck({ email: email.trim() });
+                    } else {
+                      toast({
+                        title: "Please enter an email",
+                        variant: "destructive"
+                      });
+                    }
+                  }}
+                  className="w-full" 
+                  disabled={checkEmailMutation.isPending}
+                  data-testid="button-continue-email"
+                >
+                  {checkEmailMutation.isPending ? "Checking..." : "Continue"}
+                </Button>
+              </div>
 
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
