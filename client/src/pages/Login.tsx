@@ -425,7 +425,13 @@ export default function Login() {
 
               <Button
                 variant="outline"
-                onClick={() => setLoginMode("email")}
+                onClick={() => {
+                  setLoginMode("email");
+                  setEmailFlow("check");
+                  emailCheckForm.reset();
+                  emailLoginForm.reset();
+                  emailRegisterForm.reset();
+                }}
                 className="w-full"
                 data-testid="button-switch-email"
               >
@@ -449,9 +455,12 @@ export default function Login() {
                             <Mail className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
                             <Input
                               {...field}
+                              type="email"
                               placeholder="Enter your email"
                               className="pl-10"
                               data-testid="input-email"
+                              autoComplete="email"
+                              autoFocus
                             />
                           </div>
                         </FormControl>
@@ -482,7 +491,10 @@ export default function Login() {
 
               <Button
                 variant="outline"
-                onClick={() => setLoginMode("phone")}
+                onClick={() => {
+                  setLoginMode("phone");
+                  phoneForm.reset();
+                }}
                 className="w-full"
                 data-testid="button-switch-phone"
               >
