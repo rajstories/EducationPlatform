@@ -19,7 +19,7 @@ const phoneLoginSchema = z.object({
 });
 
 const emailCheckSchema = z.object({
-  email: z.string().email("Please enter a valid email"),
+  email: z.string().min(1, "Please enter an email"),
 });
 
 const emailLoginSchema = z.object({
@@ -72,6 +72,7 @@ export default function Login() {
   const emailCheckForm = useForm<EmailCheckForm>({
     resolver: zodResolver(emailCheckSchema),
     defaultValues: { email: "" },
+    mode: "onChange",
   });
 
   const emailLoginForm = useForm<EmailLoginForm>({
