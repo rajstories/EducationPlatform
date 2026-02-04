@@ -42,7 +42,7 @@ app.use((req, res, next) => {
   next();
 });
 
-(async () => {
+async function startServer() {
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
@@ -62,16 +62,23 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // ALWAYS serve the app on the port specified in the environment variable PORT
-  // Other ports are firewalled. Default to 5000 if not specified.
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = parseInt(process.env.PORT || '5000', 10);
-  const host = process.env.HOST || "0.0.0.0";
-  server.listen({
-    port,
-    host,
-  }, () => {
-    log(`serving on ${host}:${port}`);
-  });
-})();
+  // ONLY start the listener if we're not running as a Vercel function
+  if (process.env.VERCEL !== "1") {
+    const port = process.env.PORT ? parseInt(process.env.PORT) : 5000;
+    server.listen(port, "0.0.0.0", () => {
+      log(`🚀 Pooja Academy is LIVE on port ${port}`);
+      // Keep-alive log
+      setInterval(() => log("💓 Server heartbeat: active"), 300000); // Every 5 mins
+    });
+  }
+
+  return server;
+}
+
+// Start the server for local development/production
+if (process.env.VERCEL !== "1") {
+  startServer();
+}
+
+export { app };
+export default app;
