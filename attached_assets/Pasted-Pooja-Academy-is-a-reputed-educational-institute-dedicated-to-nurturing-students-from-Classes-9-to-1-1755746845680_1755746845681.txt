@@ -1,0 +1,136 @@
+Pooja Academy is a reputed educational institute dedicated to nurturing students from Classes 9 to 12 in both Science and Commerce streams. We aim to build a modern, professional, and engaging website that reflects our commitment to quality education and serves as a one-stop solution for academic resources, course information, and student support. The website must be visually appealing, highly functional, responsive, and easy to navigate, catering to students, parents, and educators alike.
+
+🎨 Design & Aesthetic Requirements:
+Theme: Clean, minimal, and academic.
+
+Primary Colors:
+
+Base: White (#ffffff)
+
+Header/Footer: Navy Blue (#1a2b4c)
+
+Accents: Sky Blue (#e0f7fa), Sage Green (#e8f5e9), and Soft Gray (#f5f5f5)
+
+Typography: Clear, professional fonts like 'Poppins' or 'Montserrat'. Headlines should stand out while body text remains readable across devices.
+
+Layout: Grid-based responsive design using card components for subject/chapter blocks. Soft drop shadows and large clickable areas.
+
+🧠 Core Sections & Structure:
+1. Home Page
+Clean hero banner with “Welcome to Pooja Academy” text and short mission tagline.
+
+About the institute: who we are, our teaching values, and vision.
+
+Quick Access Cards to Class 9, 10, 11, and 12 with CTA buttons.
+
+Testimonials from students/parents (optional for phase 2).
+
+“Why Choose Us” – highlight points like result-oriented guidance, experienced faculty, concept clarity, and doubt resolution.
+
+2. Class Pages (9th, 10th, 11th, 12th)
+Each class section should include dynamic content load based on the class selected.
+
+Class 9 & 10:
+Two subject categories: Science and Mathematics.
+
+Inside each subject:
+
+Full list of chapters (e.g., Chapter 1 – Matter in Our Surroundings)
+
+For each chapter:
+
+Downloadable Notes (PDF)
+
+Previous Year Questions (PYQs)
+
+Optional Quiz/Test Section
+
+“Enroll in this Subject” button with payment gateway.
+
+Class 11 & 12:
+First prompt user to choose stream:
+
+Science (Physics, Chemistry, Mathematics, Biology)
+
+Commerce (Economics, Accounts, Business Studies, Mathematics)
+
+Once a subject is chosen:
+
+List of chapters
+
+For each chapter:
+
+Notes
+
+PYQs
+
+Concept Videos (optional later)
+
+Enrollment/Payment option
+
+3. About Us Page
+Brief history and values of Pooja Academy.
+
+Introduction of key faculty (names and subjects taught, short bios optional).
+
+Teaching philosophy and results of past years.
+
+Location and basic contact information.
+
+4. Contact Us Page
+Contact Form: Name, Email, Phone, Class, Message.
+
+Include:
+
+Institute Address (Delhi-based)
+
+Phone Number
+
+WhatsApp Button
+
+Google Map Embed
+
+Office Timings
+
+5. Footer Section
+Quick links to all class pages
+
+Contact Info
+
+Social Media icons (Instagram, YouTube)
+
+Copyright
+
+🔄 Animations & Transitions:
+Subtle fade-in and scroll-in animations for sections.
+
+Smooth hover transitions on chapter cards and buttons.
+
+Sticky header for easy navigation.
+
+Modal animation for payments or contact forms.
+
+Expand/collapse interaction for chapters and subject cards.
+
+🔒 Functionality:
+Fully responsive design (mobile-first preferred).
+
+Integrated payment gateway (Razorpay/UPI/Stripe/Paytm).
+
+Notes and PYQs should be downloadable.
+
+Option to show “Coming Soon” for content not uploaded yet.
+
+Optional user registration for access to full content.
+
+SSL-secured, fast loading speed optimized.
+
+✅ Bonus Features (Optional but Preferred):
+Admin backend to upload chapters, notes, and test content.
+
+Student dashboard showing enrolled subjects and downloadable resources.
+
+Chatbot or basic FAQ section for student queries.
+
+📌 Summary:
+The website for Pooja Academy must look elegant, functional, and truly helpful to students. It should reflect our academic seriousness and also offer a user-friendly interface for quick access to class-wise study materials and subject-wise chapters. It should support payments and be ready for scalability in the future as we grow into video lectures and test series.
