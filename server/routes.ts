@@ -32,18 +32,28 @@ declare module 'express-session' {
   }
 }
 
+import connectPg from "connect-pg-simple";
+import { pool } from "./db";
+
+const PostgresSessionStore = connectPg(session);
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // Session middleware for authentication
   app.use(session({
+    store: new PostgresSessionStore({
+      pool,
+      createTableIfMissing: true,
+      tableName: 'student_sessions' // Using existing table name from schema
+    }),
     secret: process.env.SESSION_SECRET || 'pooja-academy-secret-key-for-sessions-CHANGE-IN-PRODUCTION',
     resave: false,
     saveUninitialized: false,
-    name: 'pooja.session.id', // Custom session name
+    name: 'pooja.session.id',
     cookie: {
-      secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-      httpOnly: true, // Prevent XSS attacks
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
-      sameSite: 'lax' // Allow cross-site requests
+      secure: process.env.NODE_ENV === 'production',
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
+      sameSite: 'lax'
     }
   }));
 
