@@ -42,7 +42,8 @@ app.use((req, res, next) => {
   next();
 });
 
-async function startServer() {
+// Register routes and middleare
+const setupPromise = (async () => {
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
@@ -53,9 +54,7 @@ async function startServer() {
     throw err;
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
+  // Setup vite or static serving
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
@@ -72,13 +71,10 @@ async function startServer() {
     });
   }
 
-  return server;
-}
+  return app;
+})();
 
-// Start the server for local development/production
-if (process.env.VERCEL !== "1") {
-  startServer();
-}
-
-export { app };
+export { app, setupPromise };
 export default app;
+
+
