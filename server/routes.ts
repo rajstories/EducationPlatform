@@ -3,20 +3,20 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertContactSchema, insertEnrollmentSchema, insertContentSchema, insertContentFileSchema, insertStudentUserSchema, insertOtpSchema } from "@shared/schema";
 import { ObjectStorageService } from "./objectStorage";
-// import { OtpService } from "./otpService"; // Not needed in simplified version
 import { z } from "zod";
 import session from "express-session";
 import twilio from "twilio";
-
-//Initialize Twilio client only if credentials are provided (optional for simplified version)
-const twilioClient = process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN
-  ? twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
-  : null;
 
 // Extend session data type
 declare module 'express-session' {
   interface SessionData {
     adminUser?: {
+      id: string;
+      username: string;
+      fullName: string;
+      role: string;
+    };
+    admin?: {
       id: string;
       username: string;
       fullName: string;
@@ -32,10 +32,19 @@ declare module 'express-session' {
   }
 }
 
+import { OtpService } from "./otpService";
+
+//Initialize Twilio client only if credentials are provided (optional for simplified version)
+const twilioClient = process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN
+  ? twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
+  : null;
+
 import connectPg from "connect-pg-simple";
 import { pool } from "./db";
 
 const PostgresSessionStore = connectPg(session);
+
+
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Session middleware for authentication
